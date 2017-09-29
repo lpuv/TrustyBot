@@ -1,0 +1,470 @@
+{
+    "1": {
+        "card_meaning": "Inspiration, power, creation, beginnings, potential",
+        "card_name": "Ace of Wands",
+        "card_url": "http://www.tarotlore.com/tarot-cards/ace-of-wands/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598069642559488/wands01.jpg"
+    },
+    "10": {
+        "card_meaning": "Burden, responsibility, hard work, stress, achievement",
+        "card_name": "Ten of Wands",
+        "card_url": "http://www.tarotlore.com/tarot-cards/ten-of-wands/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598204988555274/wands10.jpg"
+    },
+    "11": {
+        "card_meaning": "Enthusiasm, exploration, discovery, free spirit",
+        "card_name": "Page of Wands",
+        "card_url": "http://www.tarotlore.com/tarot-cards/page-of-wands/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598210579693568/wands11.jpg"
+    },
+    "12": {
+        "card_meaning": "Energy, passion, lust, action, adventure, impulsiveness",
+        "card_name": "Knight of Wands",
+        "card_url": "http://www.tarotlore.com/tarot-cards/knight-of-wands/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598218527768576/wands12.jpg"
+    },
+    "13": {
+        "card_meaning": "Exuberance, warmth, vibrancy, determination",
+        "card_name": "Queen of Wands",
+        "card_url": "http://www.tarotlore.com/tarot-cards/queen-of-wands/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598272294682645/wands13.jpg"
+    },
+    "14": {
+        "card_meaning": "Natural-born leader, vision, entrepreneur, honour",
+        "card_name": "King of Wands",
+        "card_url": "http://www.tarotlore.com/tarot-cards/king-of-wands/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598272294682645/wands14.jpg"
+    },
+    "15": {
+        "card_meaning": "Raw power, victory, break-throughs, mental clarity",
+        "card_name": "Ace of Swords",
+        "card_url": "http://www.tarotlore.com/tarot-cards/ace-of-swords/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598007554539521/swords01.jpg"
+    },
+    "16": {
+        "card_meaning": "Indecision, choices, truce, stalemate, blocked emotions",
+        "card_name": "Two of Swords",
+        "card_url": "http://www.tarotlore.com/tarot-cards/two-of-swords/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598012390440960/swords02.jpg"
+    },
+    "17": {
+        "card_meaning": "Painful separation, sorrow heartbreak, grief, rejection",
+        "card_name": "Three of Swords",
+        "card_url": "http://www.tarotlore.com/tarot-cards/three-of-swords/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598015850872833/swords03.jpg"
+    },
+    "18": {
+        "card_meaning": "Contemplation, recuperation, passivity, relaxation, rest",
+        "card_name": "Four of Swords",
+        "card_url": "http://www.tarotlore.com/tarot-cards/four-of-swords/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598020938432512/swords04.jpg"
+    },
+    "19": {
+        "card_meaning": "Conflict, tension, loss, defeat, win at all costs, betrayal",
+        "card_name": "Five of Swords",
+        "card_url": "http://www.tarotlore.com/tarot-cards/five-of-swords/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598025296445440/swords05.jpg"
+    },
+    "2": {
+        "card_meaning": "Future planning, progress, decisions, discovery",
+        "card_name": "Two of Wands",
+        "card_url": "http://www.tarotlore.com/tarot-cards/two-of-wands/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598074033995786/wands02.jpg"
+    },
+    "20": {
+        "card_meaning": "Regretful but necessary transition, rite of passage",
+        "card_name": "Six of Swords",
+        "card_url": "http://www.tarotlore.com/tarot-cards/six-of-swords/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598029268451328/swords06.jpg"
+    },
+    "21": {
+        "card_meaning": "Betrayal, deception, getting away with something, stealth",
+        "card_name": "Seven of Swords",
+        "card_url": "http://www.tarotlore.com/tarot-cards/seven-of-swords/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598033508892684/swords07.jpg"
+    },
+    "22": {
+        "card_meaning": "Isolation, self-imposed restriction, imprisonment",
+        "card_name": "Eight of Swords",
+        "card_url": "http://www.tarotlore.com/tarot-cards/eight-of-swords/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598038441263104/swords08.jpg"
+    },
+    "23": {
+        "card_meaning": "Depression, nightmares, intense anxiety, despair",
+        "card_name": "Nine of Swords",
+        "card_url": "http://www.tarotlore.com/tarot-cards/nine-of-swords/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598042660864000/swords09.jpg"
+    },
+    "24": {
+        "card_meaning": "Back-stabbed, defeat, crisis, betrayal, endings, loss",
+        "card_name": "Ten of Swords",
+        "card_url": "http://www.tarotlore.com/tarot-cards/ten-of-swords/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598046603378688/swords10.jpg"
+    },
+    "25": {
+        "card_meaning": "Talkative, curious, mentally restless, energetic",
+        "card_name": "Page of Swords",
+        "card_url": "http://www.tarotlore.com/tarot-cards/page-of-swords/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598050562801667/swords11.jpg"
+    },
+    "26": {
+        "card_meaning": "Opinionated, hasty, action-oriented, communicative",
+        "card_name": "Knight of Swords",
+        "card_url": "http://www.tarotlore.com/tarot-cards/knight-of-swords/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598055113490433/swords12.jpg"
+    },
+    "27": {
+        "card_meaning": "Quick thinker, organised, perceptive, independent",
+        "card_name": "Queen of Swords",
+        "card_url": "http://www.tarotlore.com/tarot-cards/queen-of-swords/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598060540919808/swords13.jpg"
+    },
+    "28": {
+        "card_meaning": "Clear thinking, intellectual power, authority, truth",
+        "card_name": "King of Swords",
+        "card_url": "http://www.tarotlore.com/tarot-cards/king-of-swords/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598066752684053/swords14.jpg"
+    },
+    "29": {
+        "card_meaning": "Love, compassion, creativity, overwhelming emotion",
+        "card_name": "Ace of Cups",
+        "card_url": "http://www.tarotlore.com/tarot-cards/ace-of-cups/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597783373185024/cups01.jpg"
+    },
+    "3": {
+        "card_meaning": "Preparation, foresight, enterprise, expansion",
+        "card_name": "Three of Wands",
+        "card_url": "http://www.tarotlore.com/tarot-cards/three-of-wands/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598084742184962/wands03.jpg"
+    },
+    "30": {
+        "card_meaning": "Unified love, partnership, attraction, relationships",
+        "card_name": "Two of Cups",
+        "card_url": "http://www.tarotlore.com/tarot-cards/two-of-cups/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597783729569794/cups02.jpg"
+    },
+    "31": {
+        "card_meaning": "Celebration, friendship, creativity, community",
+        "card_name": "Three of Cups",
+        "card_url": "http://www.tarotlore.com/tarot-cards/three-of-cups/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597786443153408/cups03.jpg"
+    },
+    "32": {
+        "card_meaning": "Meditation, contemplation, apathy, re-evaluation",
+        "card_name": "Four of Cups",
+        "card_url": "http://www.tarotlore.com/tarot-cards/four-of-cups/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597788054028299/cups04.jpg"
+    },
+    "33": {
+        "card_meaning": "Loss, regret, disappointment, despair, bereavement",
+        "card_name": "Five of Cups",
+        "card_url": "http://www.tarotlore.com/tarot-cards/five-of-cups/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597790268620800/cups05.jpg"
+    },
+    "34": {
+        "card_meaning": "Reunion, nostalgia, childhood memories, innocence",
+        "card_name": "Six of Cups",
+        "card_url": "http://www.tarotlore.com/tarot-cards/six-of-cups/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597792177029120/cups06.jpg"
+    },
+    "35": {
+        "card_meaning": "Fantasy, illusion, wishful thinking, choices, imagination",
+        "card_name": "Seven of Cups",
+        "card_url": "http://www.tarotlore.com/tarot-cards/seven-of-cups/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597795582672897/cups07.jpg"
+    },
+    "36": {
+        "card_meaning": "Escapism, disappointment, abandonment, withdrawal",
+        "card_name": "Eight of Cups",
+        "card_url": "http://www.tarotlore.com/tarot-cards/eight-of-cups/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597796430053378/cups08.jpg"
+    },
+    "37": {
+        "card_meaning": "Wishes fulfilled, comfort, happiness, satisfaction",
+        "card_name": "Nine of Cups",
+        "card_url": "http://www.tarotlore.com/tarot-cards/nine-of-cups/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597798153781249/cups09.jpg"
+    },
+    "38": {
+        "card_meaning": "Harmony, marriage, happiness, alignment",
+        "card_name": "Ten of Cups",
+        "card_url": "http://www.tarotlore.com/tarot-cards/ten-of-cups/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597802444423168/cups10.jpg"
+    },
+    "39": {
+        "card_meaning": "A messenger, creative beginnings, synchronicity",
+        "card_name": "Page of Cups",
+        "card_url": "http://www.tarotlore.com/tarot-cards/page-of-cups/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597829456003076/cups11.jpg"
+    },
+    "4": {
+        "card_meaning": "Celebration, harmony, marriage, home, community",
+        "card_name": "Four of Wands",
+        "card_url": "http://www.tarotlore.com/tarot-cards/four-of-wands/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598094451998720/wands04.jpg"
+    },
+    "40": {
+        "card_meaning": "Romance, charm, 'Knight in shining armour', imagination",
+        "card_name": "Knight of Cups",
+        "card_url": "http://www.tarotlore.com/tarot-cards/knight-of-cups/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597836275679232/cups12.jpg"
+    },
+    "41": {
+        "card_meaning": "Emotional security, calm, intuitive, compassionate",
+        "card_name": "Queen of Cups",
+        "card_url": "http://www.tarotlore.com/tarot-cards/queen-of-cups/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597838872084481/cups13.jpg"
+    },
+    "42": {
+        "card_meaning": "Emotional balance and control, generosity",
+        "card_name": "King of Cups",
+        "card_url": "http://www.tarotlore.com/tarot-cards/king-of-cups/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597842588237825/cups14.jpg"
+    },
+    "43": {
+        "card_meaning": "Manifestation, new financial opportunity, prosperity",
+        "card_name": "Ace of Pentacles",
+        "card_url": "http://www.tarotlore.com/tarot-cards/ace-of-pentacles/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597946737000451/pents01.jpg"
+    },
+    "44": {
+        "card_meaning": "Balance, adaptability, time management, prioritisation",
+        "card_name": "Two of Pentacles",
+        "card_url": "http://www.tarotlore.com/tarot-cards/two-of-pentacles/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597950797086721/pents02.jpg"
+    },
+    "45": {
+        "card_meaning": "Teamwork, initial fulfilment, collaboration, learning",
+        "card_name": "Three of Pentacles",
+        "card_url": "http://www.tarotlore.com/tarot-cards/three-of-pentacles/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597955217752084/pents03.jpg"
+    },
+    "46": {
+        "card_meaning": "Control, stability, security, possession, conservatism",
+        "card_name": "Four of Pentacles",
+        "card_url": "http://www.tarotlore.com/tarot-cards/four-of-pentacles/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597959005339649/pents04.jpg"
+    },
+    "47": {
+        "card_meaning": "Isolation, insecurity, worry, financial loss, poverty",
+        "card_name": "Five of Pentacles",
+        "card_url": "http://www.tarotlore.com/tarot-cards/five-of-pentacles/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597964201951232/pents05.jpg"
+    },
+    "48": {
+        "card_meaning": "Generosity, charity, giving, prosperity, sharing wealth",
+        "card_name": "Six of Pentacles",
+        "card_url": "http://www.tarotlore.com/tarot-cards/six-of-pentacles/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597968756965386/pents06.jpg"
+    },
+    "49": {
+        "card_meaning": "Vision, perseverance, profit, reward, investment",
+        "card_name": "Seven of Pentacles",
+        "card_url": "http://www.tarotlore.com/tarot-cards/seven-of-pentacles/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597972569849856/pents07.jpg"
+    },
+    "5": {
+        "card_meaning": "Disagreement, competition, strife, tension, conflict",
+        "card_name": "Five of Wands",
+        "card_url": "http://www.tarotlore.com/tarot-cards/five-of-wands/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598113108393984/wands05.jpg"
+    },
+    "50": {
+        "card_meaning": "Apprenticeship, education, quality, engagement",
+        "card_name": "Eight of Pentacles",
+        "card_url": "http://www.tarotlore.com/tarot-cards/eight-of-pentacles/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597976554176544/pents08.jpg"
+    },
+    "51": {
+        "card_meaning": "Gratitude, luxury, self-sufficiency, culmination",
+        "card_name": "Nine of Pentacles",
+        "card_url": "http://www.tarotlore.com/tarot-cards/nine-of-pentacles/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597982267080706/pents09.jpg"
+    },
+    "52": {
+        "card_meaning": "Wealth, inheritance, family, establishment, retirement",
+        "card_name": "Ten of Pentacles",
+        "card_url": "http://www.tarotlore.com/tarot-cards/ten-of-pentacles/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597986163589120/pents10.jpg"
+    },
+    "53": {
+        "card_meaning": "Manifestation, financial opportunity, new job",
+        "card_name": "Page of Pentacles",
+        "card_url": "http://www.tarotlore.com/tarot-cards/page-of-pentacles/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597990076874753/pents11.jpg"
+    },
+    "54": {
+        "card_meaning": "Efficiency, routine, conservatism, methodical",
+        "card_name": "Knight of Pentacles",
+        "card_url": "http://www.tarotlore.com/tarot-cards/knight-of-pentacles/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597993805611009/pents12.jpg"
+    },
+    "55": {
+        "card_meaning": "Practical, homely, motherly, down-to-earth, security",
+        "card_name": "Queen of Pentacles",
+        "card_url": "http://www.tarotlore.com/tarot-cards/queen-of-pentacles/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597998482259971/pents13.jpg"
+    },
+    "56": {
+        "card_meaning": "Security, control, power, discipline, abundance",
+        "card_name": "King of Pentacles",
+        "card_url": "http://www.tarotlore.com/tarot-cards/king-of-pentacles/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598002777227265/pents14.jpg"
+    },
+    "57": {
+        "card_meaning": "Beginnings, innocence, spontaneity, a free spirit",
+        "card_name": "Fool",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-fool/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597847206297600/maj00.jpg"
+    },
+    "58": {
+        "card_meaning": "Power, skill, concentration, action, resourcefulness",
+        "card_name": "Magician",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-magician/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597853451616258/maj01.jpg"
+    },
+    "59": {
+        "card_meaning": "Intuition, Higher powers, mystery, subconscious mind",
+        "card_name": "High Priestess",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-high-priestess/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597858916663296/maj02.jpg"
+    },
+    "6": {
+        "card_meaning": "Public recognition, victory, progress, self-confidence",
+        "card_name": "Six of Wands",
+        "card_url": "http://www.tarotlore.com/tarot-cards/six-of-wands/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598121131835393/wands06.jpg"
+    },
+    "60": {
+        "card_meaning": "Fertility, femininity, beauty, nature, abundance",
+        "card_name": "Empress",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-empress/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597863652163605/maj03.jpg"
+    },
+    "61": {
+        "card_meaning": "Authority, father-figure, structure, solid foundation",
+        "card_name": "Emperor",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-emperor/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597868051857418/maj04.jpg"
+    },
+    "62": {
+        "card_meaning": "Religion, group identification, conformity, tradition, beliefs",
+        "card_name": "Hierophant",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-hierophant/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597872321527808/maj05.jpg"
+    },
+    "63": {
+        "card_meaning": "Love, union, relationships, values alignment, choices",
+        "card_name": "Lovers",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-lovers/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597877505818634/maj06.jpg"
+    },
+    "64": {
+        "card_meaning": "Control, will power, victory, assertion, determination",
+        "card_name": "Chariot",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-chariot/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597881532219393/maj07.jpg"
+    },
+    "65": {
+        "card_meaning": "Strength, courage, patience, control, compassion",
+        "card_name": "Strength",
+        "card_url": "http://www.tarotlore.com/tarot-cards/strength/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597887605571594/maj08.jpg"
+    },
+    "66": {
+        "card_meaning": "Soul-searching, introspection, being alone, inner guidance",
+        "card_name": "Hermit",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-hermit/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597891267198987/maj09.jpg"
+    },
+    "67": {
+        "card_meaning": "Good luck, karma, life cycles, destiny, a turning point",
+        "card_name": "Wheel of Fortune",
+        "card_url": "http://www.tarotlore.com/tarot-cards/wheel-of-fortune/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597895583399936/maj10.jpg"
+    },
+    "68": {
+        "card_meaning": "Justice, fairness, truth, cause and effect, law",
+        "card_name": "Justice",
+        "card_url": "http://www.tarotlore.com/tarot-cards/justice/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597899169529858/maj11.jpg"
+    },
+    "69": {
+        "card_meaning": "Suspension, restriction, letting go, sacrifice",
+        "card_name": "Hanged Man",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-hanged-man/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597903392931841/maj12.jpg"
+    },
+    "7": {
+        "card_meaning": "Challenge, competition, perseverance",
+        "card_name": "Seven of Wands",
+        "card_url": "http://www.tarotlore.com/tarot-cards/seven-of-wands/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598126228045825/wands07.jpg"
+    },
+    "70": {
+        "card_meaning": "Endings, beginnings, change, transformation, transition",
+        "card_name": "Death",
+        "card_url": "http://www.tarotlore.com/tarot-cards/death/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597907398492164/maj13.jpg"
+    },
+    "71": {
+        "card_meaning": "Balance, moderation, patience, purpose, meaning",
+        "card_name": "Temperance",
+        "card_url": "http://www.tarotlore.com/tarot-cards/temperance/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597911781539840/maj14.jpg"
+    },
+    "72": {
+        "card_meaning": "Bondage, addiction, sexuality, materialism",
+        "card_name": "Devil",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-devil/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597915774517248/maj15.jpg"
+    },
+    "73": {
+        "card_meaning": "Disaster, upheaval, sudden change, revelation",
+        "card_name": "Tower",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-tower/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597919738134529/maj16.jpg"
+    },
+    "74": {
+        "card_meaning": "Hope, spirituality, renewal, inspiration, serenity",
+        "card_name": "Star",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-star/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597925232934914/maj17.jpg"
+    },
+    "75": {
+        "card_meaning": "Illusion, fear, anxiety, insecurity, subconscious",
+        "card_name": "Moon",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-moon/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597929410330625/maj18.jpg"
+    },
+    "76": {
+        "card_meaning": "Fun, warmth, success, positivity, vitality",
+        "card_name": "Sun",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-sun/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597934300758016/maj19.jpg"
+    },
+    "77": {
+        "card_meaning": "Judgement, rebirth, inner calling, absolution",
+        "card_name": "Judgement",
+        "card_url": "http://www.tarotlore.com/tarot-cards/judgement/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597938423758849/maj20.jpg"
+    },
+    "78": {
+        "card_meaning": "Completion, integration, accomplishment, travel",
+        "card_name": "World",
+        "card_url": "http://www.tarotlore.com/tarot-cards/the-world/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331597942911795201/maj21.jpg"
+    },
+    "8": {
+        "card_meaning": "Speed, action, air travel, movement, swift change",
+        "card_name": "Eight of Wands",
+        "card_url": "http://www.tarotlore.com/tarot-cards/eight-of-wands/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598135535206402/wands08.jpg"
+    },
+    "9": {
+        "card_meaning": "Courage, persistence, test of faith, resilience",
+        "card_name": "Nine of Wands",
+        "card_url": "http://www.tarotlore.com/tarot-cards/nine-of-wands/",
+        "card_img": "https://cdn.discordapp.com/attachments/331597734748618752/331598172348612608/wands09.jpg"
+    }
+}

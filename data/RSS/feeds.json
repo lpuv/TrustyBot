@@ -1,0 +1,64 @@
+{
+    "304595797918482435" : {
+        "316996365433438209" : {
+            "11-bx-1371" : {
+                "last" : "11BX1371",
+                "template" : "$name:\n$title\n$link",
+                "url" : "https://www.reddit.com/r/11-bx-1371.rss"
+            },
+            "adacic1033" : {
+                "last" : "Update for HacerickNuabs",
+                "template" : "$name:\n$title\n$link",
+                "url" : "http://adacic1033.com/activity?view=rss"
+            },
+            "badselfeater" : {
+                "last" : "Here's a link to Planned Parenthood. How about we all hit that big DONATE button on the top right, and say it's in honor of badselfeater?",
+                "template" : "$name:\n$title\n$link",
+                "url" : "https://www.reddit.com/r/badselfeater.rss"
+            },
+            "cicada" : {
+                "last" : "NoxPopuli's youtube series on solutions and experiences of Cicada winners",
+                "template" : "$name:\n$title\n$link",
+                "url" : "https://www.reddit.com/r/cicada.rss"
+            },
+            "cicadian" : {
+                "last" : "Rezo omega cicada3301 - Find New Friends Here!",
+                "template" : "$name:\n$title\n$link",
+                "url" : "https://www.reddit.com/r/cicadian.rss"
+            },
+            "nsbradio" : {
+                "last" : "",
+                "template" : "$name:\n$title\n$link",
+                "url" : "https://www.reddit.com/r/nsbradio.rss"
+            },
+            "tengri137" : {
+                "last" : "nothingisrandom.txt is an Arecibo-like message!!! All credit to /u/tikitembo7",
+                "template" : "$name:\n$title\n$link",
+                "url" : "https://www.reddit.com/r/tengri137.rss"
+            }
+        }
+    },
+    "321105104931389440" : {
+        "321105104931389440" : {}
+    },
+    "358807771270873088" : {
+        "359772660848132096" : {},
+        "359945734444810240" : {
+            "Breitbart" : {
+                "last" : "Luther Strange Stands to Profit from Troubled EB-5 Visa Program",
+                "template" : "$title $link",
+                "url" : "http://feeds.feedburner.com/breitbart"
+            },
+            "Drudge" : {
+                "last" : "Governor: 'We have not experienced event of this magnitude in our modern history'...",
+                "template" : "$title $link",
+                "url" : "http://www.drudgereportfeed.com/rss"
+            },
+            "Fox" : {
+                "last" : "PULLING NO PUNCHES: Hollywood piles on the Trump mockery at Emmys",
+                "template" : "$title $link",
+                "url" : "http://feeds.foxnews.com/foxnews/latest"
+            }
+        }
+    }
+}

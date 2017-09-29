@@ -1,0 +1,23 @@
+{
+    "261565811309674499" : {
+        "bitcoin" : {
+            "author" : "218773382617890828",
+            "channel" : "264486981801607178",
+            "command" : "btc",
+            "name" : "bitcoin",
+            "repeat" : true,
+            "starttime" : 1490469723,
+            "timedelta" : 86400
+        },
+        "ethereum" : {
+            "author" : "218773382617890828",
+            "channel" : "264486981801607178",
+            "command" : "eth",
+            "name" : "ethereum",
+            "repeat" : true,
+            "starttime" : 1490469738,
+            "timedelta" : 86400
+        }
+    },
+    "261636805370183691" : {}
+}
