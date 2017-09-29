@@ -2,8 +2,6 @@
 *.pyc
 __pycache__
 data
-lib
-*.sublime_project
 !data/trivia/*
 !data/audio/playlists/*
 *.exe
