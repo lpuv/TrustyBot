@@ -3,6 +3,7 @@
 __pycache__
 data
 lib
+!data/badges/*
 !data/trivia/*
 !data/audio/playlists/*
 *.exe
