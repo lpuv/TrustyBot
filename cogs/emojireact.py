@@ -6,7 +6,7 @@ try:
     from emoji import UNICODE_EMOJI
 except:
     raise RuntimeError("Can't load pillow. Do 'pip3 install emoji'.")
-#Test webhook
+#Test webhook2
 
 class ServerEmojiReact():
     def __init__(self, bot):
