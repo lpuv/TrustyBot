@@ -6,7 +6,6 @@ try:
     from emoji import UNICODE_EMOJI
 except:
     raise RuntimeError("Can't load pillow. Do 'pip3 install emoji'.")
-#Test webhook2
 
 class ServerEmojiReact():
     def __init__(self, bot):
@@ -16,26 +15,26 @@ class ServerEmojiReact():
 
     @commands.group(pass_context=True)
     async def emojireact(self, ctx):
-         if ctx.invoked_subcommand is None:
+        if ctx.invoked_subcommand is None:
              await self.bot.send_cmd_help(ctx)
 
     @emojireact.group(pass_context=True, name="unicode")
     async def _unicode(self, ctx):
         """Add or remove unicode emoji reactions"""
         if ctx.invoked_subcommand is None:
-             await self.bot.send_cmd_help(ctx)
+            await self.bot.send_cmd_help(ctx)
 
     @emojireact.group(pass_context=True, name="server")
     async def _server(self, ctx):
+        """Add or remove server emoji reactions"""
         if ctx.invoked_subcommand is None:
-            """Add or remove server emoji reactions"""
-             await self.bot.send_cmd_help(ctx)
+            await self.bot.send_cmd_help(ctx)
 
     @emojireact.group(pass_context=True, name="all")
     async def _all(self, ctx):
+        """Add or remove all emoji reactions"""
         if ctx.invoked_subcommand is None:
-            """Add or remove all emoji reactions"""
-             await self.bot.send_cmd_help(ctx)
+            await self.bot.send_cmd_help(ctx)
 
     @_all.command(pass_context=True, name="add", aliases=["on"])        
     async def add_all(self,ctx):
