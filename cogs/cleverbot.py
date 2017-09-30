@@ -3,6 +3,7 @@ from cogs.utils import checks
 from .utils.dataIO import dataIO
 import os
 import aiohttp
+import discord
 
 API_URL = "https://www.cleverbot.com/getreply"
 
@@ -33,6 +34,11 @@ class Cleverbot():
         self.bot = bot
         self.settings = dataIO.load_json("data/cleverbot/settings.json")
         self.instances = {}
+        self.food = {"sandwich": "data/cleverbot/sandwich.jpg", 
+                     "asada": "data/cleverbot/asada.jpg",
+                     "asado": "data/cleverbot/asado.jpg",
+                     "sushi": "data/cleverbot/sushi.jpg",
+                     "chicken": "data/cleverbot/chicken.jpg"}
 
     @commands.group(no_pm=True, invoke_without_command=True, pass_context=True)
     async def cleverbot(self, ctx, *, message):
@@ -59,22 +65,35 @@ class Cleverbot():
         else:
             await self.bot.say(result)
 
-    @cleverbot.command()
-    @checks.mod_or_permissions(administrator=True)
-    async def toggle(self):
+    @cleverbot.command(pass_context=True)
+    @checks.mod_or_permissions(manage_channels=True)
+    async def toggle(self, ctx):
         """Toggles reply on mention"""
-        self.settings["TOGGLE"] = not self.settings["TOGGLE"]
-        if self.settings["TOGGLE"]:
+        server = ctx.message.server
+        if server.id not in self.settings:
+            self.settings[server.id] = {"TOGGLE" : True, "channel":""}
+        self.settings[server.id]["TOGGLE"] = not self.settings["TOGGLE"]
+        if self.settings[server.id]["TOGGLE"]:
             await self.bot.say("I will reply on mention.")
         else:
             await self.bot.say("I won't reply on mention anymore.")
+        dataIO.save_json("data/cleverbot/settings.json", self.settings)
+    
+    @cleverbot.command(pass_context=True)
+    @checks.mod_or_permissions(manage_channels=True)
+    async def channel(self, ctx, channel: discord.Channel):
+        """Toggles channel for automatic replies"""
+        server = ctx.message.server
+        if server.id not in self.settings:
+            self.settings[server.id] = {"TOGGLE" :False, "channel":""}
+        self.settings[server.id]["channel"] = channel.id
+        await self.bot.say("I will reply in {}".format(channel))
         dataIO.save_json("data/cleverbot/settings.json", self.settings)
 
     @cleverbot.command()
     @checks.is_owner()
     async def apikey(self, key: str):
         """Sets token to be used with cleverbot.com
-
         You can get it from https://www.cleverbot.com/api/
         Use this command in direct message to keep your
         token secret"""
@@ -114,7 +133,11 @@ class Cleverbot():
             raise NoCredentials()
 
     async def on_message(self, message):
-        if not self.settings["TOGGLE"] or message.server is None:
+        server = message.server
+        if server.id not in self.settings:
+            self.settings[server.id] = {"TOGGLE" :True, "channel":""}
+            dataIO.save_json("data/cleverbot/settings.json", self.settings)
+        if not self.settings[server.id]["TOGGLE"] or message.server is None:
             return
 
         if not self.bot.user_allowed(message):
@@ -126,16 +149,29 @@ class Cleverbot():
         if message.author.id != self.bot.user.id:
             to_strip = "@" + author.server.me.display_name + " "
             text = message.clean_content
-            if not text.startswith(to_strip):
+            if not text.startswith(to_strip) and message.channel.id != self.settings[server.id]["channel"]:
                 return
             text = text.replace(to_strip, "", 1)
-            if text.lower() == "make me a sandwich":
+            if "make me" in text.lower() and "sudo" not in text.lower():
+                food = text.lower().split(" ")[-1]
+                if food in self.food:
+                    await self.bot.send_typing(channel)
+                    await self.bot.send_message(channel, "Make your own {}!".format(food))
+                    return
+            if "sudo make me" in text.lower():
+                food = text.lower().split(" ")[-1]
+                if food in self.food:
+                    if "chicken" in text.lower():
+                        await self.bot.send_typing(channel)
+                        await self.bot.send_file(channel, self.food["chicken"], content="OK, OK, here's your damn chicken {}!".format(food))
+                        return
+                    else:
+                        await self.bot.send_typing(channel)
+                        await self.bot.send_file(channel, self.food[food], content="OK, OK, here's your damn {}!".format(food))
+                        return
+            if text.lower() == "what is your real name?":
                 await self.bot.send_typing(channel)
-                await self.bot.send_message(channel, "Make your own sandwich!")
-                return
-            if text.lower() == "sudo make me a sandwich":
-                await self.bot.send_typing(channel)
-                await self.bot.send_file(channel, "data/trustybot/img/sandwich.jpg", content="OK, OK, here's your damn sammich!")
+                await self.bot.send_message(channel,"I'm OpSec. Duh!")
                 return
             await self.bot.send_typing(channel)
             try:
