@@ -6,7 +6,7 @@ class LMAO():
 
     async def on_message(self, message):
         channel = message.channel
-        if message.server.id not in ["344325990849314816", "321105104931389440"]:
+        if message.server.id not in ["344325990849314816"]: # , "321105104931389440"]:
             return
         if message.author.bot:
             return
