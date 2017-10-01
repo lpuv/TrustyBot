@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from .utils.dataIO import dataIO
 import os
+import re
 try:
     from emoji import UNICODE_EMOJI
 except:
@@ -97,9 +98,9 @@ class ServerEmojiReact():
         if not self.settings[message.server.id]:
             return
         emoji_list = []
-        for word in message.content.split(" "):
-            if word.startswith("<:") and word.endswith(">"):
-                emoji_list.append(word.rpartition(">")[0].partition("<")[2])
+        for word in re.split(r"[<> ]+", message.content):
+            if word.startswith(":"):
+                emoji_list.append(word)
             if word in UNICODE_EMOJI:
                 emoji_list.append(word)
         if emoji_list == []:
