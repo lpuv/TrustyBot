@@ -12,7 +12,7 @@ class LMAO():
         if message.author.bot:
             return
         new_msg = ""
-        emojis = lambda: [x for x in re.split(r"[<> ]+", message.content) if x.startswith(":")]
+        emojis = lambda: [x for x in re.split(r"[<> ]+", message.content) if x.startswith(":") and x[-1].isdigit()]
         print(emojis())
         if emojis() == []:
             return
