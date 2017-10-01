@@ -1,4 +1,5 @@
 import discord
+import re
 
 class LMAO():
     def __init__(self, bot):
@@ -6,15 +7,16 @@ class LMAO():
 
     async def on_message(self, message):
         channel = message.channel
-        if message.server.id not in ["344325990849314816"]: # , "321105104931389440"]:
+        if message.server.id not in ["344325990849314816", "321105104931389440"]:
             return
         if message.author.bot:
             return
         new_msg = ""
-        emojis = lambda: [x.rpartition(">")[0].partition("<")[2] for x in message.content.split(' ') if x.startswith('<:') and x.endswith('>')]
+        emojis = lambda: [x for x in re.split(r"[<> ]+", message.content) if x.startswith(":")]
+        print(emojis())
         if emojis() == []:
             return
-        new_msg = "".join("<" + emoji + "> " for emoji in emojis())
+        new_msg = "".join("<" + emoji + ">" for emoji in emojis())
         new_msg = await self.bot.send_message(channel, new_msg)
 
 def setup(bot):
