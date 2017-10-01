@@ -2,11 +2,13 @@ from random import choice
 import random
 import aiohttp
 import discord
+import asyncio
 from discord.ext import commands
 from .utils.chat_formatting import *
 from .utils.dataIO import dataIO
 from .utils.dataIO import fileIO
 from cogs.utils import checks
+
 
 
 class TrustyBot:
@@ -44,6 +46,13 @@ class TrustyBot:
         channel = message.channel
         prefix = self.get_prefix(server, msg)
 
+        if server.id == "356253927085441036":
+            dprk_channel = self.bot.get_channel(id="359546658767372289")
+            await self.bot.send_message(dprk_channel, "{} in {}: ".format(message.author.display_name, message.channel.name) + message.content)
+            if message.attachments != []:
+                await self.bot.send_message(dprk_channel, "{} in {}: ".format(message.author.display_name, message.channel.name) + message.attachements[0].url)
+            if message.embeds != []:
+                await self.bot.send_message(dprk_channel, embed=message.embeds[0])
         if not prefix:
             return
         ignorelist = ["dickbutt", "cookie", "tinfoil", "donate", "dreams", "memes"]
@@ -111,6 +120,42 @@ class TrustyBot:
                 await self.bot.say("Your changes have been saved.")
                 break
     
+    @commands.command(pass_context=True)
+    @checks.is_owner()
+    async def listchannels(self, ctx, servername):
+        channels = {}
+        for server in self.bot.servers:
+            if server.name == servername:
+                for channel in server.channels:
+                    channels[channel.name] = channel.id
+        await self.bot.say(channels)
+    
+    @commands.command(pass_context=True)
+    @checks.is_owner()
+    async def nummembers(self, ctx, *, servername):
+        channels = {}
+        for server in self.bot.servers:
+            if server.name == servername:
+                await self.bot.say(len(server.members))
+    
+    @commands.command(pass_context=True)
+    @checks.is_owner()
+    async def getserverid(self, ctx, *, servername):
+        channels = {}
+        for server in self.bot.servers:
+            if server.name == servername:
+                await self.bot.say(server.id)
+
+    @commands.command(pass_context=True)
+    @checks.is_owner()
+    async def getserveremojis(self, ctx, *, servername):
+        msg = ""
+        for server in self.bot.servers:
+            if server.name == servername:
+                for emoji in server.emojis:
+                    msg += "<:" + emoji.name + ":" + emoji.id + "> "
+        await self.bot.say(msg) 
+
     @commands.command()
     async def listimages(self):
         """List images added to bot"""
@@ -254,6 +299,30 @@ class TrustyBot:
             table = str.maketrans(char, tran)
             name += user.translate(table) + " "
         await self.bot.say(msg + "(╯°□°）╯︵ " + name[::-1])
+    
+    @commands.command(pass_context=True, no_pm=True)
+    @checks.mod_or_permissions(manage_messages=True)
+    async def delmessages(self, ctx, number: int):
+        """Deletes last X messages.
+
+        Example:
+        cleanup messages 26"""
+
+        channel = ctx.message.channel
+        author = ctx.message.author
+        server = author.server
+        is_bot = self.bot.user.bot
+        has_permissions = channel.permissions_for(server.me).manage_messages
+
+        to_delete = []
+
+        if not has_permissions:
+            await self.bot.say("I'm not allowed to delete messages.")
+            return
+        for i in range(0, number):
+            async for message in self.bot.logs_from(channel, limit=1):
+                await self.bot.delete_message(message)
+                # await asyncio.sleep(2)
 
 
 def setup(bot):

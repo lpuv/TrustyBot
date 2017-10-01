@@ -79,23 +79,26 @@ class DNADecode:
         message = message.strip(" ")
         mapping = {}
         replacement = ""
-        # for i in range(0, 15):
-        skip = [" ", "\n", "\r"]
-        for character in message:
-            if character in skip:
-                continue
-            replacement += self.table[character][5]
-        try:
-            n = int("0b" + replacement, 2)
-            mapping[5] = n.to_bytes((n.bit_length() + 7) // 8, 'big').decode("utf8", "ignore")
-        except TypeError:
-            pass
-        replacement = ""
-        await self.bot.say("```" + mapping[5] + "```")
+        for i in range(0, 16):
+            skip = [" ", "\n", "\r"]
+            for character in message:
+                if character in skip:
+                    continue
+                replacement += self.table[character][i]
+            try:
+                n = int("0b" + replacement, 2)
+                mapping[i] = n.to_bytes((n.bit_length() + 7) // 8, 'big').decode("utf8", "ignore")
+            except TypeError:
+                pass
+            replacement = ""
+        # for result in mapping:
+        # await self.bot.say("```" + mapping[0] + "```")
             # print(mapping[i])
-        # for result in mapping.values():
+        num = 1
+        for result in mapping.values():
             # if self.search_words(result):
-                # await self.bot.say("```" + result[:1500] + "```")
+            await self.bot.say("```\n {}:".format(num) + result[:1500] + "```")
+            num += 1
 
 
 def setup(bot):

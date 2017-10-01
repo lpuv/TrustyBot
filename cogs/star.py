@@ -11,6 +11,7 @@ class Star:
     def __init__(self, bot):
         self.bot = bot
         self.settings = dataIO.load_json("data/star/settings.json")
+        self.ignore = ["321105104931389440"]
     
     @commands.command(pass_context=True)
     async def addstarboard(self, ctx, channel: discord.Channel=None, emoji="⭐"):
@@ -27,6 +28,8 @@ class Star:
         server = reaction.message.server
         msg = reaction.message
         if server.id not in self.settings or user.id == msg.author.id:
+            return
+        if msg.channel.id in self.ignore:
             return
         react = self.settings[server.id]["emoji"]
         if react in str(reaction.emoji):
