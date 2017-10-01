@@ -8,6 +8,7 @@ import os
 import urllib.request
 import aiohttp
 import json
+from bs4 import BeautifulSoup
 
 class Gab:
 
@@ -17,6 +18,15 @@ class Gab:
         self.bot = bot
         self.tags = dataIO.load_json("data/gab/gabtags.json")
         self.servers = ["261565811309674499", "321105104931389440"]
+        self.api_link = "https://gab.ai/auth/login"
+
+    @commands.command(pass_context=True)
+    async def api_auth(self, ctx):
+        with aiohttp.ClientSession() as session:
+            async with session.get(self.api_link) as resp:
+                data = await resp.text()
+                soup = BeautifulSoup(data, "html.parser")
+                token = soup.find("input", {"name": "_token"}).get("value")
 
     def save_tags(self, server, usertag, username):
         self.tags[server][username] = usertag
@@ -155,10 +165,11 @@ class Gab:
     
     @commands.command(pass_context=True)
     async def gabuser(self, ctx, username):
-        apilink = "https://devsquad.pro/api/gab.php?method=profile&query={}".format(username)
+        apilink = "https://gab.ai/users/%3Cuser{}".format(username)
         with aiohttp.ClientSession() as session:
             async with session.get(apilink) as resp:
-                data = await resp.json()
+                data = await resp.read()
+                print(data)
         if "status" in data:
             await self.bot.say("That username could not be found!")
             return
@@ -175,16 +186,16 @@ class Gab:
         await self.bot.send_message(ctx.message.channel, embed=embed)
 
 
-    def getroles(self, ctx, role):
+    def get_roles(self, ctx, role):
         return {r.name: r for r in ctx.message.server.roles}[role]
 
     async def addgabrole(self, ctx, role):
         await asyncio.sleep(2)
-        await self.bot.add_roles(ctx.message.author, self.getroles(ctx, role))
+        await self.bot.add_roles(ctx.message.author, self.get_roles(ctx, role))
         return
 
     async def check_gab_usernames(self, username):
-        apilink = "https://devsquad.pro/api/gab.php?method=profile&query={}".format(username)
+        apilink = "https://gab.ai/auth/login".format(username)
         with aiohttp.ClientSession() as session:
             async with session.get(apilink) as resp:
                 data = await resp.json()
@@ -202,6 +213,7 @@ class Gab:
         self.save_tags(server.id, channel.id, "channel")
         if role_remove is not None:
             self.save_tags(server.id, role_remove.name, "role_remove")
+        await self.bot.say("Accepting gab tags in {} and applying role {}".format(channel, role_add))
 
     @commands.command(pass_context=True, aliases=["Gab", "GAB"])
     async def gab(self, ctx, usertag):
@@ -215,10 +227,10 @@ class Gab:
             return
 
         if "<@" in usertag:
-            usertag = ctx.message.author.name
+            usertag = ctx.message.author.display_name
         username = ctx.message.author.id
 
-        is_real_account = await self.check_gab_usernames(usertag)
+        is_real_account = True #await self.check_gab_usernames(usertag)
 
         if not is_real_account:
             await self.bot.say("That gab account does not exist! Please try again or ask for some help.")
@@ -266,4 +278,3 @@ def setup(bot):
     check_file()
     n = Gab(bot)
     bot.add_cog(n)
-
