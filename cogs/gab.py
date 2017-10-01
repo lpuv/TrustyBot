@@ -10,7 +10,7 @@ import aiohttp
 import json
 from bs4 import BeautifulSoup
 
-class Gab:
+class Gab: # Test commit
 
     GABSEARCH = "https://gab.ai/search/{}"
 
