@@ -25,6 +25,8 @@ class Reee:
             return
         if message.server.id == "133049272517001216":
             return
+        if message.author == self.bot.user:
+            return
         msg = message.content.lower()
         if "reee" in msg:
             for word in msg.split(" "):
