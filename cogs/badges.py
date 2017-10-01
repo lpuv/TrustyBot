@@ -46,7 +46,7 @@ class Badges:
         with aiohttp.ClientSession() as session:
             async with session.get("http://api-bwipjs.rhcloud.com/?bcid=telepen&text={}&scale=2&includetext".format(userid)) as resp:
                 test = await resp.read()
-                with open(self.files + "bar_code_temp.png", "wb") as f:
+                with open(self.files + "temp/bar_code_temp.png", "wb") as f:
                     f.write(test)
     
     async def create_badge(self, user, badge):
@@ -70,8 +70,8 @@ class Badges:
         await self.get_barcode(userid)
         template = Image.open(self.blank_template[badge])
         template = template.convert("RGBA")
-        avatar = Image.open(self.files + "temp." + ext)
-        barcode = Image.open(self.files + "bar_code_temp.png")
+        avatar = Image.open(self.files + "temp/temp." + ext)
+        barcode = Image.open(self.files + "temp/bar_code_temp.png")
         barcode = barcode.convert("RGBA")
         barcode.thumbnail((535,125))
         template.paste(barcode, (420,520), barcode)
