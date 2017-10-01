@@ -12,21 +12,13 @@ from bs4 import BeautifulSoup
 
 class Gab: # Test commit
 
-    GABSEARCH = "https://gab.ai/search/{}"
-
     def __init__(self, bot):
         self.bot = bot
         self.tags = dataIO.load_json("data/gab/gabtags.json")
         self.servers = ["261565811309674499", "321105104931389440"]
         self.api_link = "https://gab.ai/auth/login"
-
-    @commands.command(pass_context=True)
-    async def api_auth(self, ctx):
-        with aiohttp.ClientSession() as session:
-            async with session.get(self.api_link) as resp:
-                data = await resp.text()
-                soup = BeautifulSoup(data, "html.parser")
-                token = soup.find("input", {"name": "_token"}).get("value")
+        self.settings = dataIO.load_json("data/gab/settings.json")
+        self.search_user = "https://gab.ai/users/{}"         
 
     def save_tags(self, server, usertag, username):
         self.tags[server][username] = usertag
@@ -153,23 +145,23 @@ class Gab: # Test commit
         embed.add_field(name="Username", value=username, inline=True)
         embed.add_field(name="⟶  Gab Tag", value=gabtag, inline=True)
         await self.bot.say(embed=embed)
-
-    async def getname(self, ctx, id):
-        name = ctx.message.server.get_member(id)
-        await self.bot.say(name.name)
-
-    @commands.command(pass_context=True)
-    async def getid(self, ctx, username):
-        name = ctx.message.server.get_member_named(username)
-        await self.bot.say(name)
     
     @commands.command(pass_context=True)
     async def gabuser(self, ctx, username):
-        apilink = "https://gab.ai/users/%3Cuser{}".format(username)
         with aiohttp.ClientSession() as session:
+            async with session.get(self.search_user.format(username)) as resp:
+                data = await resp.text()
+                soup = BeautifulSoup(data, "html.parser")
+                token = soup.find("input", {"name": "_token"}).get("value")
+                login = {"username":self.settings["login"]["username"], 
+                         "password":self.settings["login"]["password"], 
+                         "_token":token, 
+                         "remember": True}
+            async with session.post(self.api_link, data=login) as resp:
+                self.settings["cookies"] = resp.cookies
+                dataIO.save_json("data/gab/settings.json", self.settings)
             async with session.get(apilink) as resp:
-                data = await resp.read()
-                print(data)
+                data = await resp.json()
         if "status" in data:
             await self.bot.say("That username could not be found!")
             return
@@ -195,14 +187,25 @@ class Gab: # Test commit
         return
 
     async def check_gab_usernames(self, username):
-        apilink = "https://gab.ai/auth/login".format(username)
+        """Checks the gab user feed of a user to see if it exists"""
         with aiohttp.ClientSession() as session:
-            async with session.get(apilink) as resp:
+            async with session.get(self.api_link) as resp:
+                data = await resp.text()
+                soup = BeautifulSoup(data, "html.parser")
+                token = soup.find("input", {"name": "_token"}).get("value")
+                login = {"username":self.settings["login"]["username"], 
+                         "password":self.settings["login"]["password"], 
+                         "_token":token, 
+                         "remember": True}
+            async with session.post(self.api_link, data=login) as resp:
+                self.settings["cookies"] = resp.cookies
+                dataIO.save_json("data/gab/settings.json", self.settings)
+            async with session.get(self.search_user.format(username)) as resp:
                 data = await resp.json()
-        if "status" in data:
-            return False
-        else:
-            return True
+                if "status" in data:
+                    return False
+                else:
+                    return True
     
     @commands.command(pass_context=True)
     async def setgab(self, ctx, channel: discord.Channel, role_add: discord.Role, role_remove: discord.Role=None):
@@ -230,7 +233,7 @@ class Gab: # Test commit
             usertag = ctx.message.author.display_name
         username = ctx.message.author.id
 
-        is_real_account = True #await self.check_gab_usernames(usertag)
+        is_real_account = await self.check_gab_usernames(usertag)
 
         if not is_real_account:
             await self.bot.say("That gab account does not exist! Please try again or ask for some help.")
