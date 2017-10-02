@@ -59,8 +59,12 @@ class Tweets():
         api = tw.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, retry_count=10, retry_delay=5, retry_errors=5)
         tweet_list = list(self.settings["accounts"])
         stream_start = TweetListener(api, self.bot)
-        mystream = tw.Stream(auth, stream_start)
-        mystream.filter(follow=tweet_list, async=True)
+        self.mystream = tw.Stream(auth, stream_start)
+        self.mystream.filter(follow=tweet_list, async=True)
+        
+    def __unload(self):
+        self.mystream.disconnect()
+        
 
     async def authenticate(self):
         """Authenticate with Twitter's API"""

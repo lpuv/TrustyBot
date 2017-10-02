@@ -25,3 +25,5 @@ data/rss
 *.exe
 *.dll
 
+data/streams/picarto.json
+data/fourinarow/fourinarow.log

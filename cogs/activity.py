@@ -169,6 +169,7 @@ class ActivityChecker():
         return has_role
 
     async def activity_checker(self):
+        await self.bot.wait_until_ready()
         while self is self.bot.get_cog("ActivityChecker"):
             for server_id in self.log:
                 server = self.bot.get_server(id=server_id)
