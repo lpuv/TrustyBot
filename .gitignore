@@ -1,5 +1,6 @@
 settings.json
 log.json
+feeds.json
 *.pyc
 __pycache__
 lib
