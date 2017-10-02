@@ -70,6 +70,20 @@ class ActivityChecker():
         if len(server_roles) > 1 and "@everyone" in server_roles:
             self.settings[server.id]["check_roles"].remove("@everyone")
         dataIO.save_json(self.settings_file, self.settings)
+
+    @activity.command(pass_context=True, name="invite")
+    async def send_invite(self, ctx):
+        """Toggles sending user invite links to re-join the server"""
+        server = ctx.message.server
+        if server.id not in self.settings:
+            await self.bot.send_message(ctx.message.channel, "I am not setup to check activity here!")
+            return
+        if self.settings[server.id]["invite"]:
+            self.settings[server.id]["invite"] = False
+            await self.bot.send_message(ctx.message.channel, "No longer sending invite links!")
+        if not self.settings[server.id]["invite"]:
+            self.settings[server.id]["invite"] = True
+            await self.bot.send_message(ctx.message.channel, "Sending invite links to kicked users!")
         
 
     @activity.command(pass_context=True)
@@ -115,17 +129,18 @@ class ActivityChecker():
         server = ctx.message.server
         if channel is None:
             channel = ctx.message.channel
-        if role is None:
-            role = "@everyone"
         if role is not None:
             role = role.name
+        if role is None:
+            role = "@everyone"
         if server.id in self.log:
             await self.bot.say("This server is already checking for activity!")
             return
         await self.build_list(ctx, server)
         self.settings[server.id] = {"channel": channel.id,
                                     "check_roles": [role],
-                                    "time": 604800}
+                                    "time": 604800,
+                                    "invite": True}
         dataIO.save_json(self.settings_file, self.settings)
 
     def check_roles(self, member, roles):
@@ -161,13 +176,14 @@ class ActivityChecker():
                             await self.bot.send_message(channel, "Good, you decided to stay!")
                         if answer is None:
                             await self.bot.send_message(channel, "Goodbye {}!".format(member.mention))
-                            invite = await self.bot.create_invite(server, unique=False)
-                            try:
-                                await self.bot.send_message(discord.User(id=member.id), invite.url)
-                            except(discord.errors.Forbidden, discord.errors.NotFound):
-                                await self.bot.send_message(channel, "RIP")
-                            except discord.errors.HTTPException:
-                                pass
+                            if self.settings[server.id]["invite"]:
+                                invite = await self.bot.create_invite(server, unique=False)
+                                try:
+                                    await self.bot.send_message(discord.User(id=member.id), invite.url)
+                                except(discord.errors.Forbidden, discord.errors.NotFound):
+                                    await self.bot.send_message(channel, "RIP")
+                                except discord.errors.HTTPException:
+                                    pass
                             await self.bot.kick(member)
                             del self.log[server.id][member.id]
                             dataIO.save_json(self.log_file, self.log)

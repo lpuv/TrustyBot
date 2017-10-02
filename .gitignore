@@ -21,3 +21,4 @@ data/red
 !data/dnd/donotdo.json
 *.exe
 *.dll
+data/RSS/feeds.json
