@@ -13,7 +13,6 @@ class LMAO():
             return
         new_msg = ""
         emojis = lambda: [x for x in re.split(r"[<> ]+", message.content) if x.startswith(":") and x[-1].isdigit()]
-        print(emojis())
         if emojis() == []:
             return
         new_msg = "".join("<" + emoji + ">" for emoji in emojis())
