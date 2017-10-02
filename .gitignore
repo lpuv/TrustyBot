@@ -5,6 +5,7 @@ feeds.json
 __pycache__
 lib
 .vscode
+data/RSS
 data/audio
 data/downloader
 data/economy
@@ -23,4 +24,4 @@ data/rss
 !data/dnd/donotdo.json
 *.exe
 *.dll
-data/RSS/feeds.json
+
