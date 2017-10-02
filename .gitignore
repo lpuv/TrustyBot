@@ -16,6 +16,7 @@ data/permissions
 data/badges/temp
 data/badges/logos
 data/red
+data/rss
 !data/trivia/*
 !data/audio/playlists/*
 !data/dnd/donotdo.json
