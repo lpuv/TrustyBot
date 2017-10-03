@@ -178,11 +178,12 @@ class ActivityChecker():
                 cur_time = time.time()
                 for member_id in self.log[server.id]:
                     member = server.get_member(member_id)
-                    user = await self.bot.get_user_info(member.id)
+                    if member is None:
+                        continue
                     if not self.check_roles(member, roles):
                         continue
-                    if user.bot or member is server.owner or member.id == self.bot.settings.owner:
-                        print("I Should ignore this user " + user.name)
+                    if member.bot or member is server.owner or member.id == self.bot.settings.owner:
+                        print("I Should ignore this user " + member.name)
                         continue
                     last_msg_time = cur_time - self.log[server.id][member.id]
                     if last_msg_time > self.settings[server.id]["time"]:
