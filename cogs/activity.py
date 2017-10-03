@@ -183,7 +183,7 @@ class ActivityChecker():
                     if not self.check_roles(member, roles):
                         continue
                     if member.bot or member is server.owner or member.id == self.bot.settings.owner:
-                        print("I Should ignore this user " + member.name)
+                        # print("I Should ignore this user " + member.name)
                         continue
                     last_msg_time = cur_time - self.log[server.id][member.id]
                     if last_msg_time > self.settings[server.id]["time"]:
@@ -206,7 +206,7 @@ class ActivityChecker():
                             await self.bot.kick(member)
                             del self.log[server.id][member.id]
                             dataIO.save_json(self.log_file, self.log)
-            await asyncio.sleep(5)
+            await asyncio.sleep(15)
 
 
 
