@@ -61,7 +61,6 @@ class Chatterbot():
         server = message.server
         channel = message.channel
         author = message.author
-        user = await self.bot.get_user_info(author.id)
         conversation = []
         if "http" in message.content or message.content == "" or author.bot:
             return
@@ -128,4 +127,5 @@ def setup(bot):
     if not chatt:
         bot.pip_install("chatterbot")
         import chatterbot
+        from chatterbot.trainers import ListTrainer
     bot.add_cog(Chatterbot(bot))

@@ -32,7 +32,8 @@ class Juche:
         msg = message.content
         server = message.server
         channel = message.channel
-
+        if message.channel.is_private:
+            return
         if server.id in ["304436539482701825", "321105104931389440"]:
             juche = await self.check_date(msg)
             if juche != None:

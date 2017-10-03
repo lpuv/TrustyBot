@@ -93,6 +93,8 @@ class ServerEmojiReact():
 
     async def on_message(self, message):
         channel = message.channel
+        if channel.is_private:
+            return
         if message.server.id not in self.settings:
             return
         if not self.settings[message.server.id]:
