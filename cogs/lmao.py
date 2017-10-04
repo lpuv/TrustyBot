@@ -6,6 +6,8 @@ class LMAO():
         self.bot = bot
 
     async def on_message(self, message):
+        if message.channel.is_private:
+            return
         channel = message.channel
         if message.server.id not in ["344325990849314816", "321105104931389440"]:
             return

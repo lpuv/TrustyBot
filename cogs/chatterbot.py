@@ -21,7 +21,10 @@ class Chatterbot():
         self.log = dataIO.load_json("data/chatterbot/log.json")
         self.chatbot = chatterbot.ChatBot("TrustyBot", 
                                           storage_adapter="chatterbot.storage.MongoDatabaseAdapter",
-                                          atabase="data/chatterbot/db")
+                                          # database="data/chatterbot/db",
+                                          logic_adapters=[
+                                          {"import_path":"chatterbot.logic.TimeLogicAdapter"},
+                                          {"import_path": "chatterbot.logic.MathematicalEvaluation"}])
         self.chatbot.set_trainer(ListTrainer)
 
     @commands.group(no_pm=True, invoke_without_command=True, pass_context=True)
