@@ -23,8 +23,10 @@ class Chatterbot():
                                           storage_adapter="chatterbot.storage.MongoDatabaseAdapter",
                                           # database="data/chatterbot/db",
                                           logic_adapters=[
-                                          {"import_path":"chatterbot.logic.TimeLogicAdapter"},
-                                          {"import_path": "chatterbot.logic.MathematicalEvaluation"}])
+                                          "chatterbot.logic.BestMatch",
+                                          "chatterbot.logic.TimeLogicAdapter",
+                                          "chatterbot.logic.MathematicalEvaluation"]
+                                          )
         self.chatbot.set_trainer(ListTrainer)
 
     @commands.group(no_pm=True, invoke_without_command=True, pass_context=True)

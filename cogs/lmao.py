@@ -1,5 +1,6 @@
 import discord
 import re
+from emoji import UNICODE_EMOJI
 
 class LMAO():
     def __init__(self, bot):
@@ -14,10 +15,11 @@ class LMAO():
         if message.author.bot:
             return
         new_msg = ""
-        emojis = lambda: [x for x in re.split(r"[<> ]+", message.content) if x.startswith(":") and x[-1].isdigit()]
+        emojis = lambda: [x for x in re.split(r"[<> ]+", message.content) if x.startswith(":") and x[-1].isdigit() or x in UNICODE_EMOJI]
         if emojis() == []:
             return
-        new_msg = "".join("<" + emoji + ">" for emoji in emojis())
+        new_msg = "".join("<" + emoji + ">" for emoji in emojis() if emoji.startswith(":"))
+        # new_msg = new_msg.join(emoji for emoji in emojis() if emoji in UNICODE_EMOJI)
         new_msg = await self.bot.send_message(channel, new_msg)
 
 def setup(bot):

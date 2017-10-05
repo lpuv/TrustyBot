@@ -6,7 +6,7 @@ import re
 try:
     from emoji import UNICODE_EMOJI
 except:
-    raise RuntimeError("Can't load pillow. Do 'pip3 install emoji'.")
+    raise RuntimeError("Can't load emojis. Do 'pip3 install emoji'.")
 
 class ServerEmojiReact():
     def __init__(self, bot):
