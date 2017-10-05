@@ -32,7 +32,9 @@ class Badges:
                                "gab":"data/badges/gab-template.png",
                                "dop":"data/badges/dop-template.png",
                                "shit":"data/badges/shit-template.png",
-                               "bunker":"data/badges/bunker-template.png"}
+                               "bunker":"data/badges/bunker-template.png",
+                               "nk":"data/badges/nk-template.png",
+                               "kek": "data/badges/kek-template.png"}
         
 
     async def dl_image(self, url, ext="png"):

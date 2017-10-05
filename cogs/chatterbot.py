@@ -23,9 +23,9 @@ class Chatterbot():
                                           storage_adapter="chatterbot.storage.MongoDatabaseAdapter",
                                           # database="data/chatterbot/db",
                                           logic_adapters=[
-                                          "chatterbot.logic.BestMatch",
-                                          "chatterbot.logic.TimeLogicAdapter",
-                                          "chatterbot.logic.MathematicalEvaluation"]
+                                          "chatterbot.logic.BestMatch"]
+                                          # "chatterbot.logic.TimeLogicAdapter",
+                                          # "chatterbot.logic.MathematicalEvaluation"]
                                           )
         self.chatbot.set_trainer(ListTrainer)
 
@@ -104,7 +104,8 @@ class Chatterbot():
             text = text.replace(to_strip, "", 1)
             await self.bot.send_typing(channel)
             response = self.chatbot.get_response(text)
-            await self.bot.send_message(message.channel, response)
+            if response != "":
+                await self.bot.send_message(message.channel, response)
 
 
 

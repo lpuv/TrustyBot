@@ -46,8 +46,11 @@ class ActivityChecker():
         roles = self.settings[server.id]["check_roles"]
         if member is None:
             # print("member doesn't exist on the server I should remove them from the list")
-            del self.log[server.id][member_id]
-            dataIO.save_json(self.log_file, self.log)
+            try:
+                del self.log[server.id][member_id]
+                dataIO.save_json(self.log_file, self.log)
+            except KeyError:
+                pass
             return True
         if member.bot:
             # print("member is a bot account, we don't care about those " + member.name)
@@ -251,7 +254,7 @@ class ActivityChecker():
                                 invite = await self.bot.create_invite(server, unique=False)
                                 invite_msg = "You have been kicked from {0}, here's an invite link to get back! {1}".format(server.name, invite.url)
                                 try:
-                                    await self.bot.send_message(discord.User(id=member.id), invite_msg)
+                                    await self.bot.send_message(member, invite_msg)
                                 except(discord.errors.Forbidden, discord.errors.NotFound):
                                     await self.bot.send_message(channel, "RIP")
                                 except discord.errors.HTTPException:
