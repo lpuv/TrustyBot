@@ -19,7 +19,7 @@ class Chatterbot():
         self.bot = bot
         self.settings = dataIO.load_json("data/chatterbot/settings.json")
         self.log = dataIO.load_json("data/chatterbot/log.json")
-        self.chatbot = chatterbot.ChatBot("TrustyBot", 
+        self.chatbot = chatterbot.ChatBot(self.bot.user.display_name, 
                                           storage_adapter="chatterbot.storage.MongoDatabaseAdapter",
                                           # database="data/chatterbot/db",
                                           logic_adapters=[
@@ -36,6 +36,12 @@ class Chatterbot():
         channel = ctx.message.channel
         response = self.chatbot.get_response(message)
         await self.bot.send_message(channel, response)
+
+    @chatterbot.command(pass_context=True, name="export")
+    async def export_corpus(self, ctx):
+        channel = ctx.message.channel
+        self.chatbot.trainer.export_for_training("data/chatterbot/training.json")
+        await self.bot.send_message(channel, "exported training data")
 
     @chatterbot.command(pass_context=True)
     @checks.mod_or_permissions(manage_channels=True)
