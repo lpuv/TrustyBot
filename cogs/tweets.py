@@ -35,7 +35,7 @@ class TweetListener(tw.StreamListener):
             return True
 
     def on_error(self, status_code):
-        print(str(status_code))
+        print("A tweet stream error has occured! " + str(status_code))
         if status_code in [420, 504, 503, 502, 500, 400, 401, 403, 404]:
             return False
 
