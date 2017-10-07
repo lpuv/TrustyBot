@@ -6,6 +6,7 @@ from .utils.dataIO import fileIO
 from cogs.utils import checks
 from random import choice
 from binascii import unhexlify
+from datetime import timedelta
 import time
 import random
 import hashlib
@@ -28,9 +29,12 @@ class ReadyPlayerOne:
 
     @commands.command(pass_context=True)
     async def rpomovie(self, ctx):
-        release = 1522368000 - time.time()
-        timestring = time.strftime("%j days %H hours %M minutes %S seconds", time.gmtime(release))
-        embed = discord.Embed(title="Time until Ready Player One The Movie", description=timestring, url="https://youtu.be/0h3zL-IA_KI")
+        time_left = timedelta(seconds=abs(1522368000 - time.time()), microseconds=0)
+        time_left = time_left - timedelta(microseconds=time_left.microseconds)
+        embed = discord.Embed(title="{}".format(time_left),
+                              description="Until Ready Player One The Movie!",
+                              url="https://youtu.be/0h3zL-IA_KI",
+                              timestamp=ctx.message.timestamp)
         embed.set_image(url="https://images-na.ssl-images-amazon.com/images/M/MV5BMjM0MzkxMzU2M15BMl5BanBnXkFtZTgwODg2NTg5MjI@._V1_SY1000_CR0,0,674,1000_AL_.jpg")
         await self.bot.send_message(ctx.message.channel, embed=embed)
     
