@@ -18,11 +18,13 @@ class TrustyAvatar:
                     "https://imgur.com/bvh93u4.png",
                     "https://imgur.com/VXIUHMb.png",
                     "https://imgur.com/0aVJqlS.png"]
+        self.loop = bot.loop.create_task(self.change_avatar())
     
     def __unload(self):
         self.session.close()
+        self.loop.cancel()
     
-    async def change_colours(self):
+    async def change_avatar(self):
         await self.bot.wait_until_ready()
         while self is self.bot.get_cog("TrustyAvatar"):
             try:
@@ -35,6 +37,4 @@ class TrustyAvatar:
 
 def setup(bot):
     n = TrustyAvatar(bot)
-    loop = asyncio.get_event_loop()
-    loop.create_task(n.change_colours())
     bot.add_cog(n)

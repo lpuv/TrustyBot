@@ -20,6 +20,10 @@ class ActivityChecker():
         self.settings = dataIO.load_json(self.settings_file)
         self.log = dataIO.load_json(self.log_file)
         self.units = {"minute" : 60, "hour" : 3600, "day" : 86400, "week": 604800, "month": 2592000}
+        self.activitycheck = bot.loop.create_task(self.activity_checker())
+
+    def __unload(self):
+        self.activitycheck.cancel()
 
     @commands.group(pass_context=True)
     @checks.mod_or_permissions(kick_members=True)
@@ -73,6 +77,9 @@ class ActivityChecker():
         last_post_time = time.time()
         server = ctx.message.server
         member_name = ""
+        if server.id not in self.log:
+            await self.bot.send_message(ctx.message.channel, "I don't have activity checking set on this server!")
+            return
         for member_id in list(self.log[server.id]):
             member = server.get_member(member_id)
             if await self.check_ignored_users(server, member_id):
@@ -142,7 +149,39 @@ class ActivityChecker():
             self.settings[server.id]["invite"] = True
             await self.bot.send_message(ctx.message.channel, "Sending invite links to kicked users!")
             return
+
+    @activity.command(pass_context=True, name="link")
+    async def set_invite_link(self, ctx, *, link=None):
+        """Sets the invite link for when the bot can't create one."""
+        server = ctx.message.server
+        if link is None:
+            invite_link = await self.get_invite_link(server)
+            if invite_link is None:
+                await self.bot.send_message(ctx.message.channel, "I cannot create a link here! Please set a link for me to use!")
+                return
+        else:
+            try:
+                invite_link = await self.bot.get_invite(link)
+            except(discord.errors.NotFound, HTTPException):
+                await self.bot.send_message(ctx.message.channel, "That is not a valid discord invite link!")
+                return
+        self.settings[server.id]["link"] = invite_link.url
+        dataIO.save_json(self.settings_file, self.settings)
+        await self.bot.send_message(ctx.message.channel, "Invite link set to {} for this server!".format(invite_link))
         
+
+    async def get_invite_link(self, server):
+        try:
+            # tries to create a server link
+            link = await self.bot.create_invite(server, unique=False)
+            return link
+        except discord.errors.NotFound:
+            # tries to create a server default channel link
+            link = await self.bot.create_invite(server.default_channel, unique=False)
+            return link
+        except:
+            # if a link cannot be created it returns None
+            return None        
 
     @activity.command(pass_context=True)
     async def refresh(self, ctx, channel:discord.channel=None, server:discord.server=None):
@@ -210,10 +249,17 @@ class ActivityChecker():
         if server.id in self.log:
             await self.bot.say("This server is already checking for activity!")
             return
+        invite_link = await self.get_invite_link(server)
+        if invite_link is None:
+            await self.bot.send_message(ctx.message.channel, "I could not create an invite link here! Set a link I can use with the link command.")
+        else:
+            invite_link = invite_link.url
         self.settings[server.id] = {"channel": channel.id,
                                     "check_roles": [role],
                                     "time": 604800,
-                                    "invite": True}
+                                    "invite": True,
+                                    "link": invite_link,
+                                    "rip_count": 0}
         dataIO.save_json(self.settings_file, self.settings)
         await self.build_list(ctx, server)
         await self.bot.send_message(ctx.message.channel, "Sending activity check messages to {}".format(channel.mention))
@@ -251,14 +297,30 @@ class ActivityChecker():
                         if answer is None:
                             await self.bot.send_message(channel, "Goodbye {}!".format(member.mention))
                             if self.settings[server.id]["invite"]:
-                                invite = await self.bot.create_invite(server, unique=False)
-                                invite_msg = "You have been kicked from {0}, here's an invite link to get back! {1}".format(server.name, invite.url)
-                                try:
-                                    await self.bot.send_message(member, invite_msg)
-                                except(discord.errors.Forbidden, discord.errors.NotFound):
-                                    await self.bot.send_message(channel, "RIP")
-                                except discord.errors.HTTPException:
-                                    pass
+                                invite = self.settings[server.id]["link"]
+                                if invite is None:
+                                    # tries to create an invite link
+                                    invite = self.get_invite_link(server)
+                                    invite = invite.url
+                                if invite is not None:
+                                    invite_msg = "You have been kicked from {0}, here's an invite link to get back! {1}".format(server.name, invite)
+                                    try:
+                                        await self.bot.send_message(member, invite_msg)
+                                    except(discord.errors.Forbidden, discord.errors.NotFound):
+                                        if "rip_count" not in self.settings[server.id]:
+                                            self.settings[server.id]["rip_count"] = 0
+                                        self.settings[server.id]["rip_count"] += 1
+                                        dataIO.save_json(self.settings_file, self.settings)
+                                        await self.bot.send_message(channel, "RIP #{0} {1}".format(self.settings[server.id]["rip_count"], member.name))
+                                    except discord.errors.HTTPException:
+                                        pass
+                                else:
+                                    if "rip_count" not in self.settings[server.id]:
+                                        self.settings[server.id]["rip_count"] = 0
+                                    self.settings[server.id]["rip_count"] += 1
+                                    dataIO.save_json(self.settings_file, self.settings)
+                                    await self.bot.send_message(channel, "RIP #{0} {1}".format(self.settings[server.id]["rip_count"], member.name))
+                                    print("I can't create invites for some reason! Set a link for me to use!")
                             await self.bot.kick(member)
                             del self.log[server.id][member.id]
                             dataIO.save_json(self.log_file, self.log)
@@ -303,6 +365,4 @@ def setup(bot):
     check_folder()
     check_file()
     n = ActivityChecker(bot)
-    loop = asyncio.get_event_loop()
-    loop.create_task(n.activity_checker())
     bot.add_cog(n)

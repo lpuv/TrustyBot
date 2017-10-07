@@ -21,6 +21,10 @@ class WebsiteChangeChecker:
         self.bot = bot
         self.settings_file = "data/websitechange/settings.json"
         self.settings = dataIO.load_json(self.settings_file)
+        self.loop = bot.loop.create_task(self.post_changes())
+
+    def __unload(self):
+        self.loop.cancel()
     
     @commands.command(hidden=True, pass_context=True)
     @checks.admin_or_permissions(manage_channels=True)
@@ -113,6 +117,4 @@ def setup(bot):
     check_folder()
     check_file()
     n = WebsiteChangeChecker(bot)
-    loop = asyncio.get_event_loop()
-    loop.create_task(n.post_changes())
     bot.add_cog(n)

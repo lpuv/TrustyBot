@@ -17,6 +17,10 @@ class Rainbow:
         self.bot = bot
         self.settings_file = "data/rainbow/settings.json"
         self.settings = dataIO.load_json(self.settings_file)
+        self.loop = bot.loop.create_task(self.change_colours())
+
+    def __unload(self):
+        self.loop.cancel()
 
     @commands.group(pass_context=True, name='rainbow')
     @checks.admin_or_permissions(manage_roles=True)
@@ -98,6 +102,4 @@ def setup(bot):
     check_folders()
     check_files()
     n = Rainbow(bot)
-    loop = asyncio.get_event_loop()
-    loop.create_task(n.change_colours())
     bot.add_cog(n)
