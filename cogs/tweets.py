@@ -229,7 +229,7 @@ class Tweets():
                 em.set_image(url=status.extended_entities["media"][0]["media_url"])
 
             if status.text.startswith("RELEASE:") and username == "wikileaks":
-                await self.bot.send_message(self.bot.get_channel("239232811662311425"), embed=em)
+                await self.bot.send_message(self.bot.get_channel("365376327278395393"), embed=em)
             for channel in list(self.settings["accounts"][user_id]["channel"]):
                 await self.bot.send_message(self.bot.get_channel(channel), embed=em)
             self.settings["accounts"][user_id]["lasttweet"] = status.id

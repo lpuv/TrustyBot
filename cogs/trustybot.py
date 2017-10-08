@@ -147,14 +147,41 @@ class TrustyBot:
                 await self.bot.say(server.id)
 
     @commands.command(pass_context=True)
-    @checks.is_owner()
-    async def getserveremojis(self, ctx, *, servername):
+    async def serveremojis(self, ctx, *, servername=None):
         msg = ""
-        for server in self.bot.servers:
-            if server.name == servername:
-                for emoji in server.emojis:
-                    msg += "<:" + emoji.name + ":" + emoji.id + "> "
-        await self.bot.say(msg) 
+        server = None
+        if servername is not None:
+            for servers in self.bot.servers:
+                if servers.name == servername:
+                    server = servers
+        else:
+            server = ctx.message.server
+
+        if server is None:
+            await self.bot.send_message(ctx.message.channel, "I don't see that server!")
+            return
+        if len(server.emojis) > 25:
+            emoji_list1 = server.emojis[:25]
+            index = server.emojis.index(emoji_list1[-1])
+            emoji_list2 = server.emojis[index:]
+        else:
+            emoji_list1 = server.emojis
+            emoji_list2 = None
+        embed = discord.Embed(timestamp=ctx.message.timestamp)
+        embed.set_author(name=server.name, icon_url=server.icon_url)
+        for emoji in emoji_list1:
+            embed.add_field(name=":" + emoji.name + ":",
+                            value="<:" + emoji.name + ":" + emoji.id + "> ",
+                            inline=True)
+        await self.bot.send_message(ctx.message.channel, embed=embed)
+        if emoji_list2 is not None:
+            embed = discord.Embed(timestamp=ctx.message.timestamp)
+            embed.set_author(name=server.name, icon_url=server.icon_url)
+            for emoji in emoji_list2[1:]:
+                embed.add_field(name=":" + emoji.name + ":",
+                                value="<:" + emoji.name + ":" + emoji.id + "> ",
+                                inline=True)
+            await self.bot.send_message(ctx.message.channel, embed=embed)
 
     @commands.command()
     async def listimages(self):
