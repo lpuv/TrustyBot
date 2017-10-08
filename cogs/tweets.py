@@ -78,9 +78,6 @@ class Tweets():
         """menu control logic for this taken from
            https://github.com/Lunar-Dust/Dusty-Cogs/blob/master/menu/menu.py"""
         s = post_list[page]
-        colour =\
-            ''.join([randchoice('0123456789ABCDEF')
-                     for x in range(6)])
         colour = int(colour, 16)
         created_at = s.created_at
         created_at = created_at.strftime("%Y-%m-%d %H:%M:%S")
@@ -88,7 +85,7 @@ class Tweets():
             "https://twitter.com/{}/status/{}".format(s.user.screen_name, s.id)
         desc = "Created at: {}".format(created_at)
         em = discord.Embed(description=s.text,
-                           colour=discord.Colour(value=colour),
+                           colour=discord.Colour(value=self.random_colour()),
                            url=post_url,
                            timestamp=s.created_at)
         try:                                
@@ -144,6 +141,9 @@ class Tweets():
         if ctx.invoked_subcommand is None:
             await self.bot.send_cmd_help(ctx)
 
+    def random_colour(self):
+        return int(''.join([randchoice('0123456789ABCDEF')for x in range(6)]), 16)
+
     @_tweets.command(pass_context=True, no_pm=True, name='getuser')
     async def get_user(self, ctx, username: str):
         """Get info about the specified user"""
@@ -151,14 +151,9 @@ class Tweets():
         if username is not None:
             api = await self.authenticate()
             user = api.get_user(username)
-
-            colour =\
-                ''.join([randchoice('0123456789ABCDEF')
-                     for x in range(6)])
-            colour = int(colour, 16)
             url = "https://twitter.com/" + user.screen_name
             emb = discord.Embed(title=user.name,
-                                colour=discord.Colour(value=colour),
+                                colour=discord.Colour(value=self.random_colour()),
                                 url=url,
                                 description=user.description)
             emb.set_thumbnail(url=user.profile_image_url)
@@ -222,10 +217,8 @@ class Tweets():
             if status.in_reply_to_screen_name is not None and not self.settings["accounts"][user_id]["replies"]:
                 return
             post_url = "https://twitter.com/{}/status/{}".format(status.user.screen_name, status.id)
-            colour =''.join([randchoice('0123456789ABCDEF')for x in range(6)])
-            colour = int(colour, 16)
             em = discord.Embed(description=status.text,
-                            colour=discord.Colour(value=colour),
+                            colour=discord.Colour(value=self.random_colour()),
                             url=post_url,
                             timestamp=status.created_at)
             try:                                
@@ -303,30 +296,54 @@ class Tweets():
         await self.bot.say("{0} Added to {1}!".format(account, channel.mention))
         dataIO.save_json(self.settings_file, self.settings)
 
+    @_autotweet.command(pass_context=True, name="list")
+    async def _list(self, ctx):
+        """Lists the autotweet accounts on the server"""
+        account_list = ""
+        server = ctx.message.server
+        server_channels = [x.id for x in server.channels]
+        for account in self.settings["accounts"]:
+            for channel_id in self.settings["accounts"][account]["channel"]:
+                if channel_id in server_channels:
+                    account_list += self.settings["accounts"][account]["username"] + ", "
+        if account_list != "":
+            embed = discord.Embed(title="Twitter accounts posting in {}".format(server.name),
+                                  colour=discord.Colour(value=self.random_colour()),
+                                  description=account_list[:-2],
+                                  timestamp=ctx.message.timestamp)
+            embed.set_author(name=server.name, icon_url=server.icon_url)
+            await self.bot.send_message(ctx.message.channel, embed=embed)
+        else:
+            await self.bot.send_message(ctx.message.channel, "I don't seem to have autotweets setup here!")
+
 
     @_autotweet.command(pass_context=True, name="del", aliases=["delete", "rem", "remove"])
     async def _del(self, ctx, account, channel:discord.Channel=None):
         """Removes a twitter account to the specified channel"""
         account = account.lower()
-        for user_id in list(self.settings["accounts"]):
-            if account == self.settings["accounts"][user_id]["username"].lower():
-                channel_list = self.settings["accounts"][user_id]["channel"]
-                user = user_id
-        if channel_list is None:
+        api = await self.authenticate()
+        if channel is None:
+            channel = ctx.message.channel
+        try:
+            for status in tw.Cursor(api.user_timeline, id=account).items(1):
+                user_id = str(status.user.id)      
+        except tw.TweepError as e:
+            print("Whoops! Something went wrong here. \
+                    The error code is " + str(e) + account)
+            await self.bot.say("That account does not exist! Try again")
+            return
+        if user_id not in self.settings["accounts"]:
             await self.bot.say("{} is not in my list of accounts!".format(account))
             return
 
-        if channel is None:
-            channel = ctx.message.channel
-
+        channel_list = self.settings["accounts"][user_id]["channel"]
         if channel.id in channel_list:
-            if len(channel_list) < 2:
-                del self.settings["accounts"][user]
-            else:
-                channel_list.remove(channel.id)
+            self.settings["accounts"][user_id]["channel"].remove(channel.id)
             dataIO.save_json(self.settings_file, self.settings)
-            await self.bot.say("{0} removed from {1}!"
-                               .format(account, channel.mention))
+            await self.bot.say("{} has been removed from {}".format(account, channel.mention))
+            if len(self.settings["accounts"][user_id]["channel"]) < 2:
+                del self.settings["accounts"][user_id]
+                dataIO.save_json(self.settings_file, self.settings)
         else:
             await self.bot.say("{0} doesn't seem to be posting in {1}!"
                                .format(account, channel.mention))
