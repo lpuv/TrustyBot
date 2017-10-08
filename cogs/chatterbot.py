@@ -73,6 +73,8 @@ class Chatterbot():
         channel = message.channel
         author = message.author
         conversation = []
+        if message.channel.is_private:
+            return
         if "http" in message.content or message.content == "" or author.bot:
             return
         if server.id not in self.log:
