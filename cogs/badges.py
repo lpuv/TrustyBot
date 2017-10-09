@@ -132,6 +132,7 @@ class Badges:
         ext = "png"
         if "gif" in avatar:
             ext = "gif"
+        await self.bot.send_typing(ctx.message.channel)
         await self.create_badge(user, badge.lower())
         await self.bot.send_file(ctx.message.channel, "data/badges/temp/tempbadge." + ext)
 
