@@ -1,19 +1,12 @@
 import discord
 from discord.ext import commands
-from .utils.chat_formatting import *
-from .utils.dataIO import dataIO
-from .utils.dataIO import fileIO
-from cogs.utils import checks
-from random import choice
-from binascii import unhexlify
-from binascii import a2b_uu
+import binascii
 import random
 import hashlib
-import aiohttp
-import asyncio
 
 
-class DNADecode:
+
+class Encoding:
 
     def __init__(self, bot):
         self.bot = bot
@@ -51,14 +44,35 @@ class DNADecode:
             return False
         return False
 
-    @commands.command(pass_context=True)
-    async def binary(self, ctx, *, message: str):
+
+    @commands.group(pass_context=True, name="encode")
+    async def _encode(self, ctx):
+        """Encode a string."""
+        if ctx.invoked_subcommand is None:
+            await self.bot.send_cmd_help(ctx)
+
+    @commands.group(pass_context=True, name="decode")
+    async def _decode(self, ctx):
+        """Decode a string."""
+        if ctx.invoked_subcommand is None:
+            await self.bot.send_cmd_help(ctx)
+
+    @_encode.command(pass_context=True, name="binary")
+    async def encode_binary(self, ctx, *, message: str):
         message = message.strip(" ")
         binary = ' '.join(bin(x)[2:].zfill(8) for x in message.encode('UTF-8'))
         await self.bot.say(binary)
 
-    @commands.command(pass_context=True)
-    async def dnaencode(self, ctx, *, message: str):
+    @_decode.command(pass_context=True, name="binary")
+    async def encode_binary(self, ctx, *, message: str):
+        message = message.strip(" ")
+        binary = ' '.join(bin(x)[2:].zfill(8) for x in message.encode('UTF-8'))
+        await self.bot.say(binary)
+
+
+    @_encode.command(pass_context=True, name="dna")
+    async def dna_encode(self, ctx, *, message: str):
+        """Encodes a string into DNA 4 byte ACGT format"""
         dna = {"00": "A", "01": "T", "10": "G", "11": "C"}
         message = message.strip(" ")
         binary = ' '.join(bin(x)[2:].zfill(8) for x in message.encode('UTF-8')).replace(" ", "")
@@ -74,8 +88,9 @@ class DNADecode:
         await self.bot.say(newmsg)
 
 
-    @commands.command(pass_context=True)
-    async def dna(self,ctx, *, message: str):
+    @_decode.command(pass_context=True, name="dna")
+    async def dna_decode(self,ctx, *, message: str):
+        """Decodes a string of DNA in 4 byte ACGT format."""
         message = message.strip(" ")
         mapping = {}
         replacement = ""
@@ -91,16 +106,17 @@ class DNADecode:
             except TypeError:
                 pass
             replacement = ""
-        # for result in mapping:
-        # await self.bot.say("```" + mapping[0] + "```")
-            # print(mapping[i])
         num = 1
+        new_msg = ""
         for result in mapping.values():
-            # if self.search_words(result):
-            await self.bot.say("```\n {}:".format(num) + result[:1500] + "```")
+            new_msg += str(num) + ": " + result + "\n"
             num += 1
+        embed = discord.Embed(title=message,
+                              description="```markdown\n" + new_msg[:1950] + "```",
+                              timestamp=ctx.message.timestamp)
+        await self.bot.send_message(ctx.message.channel, embed=embed)
 
 
 def setup(bot):
-    n = DNADecode(bot)
+    n = Encoding(bot)
     bot.add_cog(n)
