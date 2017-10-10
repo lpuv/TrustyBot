@@ -21,8 +21,8 @@ class Halo():
         self.settings = dataIO.load_json("data/halo/settings.json")
         self.api_token = self.settings["api_token"]
 
-    async def request_url(self, url):
-        async with self.session.get(url, headers=self.api_token) as resp:
+    async def request_url(self, url, params=None):
+        async with self.session.get(url, params=params, headers=self.api_token) as resp:
             return await resp.json()
 
     @commands.group(pass_context=True, name='halo5')
@@ -161,6 +161,31 @@ class Halo():
         else:
             return await\
                 self.bot.delete_message(message)
+
+    async def get_halo5_rank_data(self, designation_id, tier_id):
+        rank_data = await self.request_url("https://www.haloapi.com/metadata/h5/metadata/csr-designations")
+        designation = [x for x in rank_data if x["id"] == str(designation_id)]
+        image_url = [x["iconImageUrl"] for x in designation[0]["tiers"] if x["id"] == str(tier_id)]
+        return designation[0]["name"], image_url
+
+    @_halo5.command(pass_context=True, name="rank")
+    async def Halo5_rank(self, ctx, *, gamertag):
+        colours = {"Unranked": "7f7f7f", "Bronze": "c27c0e", "Silver": "cccccc", "Gold": "xf1c40f", 
+                   "Platinum": "e5e5e5", "Diamond": "ffffff", "Onyx": "000000", "Champion": "71368a"}
+        player_data = await self.request_url("https://www.haloapi.com/stats/h5/servicerecords/arena?", {"players":gamertag})
+        tier = player_data["Results"][0]["Result"]["ArenaStats"]["HighestCsrAttained"]["Tier"]
+        designation = player_data["Results"][0]["Result"]["ArenaStats"]["HighestCsrAttained"]["DesignationId"]
+        designation_name, image_url = await self.get_halo5_rank_data(designation, tier)
+        embed = discord.Embed(title=gamertag,
+                              description=designation_name,
+                              colour=discord.Colour(value=int(colours[designation_name], 16)),
+                              timestamp=ctx.message.timestamp)
+        embed.add_field(name="Designation", value=str(designation), inline=True)
+        embed.add_field(name="Tier", value=str(tier), inline=True)
+        embed.set_thumbnail(url=image_url[0])
+        await self.bot.send_message(ctx.message.channel, embed=embed)
+        
+
 
     @_halowars.command(pass_context=True, name="playlist")
     async def halowars_playlist(self, ctx, active=True):
