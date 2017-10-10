@@ -245,6 +245,22 @@ class Tweets():
         """Command for setting accounts and channels for posting"""
         if ctx.invoked_subcommand is None:
             await self.bot.send_cmd_help(ctx)
+
+    @_autotweet.command(pass_context=True, name="restart")
+    async def restart_stream(self, ctx):
+        """Restarts the twitter stream if any issues occur."""
+        self.autotweet_restart()
+        await self.bot.send_message(ctx.message.channel, "Restarting the twitter stream.")
+
+    def autotweet_restart(self):
+        """Restarts the stream by disconnecting the old one and starting it again with new data"""
+        self.mystream.disconnect()
+        auth = self.authenticate()
+        api = tw.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, retry_count=10, retry_delay=5, retry_errors=5)
+        tweet_list = list(self.settings["accounts"])
+        stream_start = TweetListener(api, self.bot)
+        self.mystream = tw.Stream(auth, stream_start)
+        self.mystream.filter(follow=tweet_list, async=True)
     
     @_autotweet.command(pass_context=True, name="replies")
     async def _replies(self, ctx, account, replies):
@@ -295,6 +311,7 @@ class Tweets():
         channel_list.append(channel.id)
         await self.bot.say("{0} Added to {1}!".format(account, channel.mention))
         dataIO.save_json(self.settings_file, self.settings)
+        self.autotweet_restart()
 
     @_autotweet.command(pass_context=True, name="list")
     async def _list(self, ctx):
@@ -340,10 +357,12 @@ class Tweets():
         if channel.id in channel_list:
             self.settings["accounts"][user_id]["channel"].remove(channel.id)
             dataIO.save_json(self.settings_file, self.settings)
+            self.autotweet_restart()
             await self.bot.say("{} has been removed from {}".format(account, channel.mention))
             if len(self.settings["accounts"][user_id]["channel"]) < 2:
                 del self.settings["accounts"][user_id]
                 dataIO.save_json(self.settings_file, self.settings)
+                self.autotweet_restart()
         else:
             await self.bot.say("{0} doesn't seem to be posting in {1}!"
                                .format(account, channel.mention))
