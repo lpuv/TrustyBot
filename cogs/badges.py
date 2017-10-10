@@ -46,6 +46,22 @@ class Badges:
                 with open(self.files + "temp/temp." + ext, "wb") as f:
                     f.write(test)
 
+    async def remove_white_barcode(self):
+        """https://stackoverflow.com/questions/765736/using-pil-to-make-all-white-pixels-transparent"""
+        img = Image.open(self.files + "temp/bar_code_temp.png")
+        img = img.convert("RGBA")
+        datas = img.getdata()
+
+        newData = []
+        for item in datas:
+            if item[0] == 255 and item[1] == 255 and item[2] == 255:
+                newData.append((255, 255, 255, 0))
+            else:
+                newData.append(item)
+
+        img.putdata(newData)
+        img.save(self.files + "temp/bar_code_temp.png", "PNG")
+
     async def create_badge(self, user, badge):
         avatar = user.avatar_url if user.avatar_url != "" else user.default_avatar_url
         username = user.display_name
@@ -67,6 +83,7 @@ class Badges:
         temp_barcode = generate("code39", userid, 
                                 writer=ImageWriter(), 
                                 output="data/badges/temp/bar_code_temp")
+        await self.remove_white_barcode()
         template = Image.open(self.blank_template[badge])
         template = template.convert("RGBA")
         avatar = Image.open(self.files + "temp/temp." + ext)
