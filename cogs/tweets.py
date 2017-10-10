@@ -39,6 +39,14 @@ class TweetListener(tw.StreamListener):
         if status_code in [420, 504, 503, 502, 500, 400, 401, 403, 404]:
             return False
 
+    def on_disconnect(self, notice):
+        print("Twitter has sent a disconnect code")
+        return False
+
+    def on_warning(self, notice):
+        print("Twitter has sent a disconnection warning")
+        return True
+
 
 class Tweets():
     """Cog for displaying info from Twitter's API"""
@@ -255,7 +263,8 @@ class Tweets():
     def autotweet_restart(self):
         """Restarts the stream by disconnecting the old one and starting it again with new data"""
         self.mystream.disconnect()
-        auth = self.authenticate()
+        auth = tw.OAuthHandler(self.consumer_key, self.consumer_secret)
+        auth.set_access_token(self.access_token, self.access_secret)
         api = tw.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, retry_count=10, retry_delay=5, retry_errors=5)
         tweet_list = list(self.settings["accounts"])
         stream_start = TweetListener(api, self.bot)
@@ -264,6 +273,7 @@ class Tweets():
     
     @_autotweet.command(pass_context=True, name="replies")
     async def _replies(self, ctx, account, replies):
+        """Enable or disable twitter replies from being posted for an account"""
         account = account.lower()
         for user_id in list(self.settings["accounts"]):
             if account == self.settings["accounts"][user_id]["username"].lower():
