@@ -36,7 +36,8 @@ class Badges:
                                "shit":"data/badges/shit-template.png",
                                "bunker":"data/badges/bunker-template.png",
                                "nk":"data/badges/nk-template.png",
-                               "kek": "data/badges/kek-template.png"}
+                               "kek": "data/badges/kek-template.png",
+                               "unsc": "data/badges/unsc-template.png"}
         
 
     async def dl_image(self, url, ext="png"):
@@ -92,9 +93,9 @@ class Badges:
         barcode = barcode.resize((555,125), Image.ANTIALIAS)
         template.paste(barcode, (400,520), barcode)
         # font for user information
-        font1 = ImageFont.truetype("data/badges/arial.ttf", 30)
+        font1 = ImageFont.truetype("data/badges/ARIALUNI.TTF", 30)
         # font for extra information
-        font2 = ImageFont.truetype("data/badges/arial.ttf", 24)
+        font2 = ImageFont.truetype("data/badges/ARIALUNI.TTF", 24)
         draw = ImageDraw.Draw(template)
         # adds username
         draw.text((225, 330), str(username), fill=(0, 0, 0), font=font1)
