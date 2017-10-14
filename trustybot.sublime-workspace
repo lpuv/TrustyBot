@@ -4,6 +4,46 @@
 		"selected_items":
 		[
 			[
+				"autot",
+				"autotweet_restart"
+			],
+			[
+				"request",
+				"request_url"
+			],
+			[
+				"list",
+				"list_active"
+			],
+			[
+				"play",
+				"playlist_menu"
+			],
+			[
+				"random",
+				"random_colour"
+			],
+			[
+				"invite",
+				"invite_link"
+			],
+			[
+				"get_invite",
+				"get_invite_link"
+			],
+			[
+				"settings",
+				"settings_file"
+			],
+			[
+				"activity",
+				"activity_checker"
+			],
+			[
+				"activ",
+				"activity_checker"
+			],
+			[
 				"ignored",
 				"ignored_user"
 			],
@@ -14,10 +54,6 @@
 			[
 				"last",
 				"last_message"
-			],
-			[
-				"settings",
-				"settings"
 			],
 			[
 				"server",
@@ -32,10 +68,10 @@
 	"buffers":
 	[
 		{
-			"contents": "Remote:   origin @ https://github.com/TrustyJAID/Trusty-Bot.git\nLocal:    develop E:\\github\\Trusty-Bot\nHead:     989523c Added message on channel change in activity checker Improved chatterbot resposes with time and math functions\n\n\nNothing to commit (working directory clean)\n\n# Movement:\n#    r = refresh status\n#    1-5 = jump to section\n#    n = next item, N = next section\n#    p = previous item, P = previous section\n#\n# Staging:\n#    s = stage file/section, S = stage all unstaged files\n#    ctrl+shift+s = stage all unstaged and untracked files\n#    u = unstage file/section, U = unstage all files\n#    backspace = discard file/section, shift+backspace = discard everything\n#\n# Commit:\n#    c = commit, C = commit -a (add unstaged)\n#    ctrl+shift+c = commit --amend (amend previous commit)\n#\n# Other:\n#    i = ignore file, I = ignore pattern\n#    enter = open file\n#    d = view diff\n#\n# Stashes:\n#    a = apply stash, A = pop stash\n#    z = create stash, Z = create stash including untracked files\n#    backspace = discard stash",
+			"contents": "Remote:   origin @ https://github.com/TrustyJAID/Trusty-Bot.git\nLocal:    develop E:\\github\\Trusty-Bot\nHead:     1c04ccf Fixed errors on previous commit\n\n\nUntracked files:\n\tdata/badges/ARIALUNI.TTF\n\tdata/badges/unsc-template.png\n\nChanges:\n\tModified   cogs/badges.py\n\tModified   cogs/tweets.py\n\tDeleted    data/badges/arial.ttf\n\tModified   data/badges/badge-template.psd\n\tModified   data/stickyroles/stickyroles.json\n\n\n# Movement:\n#    r = refresh status\n#    1-5 = jump to section\n#    n = next item, N = next section\n#    p = previous item, P = previous section\n#\n# Staging:\n#    s = stage file/section, S = stage all unstaged files\n#    ctrl+shift+s = stage all unstaged and untracked files\n#    u = unstage file/section, U = unstage all files\n#    backspace = discard file/section, shift+backspace = discard everything\n#\n# Commit:\n#    c = commit, C = commit -a (add unstaged)\n#    ctrl+shift+c = commit --amend (amend previous commit)\n#\n# Other:\n#    i = ignore file, I = ignore pattern\n#    enter = open file\n#    d = view diff\n#\n# Stashes:\n#    a = apply stash, A = pop stash\n#    z = create stash, Z = create stash including untracked files\n#    backspace = discard stash",
 			"settings":
 			{
-				"buffer_size": 1038,
+				"buffer_size": 1178,
 				"line_ending": "Windows",
 				"name": "*git-status*: Trusty-Bot",
 				"read_only": true,
@@ -43,37 +79,29 @@
 			}
 		},
 		{
-			"file": "cogs/activity.py",
+			"file": "cogs/badges.py",
 			"settings":
 			{
-				"buffer_size": 14174,
+				"buffer_size": 7278,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "cogs/chatterbot.py",
+			"file": "cogs/halo.py",
 			"settings":
 			{
-				"buffer_size": 5728,
+				"buffer_size": 10631,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
+				"line_ending": "Windows",
+				"name": "import discord"
 			}
 		},
 		{
-			"file": "cogs/lmao.py",
+			"file": "cogs/tweets.py",
 			"settings":
 			{
-				"buffer_size": 902,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "cogs/emojireact.py",
-			"settings":
-			{
-				"buffer_size": 5508,
+				"buffer_size": 20205,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -119,7 +147,7 @@
 				"Git: Status"
 			]
 		],
-		"width": 412.0
+		"width": 444.0
 	},
 	"console":
 	{
@@ -143,28 +171,69 @@
 		"/E/github/Trusty-Bot/cogs",
 		"/E/github/Trusty-Bot/cogs/utils",
 		"/E/github/Trusty-Bot/data",
-		"/E/github/Trusty-Bot/data/activity",
-		"/E/github/Trusty-Bot/data/alias",
-		"/E/github/Trusty-Bot/data/chatterbot",
-		"/E/github/Trusty-Bot/data/chatterbot/db"
+		"/E/github/Trusty-Bot/data/modlogset",
+		"/E/github/Trusty-Bot/data/tweets",
+		"/E/github/Trusty-Bot/data/welcome"
 	],
 	"file_history":
 	[
+		"/E/github/Trusty-Bot/cogs/juche.py",
+		"/C/Users/Damez/Desktop/printbox.py",
+		"/C/Users/Damez/Desktop/rps.py",
+		"/E/github/Trusty-Bot/data/tweets/settings.json",
+		"/E/github/Trusty-Bot/data/halo/halowarsplaylist.json",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/halorequest.py",
+		"/E/github/Trusty-Bot/cogs/utils/chat_formatting.py",
+		"/E/github/Trusty-Bot/cogs/gab.py",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/halo5seasontest.py",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/halo5.json",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/general.py",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/games.py",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/aiohttptest.py",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/mythrilliumserviceunknownplaylist.json",
+		"/E/github/Trusty-Bot/cogs/conversions.py",
+		"/E/github/Trusty-Bot/cogs/decode.py",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/HaloWarsBot(Development).py",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/HaloWarsBot.py",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/Bot-Get-Stat-Info.py",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/lelele.py",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/halowars2IDs.py",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/halowars2IDs.json",
+		"/E/github/Trusty-Bot/cogs/trustybot.py",
+		"/E/github/Trusty-Bot/cogs/tweets.py",
+		"/C/Users/Damez/Desktop/myth_H5.json",
+		"/C/Users/Damez/Desktop/service.py",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/Bot-Get-Stat-Info(development.py",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/cogs/choosemap.py",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord/Halo-Wars-Discord/Red-DiscordBot/data/red/settings.json",
+		"/C/Users/Damez/Desktop/Halo_Wars_discord.py",
+		"/E/github/Trusty-Bot/cogs/badges.py",
+		"/E/github/Trusty-Bot/cogs/welcome.py",
+		"/E/github/Trusty-Bot/data/welcome/settings.json",
+		"/E/github/Trusty-Bot/data/modlogset/settings.json",
+		"/E/github/Trusty-Bot/cogs/lmao.py",
+		"/E/github/Trusty-Bot/cogs/chatterbot.py",
+		"/D/WikiLeaks/WLBitcoin/Discord/johnny.txt",
+		"/E/github/Trusty-Bot/cogs/websitechange.py",
+		"/E/github/Trusty-Bot/data/activity/settings.json",
+		"/E/github/Trusty-Bot/cogs/activity.py",
+		"/E/github/Trusty-Bot/cogs/rainbow.py",
+		"/E/github/Trusty-Bot/cogs/trustyavatar.py",
+		"/E/github/Trusty-Bot/cogs/emojireact.py",
+		"/E/github/Trusty-Bot/cogs/readyplayerone.py",
+		"/E/github/Trusty-Bot/data/activity/log.json",
+		"/E/github/Trusty-Bot/data/trustybot/images.json",
+		"/D/WikiLeaks/WLBitcoin/DiscordPGP/Trusty2048.txt",
+		"/D/WikiLeaks/WLBitcoin/DiscordPGP/TrustyJAID PGP.txt",
+		"/D/WikiLeaks/WLBitcoin/DiscordPGP/TrustyJAID PGP Key.txt",
+		"/D/secret.txt",
 		"/G/config.txt",
 		"/G/cmdline.txt",
-		"/E/github/Trusty-Bot/data/activity/settings.json",
-		"/E/github/Trusty-Bot/data/activity/log.json",
-		"/E/github/Trusty-Bot/cogs/activity.py",
 		"/C/Users/Damez/Desktop/reacts.json",
 		"/C/Users/Damez/Desktop/pics.py",
 		"/C/Users/Damez/Desktop/reacts.py",
 		"/G/wpa_supplicant.conf",
-		"/E/github/Trusty-Bot/cogs/lmao.py",
-		"/E/github/Trusty-Bot/cogs/readyplayerone.py",
-		"/E/github/Trusty-Bot/cogs/emojireact.py",
-		"/E/github/Trusty-Bot/cogs/juche.py",
 		"/E/github/Trusty-Bot/data/chatterbot/log.json",
-		"/E/github/Trusty-Bot/cogs/tweets.py",
 		"/E/github/Trusty-Bot/.gitignore",
 		"/E/github/Trusty-Bot/data/red/cogs.json",
 		"/E/github/Trusty-Bot/data/RSS/feeds.json",
@@ -173,10 +242,7 @@
 		"/E/github/Trusty-cogs/activity/info.json",
 		"/E/github/Trusty-Bot/cogs/owner.py",
 		"/E/github/Trusty-Bot/cogs/dnadecode.py",
-		"/E/github/Trusty-Bot/cogs/trustybot.py",
 		"/E/github/Trusty-Bot/cogs/reee.py",
-		"/E/github/Trusty-Bot/cogs/gab.py",
-		"/E/github/Trusty-Bot/cogs/badges.py",
 		"/E/github/Trusty-Bot/data/gab/settings.json",
 		"/E/github/Trusty-Bot/cogs/bartender.py",
 		"/E/github/Discord-Selfbot/requirements.txt",
@@ -198,6 +264,22 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"embassy",
+			"command",
+			"bot",
+			"choice",
+			"a2b_uu",
+			"unhexlify",
+			"uhexlify",
+			"id",
+			":meth:`check`",
+			":meth:",
+			"check",
+			":meth",
+			"help",
+			"whisper",
+			"say",
+			"join",
 			"role.name",
 			"check_roles",
 			"role.name",
@@ -228,7 +310,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -236,15 +318,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1038,
+						"buffer_size": 1178,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								233,
-								233
+								467,
+								467
 							]
 						],
 						"settings":
@@ -267,79 +349,19 @@
 				},
 				{
 					"buffer": 1,
-					"file": "cogs/activity.py",
+					"file": "cogs/badges.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14174,
+						"buffer_size": 7278,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8986,
-								8986
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 180.0,
-						"translation.y": 2964.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "cogs/chatterbot.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5728,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1967,
-								1967
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 27.0,
-						"translation.y": 171.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "cogs/lmao.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 902,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								716,
-								716
+								1522,
+								1522
 							]
 						],
 						"settings":
@@ -349,27 +371,56 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 361.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "cogs/emojireact.py",
+					"buffer": 2,
+					"file": "cogs/halo.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5508,
+						"buffer_size": 10631,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4703,
-								4703
+								708,
+								708
+							]
+						],
+						"settings":
+						{
+							"auto_name": "import discord",
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "cogs/tweets.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 20205,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								520,
+								520
 							]
 						],
 						"settings":
