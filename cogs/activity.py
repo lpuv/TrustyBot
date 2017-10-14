@@ -268,7 +268,7 @@ class ActivityChecker():
         """Checks if a role name is in a members roles."""
         has_role = False
         for role in member.roles:
-            if role.name in roles:
+            if role.id in roles:
                 has_role = True
         return has_role
 
