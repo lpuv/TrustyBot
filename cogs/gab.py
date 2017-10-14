@@ -82,9 +82,6 @@ class Gab: # Test commit
     async def remuser(self, ctx, *, username: discord.Member=None):
         """Remomves gab tag and user"""
         server = ctx.message.server.id
-        if server not in self.servers:
-            return
-
         if str(username.id) in self.tags[server]:
             del self.tags[server][str(username.id)]
             await self.bot.say("{} has been removed from the list!"
@@ -100,17 +97,16 @@ class Gab: # Test commit
         """Remomves gab tag and user"""
         server = ctx.message.server.id
         tags = self.tags[server]
-        if ctx.message.server.id in self.servers:
-            if gabtag in tags.values():
-                for key, value in tags.items():
-                    if gabtag in value:
-                        del tags[key]
-                        break
-                await self.bot.say("{} has been removed from the list!".format(gabtag))
-                dataIO.save_json("data/gab/gabtags.json", self.tags)
-            else:
-                msg = "That gab tag is not in the list or has already been removed!"
-                await self.bot.say(msg)
+        if gabtag in tags.values():
+            for key, value in tags.items():
+                if gabtag in value:
+                    del tags[key]
+                    break
+            await self.bot.say("{} has been removed from the list!".format(gabtag))
+            dataIO.save_json("data/gab/gabtags.json", self.tags)
+        else:
+            msg = "That gab tag is not in the list or has already been removed!"
+            await self.bot.say(msg)
 
     @commands.command(pass_context=True)
     @checks.admin_or_permissions(manage_roles=True)
