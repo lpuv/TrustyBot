@@ -149,6 +149,14 @@ class Tweets():
         if ctx.invoked_subcommand is None:
             await self.bot.send_cmd_help(ctx)
 
+    @_tweets.command(pass_context=True, name="send")
+    @checks.is_owner()
+    async def send_tweet(self, ctx, *, message: str):
+        api = await self.authenticate()
+        api.update_status(message)
+        await self.bot.send_message(ctx.message.channel, "Tweet sent!")
+
+
     def random_colour(self):
         return int(''.join([randchoice('0123456789ABCDEF')for x in range(6)]), 16)
 
