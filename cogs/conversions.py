@@ -23,6 +23,7 @@ class Conversions:
     def __init__(self, bot):
         self.bot = bot
         self.btcurl = "https://blockchain.info/tobtc?currency={0}&value={1}"
+        self.session = aiohttp.ClientSession(loop=self.bot.loop)
 
     @commands.command(pass_context=True)
     async def converttobtc(self, ctx, ammount=1.0, currency="USD"):
@@ -30,9 +31,8 @@ class Conversions:
         chn = ctx.message.channel
         url = self.btcurl.format(currency.upper(), ammount)
         try:
-            with aiohttp.ClientSession() as session:
-                async with session.get(url) as resp:
-                    data = await resp.read()
+            async with self.session.get(url) as resp:
+                data = await resp.read()
             msg = "{0} {1} is {2} BTC ₿".format(ammount, currency.upper(), float(data))
             embed = discord.Embed(descirption="BTC", colour=discord.Colour.gold())
             embed.add_field(name="Bitcoin", value=msg)
@@ -47,9 +47,8 @@ class Conversions:
         chn = ctx.message.channel
         url = self.btcurl.format(currency.upper(), 1)
         try:
-            with aiohttp.ClientSession() as session:
-                async with session.get(url) as resp:
-                    data = await resp.read()
+            async with self.session.get(url) as resp:
+                data = await resp.read()
             conversion = (1/float(data))*float(ammount)
             msg = "{0} BTC is {1:.2f} {2}".format(ammount, conversion, currency.upper())
             embed = discord.Embed(descirption="BTC", colour=discord.Colour.gold(),
@@ -64,12 +63,11 @@ class Conversions:
     async def eth(self, ctx, ammount=1.0, currency="USD"):
         """converts from ETH to a given currency."""
         chn = ctx.message.channel
-        ETH = "https://etherchain.org/api/statistics/price"
+        ETH = "https://api.cryptonator.com/api/full/eth-usd"
         try:
-            with aiohttp.ClientSession() as session:
-                async with session.get(ETH) as resp:
-                    data = await resp.json()
-            price = data["data"][-1]["usd"] * ammount
+            async with self.session.get(ETH) as resp:
+                data = await resp.json()
+            price = float(data["ticker"]["price"]) * ammount
             if currency.upper() != "USD":
                 price = await self.conversionrate("USD", currency.upper()) * price
             msg = "{0} ETH is {1:.2f} {2}".format(ammount, price, currency.upper())
@@ -85,12 +83,11 @@ class Conversions:
     async def ltc(self, ctx, ammount=1.0, currency="USD"):
         """converts from LTC to a given currency."""
         chn = ctx.message.channel
-        LTC = "http://coinmarketcap-nexuist.rhcloud.com/api/ltc"
+        LTC = "https://api.cryptonator.com/api/full/ltc-usd"
         try:
-            with aiohttp.ClientSession() as session:
-                async with session.get(LTC) as resp:
-                    data = await resp.json()
-            price = int(data["price"]["usd"]) * ammount
+            async with self.session.get(LTC) as resp:
+                data = await resp.json()
+            price = float(data["ticker"]["price"]) * ammount
             if currency.upper() != "USD":
                 price = await self.conversionrate("USD", currency.upper()) * price
             msg = "{0} LTC is {1:.2f} {2}".format(ammount, price, currency.upper())
@@ -104,13 +101,12 @@ class Conversions:
     
     async def checkcoins(self, base):
         link2 = "https://api.cryptonator.com/api/currencies"
-        with aiohttp.ClientSession() as session:
-            async with session.get(link2) as resp:
-                data2 = await resp.json()
-            for coin in data2["rows"]:
-                if base.upper() == coin["code"].upper() or base.lower() == coin["name"].lower():
-                    return coin["name"], coin["code"]  
-            return None, None
+        async with self.session.get(link2) as resp:
+            data2 = await resp.json()
+        for coin in data2["rows"]:
+            if base.upper() == coin["code"].upper() or base.lower() == coin["name"].lower():
+                return coin["name"], coin["code"]  
+        return None, None
 
     @commands.command(pass_context=True)
     async def crypto(self, ctx, coin, ammount=1.0, currency="USD"):
@@ -124,15 +120,14 @@ class Conversions:
         if name is None:
             await self.bot.say("{} is not in my list of currencies!".format(coin))
             return
-        with aiohttp.ClientSession() as session:
-            async with session.get(link.format(base.lower())) as resp:
-                data = await resp.json()
+        async with self.session.get(link.format(base.lower())) as resp:
+            data = await resp.json()
         
         price = float(data["ticker"]["price"]) * ammount
         if currency.upper() != "USD":
             price = await self.conversionrate("USD", currency.upper()) * price
         msg = "{0} {3} is {1:.2f} {2}".format(ammount, price, currency.upper(), base.upper())
-        embed = discord.Embed(title=msg, descirption=msg, colour=discord.Colour.dark_grey(),
+        embed = discord.Embed(title=name, description=msg, colour=discord.Colour.dark_grey(),
                                 timestamp=datetime.datetime.utcfromtimestamp(data["timestamp"]))
         # embed.add_field(name="Litecoin", value=msg)
         # embed.set_thumbnail(url="https://litecoin.info/images/3/3a/Litecoin-logo.png")
@@ -146,9 +141,8 @@ class Conversions:
         chn = ctx.message.channel
         GOLD = "https://www.quandl.com/api/v3/datasets/WGC/GOLD_DAILY_{}.json?api_key=EKvr5W-sJUFVSevcpk4v"
         try:
-            with aiohttp.ClientSession() as session:
-                async with session.get(GOLD.format(currency.upper())) as resp:
-                    data = await resp.json()
+            async with self.session.get(GOLD.format(currency.upper())) as resp:
+                data = await resp.json()
             price = (data["dataset"]["data"][0][1]) * ammount
             msg = "{0} oz of Gold is {1:.2f} {2}".format(ammount, price, currency.upper())
             embed = discord.Embed(descirption="Gold", colour=discord.Colour.gold())
@@ -164,9 +158,8 @@ class Conversions:
         chn = ctx.message.channel
         SILVER = "https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?api_key=EKvr5W-sJUFVSevcpk4v"
         try:
-            with aiohttp.ClientSession() as session:
-                async with session.get(SILVER) as resp:
-                    data = await resp.json()
+            async with self.session.get(SILVER) as resp:
+                data = await resp.json()
             price = (data["dataset"]["data"][0][1]) * ammount
             if currency != "USD":
                 price = await self.conversionrate("USD", currency.upper()) * price
@@ -184,9 +177,8 @@ class Conversions:
         chn = ctx.message.channel
         PLATINUM = "https://www.quandl.com/api/v3/datasets/JOHNMATT/PLAT.json?api_key=EKvr5W-sJUFVSevcpk4v"
         try:
-            with aiohttp.ClientSession() as session:
-                async with session.get(PLATINUM) as resp:
-                    data = await resp.json()
+            async with self.session.get(PLATINUM) as resp:
+                data = await resp.json()
             price = (data["dataset"]["data"][0][1]) * ammount
             if currency != "USD":
                 price = await self.conversionrate("USD", currency.upper()) * price
@@ -204,9 +196,8 @@ class Conversions:
         chn = ctx.message.channel
         stock = "https://www.quandl.com/api/v3/datasets/WIKI/{}.json?api_key=EKvr5W-sJUFVSevcpk4v"
         try:
-            with aiohttp.ClientSession() as session:
-                async with session.get(stock.format(ticker.upper())) as resp:
-                    data = await resp.json()
+            async with self.session.get(stock.format(ticker.upper())) as resp:
+                data = await resp.json()
             convertrate = 1
             if currency != "USD":
                 convertrate = self.conversionrate("USD", currency.upper())
@@ -233,9 +224,8 @@ class Conversions:
         """Function to convert different currencies"""
         CONVERSIONRATES = "http://api.fixer.io/latest?base={}".format(currency1.upper())
         try:
-            with aiohttp.ClientSession() as session:
-                async with session.get(CONVERSIONRATES) as resp:
-                    data = await resp.json()
+            async with self.session.get(CONVERSIONRATES) as resp:
+                data = await resp.json()
             conversion = (data["rates"][currency2.upper()])
             return conversion
         except:
