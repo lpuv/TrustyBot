@@ -86,7 +86,6 @@ class Tweets():
         """menu control logic for this taken from
            https://github.com/Lunar-Dust/Dusty-Cogs/blob/master/menu/menu.py"""
         s = post_list[page]
-        colour = int(colour, 16)
         created_at = s.created_at
         created_at = created_at.strftime("%Y-%m-%d %H:%M:%S")
         post_url =\
