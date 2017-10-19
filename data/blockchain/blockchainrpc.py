@@ -4,8 +4,8 @@
 import jsonrpclib
 # import aiohttp_json_rpc as jsonrpclib
 
-DEFAULT_HOSTNAME = '192.168.0.92'
-DEFAULT_PORT = 8332
+DEFAULT_HOSTNAME = '192.168.0.129'
+DEFAULT_PORT = 7777
 DEFAULT_SCHEMA = 'http'
 
 

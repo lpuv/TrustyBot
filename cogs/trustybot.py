@@ -245,7 +245,7 @@ class TrustyBot:
     async def donate(self, ctx):
         """Donate some bitcoin!"""
         gabcoin = "1471VCzShn9kBSrZrSX1Y3KwjrHeEyQtup"
-        DONATION = "1DMfQgbyEW1u6M2XbUt5VFP6JARNs8uptQ"
+        DONATION = "1DVEaW5CFX8Sd4iHr1cruaBsmKzTj7mP3t"
         msg = "Feel free to send bitcoin donations to `{}` :smile:"
         gabimg = "data/trustybot/img/gabbtc.jpg"
         img = "data/trustybot/img/btc.png"

@@ -12,25 +12,59 @@ import datetime
 import time
 import aiohttp
 import asyncio
-from data.blockchain import blockchainrpc as rpc
+import jsonrpclib
 from data.blockchain import search
 from data.blockchain import filesystem
 from data.blockchain import satoshi
 
 # RPCUSER, RPCPASS = filesystem.read('rpclogin.txt', 'rb').split()
-RPCUSER, RPCPASS = filesystem.read("data\\blockchain\\rpclogin.txt", "r").split()
-SERVER = rpc.make_server(RPCUSER, RPCPASS)
+# RPCUSER, RPCPASS = filesystem.read("data\\blockchain\\rpclogin.txt", "r").split()
+SERVER = jsonrpclib.Server("http://127.0.0.1:7777")
 BADTRANSACTION = ["4a0088a249e9099d205fb4760c28275d4b8965ac9fd56f5ddf6771cdb0d94f38",
                   "dde7cd8e8f073a525c16c5ee4e4a254f847b7ad6babef257231813166fbef551"]
 
 class blockchain:
 
-    SERVER = rpc.make_server(RPCUSER, RPCPASS)
+    # SERVER = rpc.make_server(RPCUSER, RPCPASS)
 
     def __init__(self, bot):
         self.bot = bot
         self.poll_sessions = []
         self.list_words = ["ASCII", "Julian", "Assange", "Wikileaks", "All"]
+
+    def get_block_height(SERVER):
+        return self.server.getblockcount()
+
+
+    def get_block_transactions(blockindex, SERVER):
+        """
+        Gets transaction data from block ranges
+        """
+        txlist = []
+        blockhash = self.server.getblockhash(blockindex)  # Gets the block hash from the block index number
+        for tx in self.server.getblock(blockhash)['tx']:  # Gets all transactions from block hash
+            txlist += [tx]
+        return txlist
+
+
+    def get_data_local(transaction, SERVER):
+        """
+        Downloads data from Bitcoin Core RPC and returns hex
+        """
+        rawTx = self.server.getrawtransaction(transaction)
+        tx = self.server.decoderawtransaction(rawTx)
+        return ''.join(op
+                       for txout in tx.get('vout')
+                       for op in txout.get('scriptPubKey', {'asm': ''}).get('asm', '').split()
+                       if not op.startswith('OP_') and len(op) >= 40)
+
+
+    def get_indata_local(transaction, SERVER):
+        rawTx = self.server.getrawtransaction(transaction)
+        tx = self.server.decoderawtransaction(rawTx)
+        return ''.join(inop
+                       for txin in tx.get('vin')
+                       for inop in txin.get('scriptSig', {'hex': ''}).get('hex', '').split())
 
     async def checksum(self, data):
         """
@@ -49,8 +83,8 @@ class blockchain:
             if transaction in tx:
                 await self.bot.say("That transaction is black listed for illegal content.")
                 return
-        hexdata = rpc.get_data_local(transaction, self.SERVER)
-        inhex = rpc.get_indata_local(transaction, self.SERVER)
+        hexdata = self.get_data_local(transaction, self.SERVER)
+        inhex = selfc.get_indata_local(transaction, self.SERVER)
         _, _, data = satoshi.length_checksum_data_from_rawdata(satoshi.unhexutf8(hexdata))
         indata = satoshi.unhexutf8(inhex)
         origdata = satoshi.unhexutf8(hexdata)
