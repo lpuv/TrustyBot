@@ -37,7 +37,7 @@ class Star:
                 server_emoji = emojis
         return server_emoji
     
-    @starboard.command(pass_context=True, name="set")
+    @starboard.command(pass_context=True, name="setup", aliases=["set"])
     async def setup_starboard(self, ctx, channel: discord.Channel=None, emoji="⭐", role:discord.Role=None):
         """Sets the starboard channel, emoji and role"""
         server = ctx.message.server
@@ -63,6 +63,11 @@ class Star:
     async def set_emoji(self, ctx, emoji="⭐"):
         """Set the emoji for the starboard defaults to ⭐"""
         server = ctx.message.server
+        if server.id not in self.settings:
+            await self.bot.send_message(ctx.message.channel, 
+                                        "I am not setup for the starboard on this server!\
+                                         \nuse starboard set to set it up.")
+            return
         is_server_emoji = False
         if "<" in emoji and ">" in emoji:
             emoji = await self.check_server_emojis(server, emoji)
@@ -83,6 +88,11 @@ class Star:
     async def set_channel(self, ctx, channel:discord.Channel=None):
         """Set the channel for the starboard"""
         server = ctx.message.server
+        if server.id not in self.settings:
+            await self.bot.send_message(ctx.message.channel, 
+                                        "I am not setup for the starboard on this server!\
+                                         \nuse starboard set to set it up.")
+            return
         if channel is None:
             channel = ctx.message.channel
         self.settings[server.id]["channel"] = channel.id
@@ -93,6 +103,11 @@ class Star:
     async def add_role(self, ctx, role:discord.Role=None):
         """Add a role allowed to add messages to the starboard defaults to @everyone"""
         server = ctx.message.server
+        if server.id not in self.settings:
+            await self.bot.send_message(ctx.message.channel, 
+                                        "I am not setup for the starboard on this server!\
+                                         \nuse starboard set to set it up.")
+            return
         everyone_role = await self.get_everyone_role(server)
         if role is None:
             role = everyone_role
@@ -188,15 +203,7 @@ class Star:
             else:
                 em = discord.Embed(timestamp=reaction.message.timestamp)
                 em.color = author.top_role.color
-                if "<:" in msg.content and ">" in msg.content:
-                    if msg.content.count("<:") == 1:
-                        emoji = re.findall(r'<(.*?)>', msg.content)[0]
-                        emoji_id= emoji.split(":")[-1]
-                        newmsg = re.sub('<[^>]+>', '', msg.content)
-                        em.description = newmsg
-                        em.set_image(url="https://cdn.discordapp.com/emojis/{}.png".format(emoji_id))
-                else:
-                    em.description = msg.clean_content
+                em.description = msg.content
                 em.set_author(name=author.name, icon_url=author.avatar_url)
                 em.set_footer(text='{} | {}'.format(channel.server.name, channel.name))
                 if reaction.message.attachments != []:
