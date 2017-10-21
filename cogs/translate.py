@@ -11,7 +11,7 @@ from discord.ext import commands
 class Translate:
     def __init__(self, bot):
         self.bot = bot
-        self.session = aiohttp.ClientSession(loop=self.bot.loop, headers={"User-Agent": self.bot.user.name})
+        self.session = aiohttp.ClientSession(loop=self.bot.loop)
 
     # Thanks to lyric for helping me in making this possible. You are not so bad afterall :] ~~jk~~
     @commands.command(pass_context=True)

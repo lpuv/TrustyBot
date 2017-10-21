@@ -2,3 +2,12 @@ pip
 git+git://github.com/Rapptz/discord.py.git#egg=discord.py[voice]
 youtube_dl
 imgurpython
+pillow
+numpy
+tweepy
+psutil
+phue
+emoji
+tabulate
+chatterbot
+pybarcode
