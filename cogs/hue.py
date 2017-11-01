@@ -64,7 +64,7 @@ class Hue():
             if name is None or light.name.lower() == name.lower() and light.on:
                 light.brightness = brightness
 
-    @_hue.command(pass_context=True, name="colourtemp", aliases=["ct"])
+    @_hue.command(pass_context=True, name="temp", aliases=["ct", "colourtemp", "temperature"])
     async def colourtemp_set(self, ctx, ct:int=500, *, name=None):
         """Sets the colour temperature for lights"""
         ct = await self.max_min_check(ct, 600, 154)
@@ -79,7 +79,7 @@ class Hue():
             if name is None or light.name.lower() == name.lower() and light.on:
                 light.hue = hue
 
-    @_hue.command(pass_context=True, name="saturation")
+    @_hue.command(pass_context=True, name="saturation", aliases=["sat"])
     async def saturation_set(self, ctx, saturation:int=254, *, name=None):
         """Sets the saturation for lights"""
         saturation = await self.max_min_check(saturation, 254, 0)

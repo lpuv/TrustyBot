@@ -25,6 +25,7 @@ class TweetListener(tw.StreamListener):
     def __init__(self, api, bot):
         self.bot = bot
         self.api = api
+
     
     def on_status(self, status):
         # print(status.text)
@@ -35,16 +36,19 @@ class TweetListener(tw.StreamListener):
             return True
 
     def on_error(self, status_code):
-        print("A tweet stream error has occured! " + str(status_code))
+        msg = "A tweet stream error has occured! " + str(status_code)
+        self.bot.dispatch("tweet_error", msg)
         if status_code in [420, 504, 503, 502, 500, 400, 401, 403, 404]:
             return False
 
     def on_disconnect(self, notice):
-        print("Twitter has sent a disconnect code")
+        msg = "Twitter has sent a disconnect code"
+        self.bot.dispatch("tweet_error", msg)
         return False
 
     def on_warning(self, notice):
-        print("Twitter has sent a disconnection warning")
+        msg = "Twitter has sent a disconnection warning"
+        self.bot.dispatch("tweet_error", msg)
         return True
 
 
@@ -67,7 +71,7 @@ class Tweets():
         api = tw.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, retry_count=10, retry_delay=5, retry_errors=5)
         tweet_list = list(self.settings["accounts"])
         stream_start = TweetListener(api, self.bot)
-        self.mystream = tw.Stream(auth, stream_start)
+        self.mystream = tw.Stream(api.auth, stream_start)
         self.mystream.filter(follow=tweet_list, async=True)
         
     def __unload(self):
@@ -220,6 +224,14 @@ class Tweets():
         else:
             await self.bot.say("No username specified!")
             return
+
+    async def on_tweet_error(self, error):
+        """Posts error messages to a specified channel by the owner"""
+        if self.settings["error_channel"] is not None:
+            channel = await self.bot.get_channel(self.settings["error_channel"])
+            await self.bot.send_message(channel, error)
+        return
+
     
     async def on_tweet_status(self, status):
         """Posts the tweets to the channel"""
@@ -275,7 +287,7 @@ class Tweets():
         api = tw.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, retry_count=10, retry_delay=5, retry_errors=5)
         tweet_list = list(self.settings["accounts"])
         stream_start = TweetListener(api, self.bot)
-        self.mystream = tw.Stream(auth, stream_start)
+        self.mystream = tw.Stream(api.auth, stream_start)
         self.mystream.filter(follow=tweet_list, async=True)
     
     @_autotweet.command(pass_context=True, name="replies")
@@ -297,6 +309,18 @@ class Tweets():
             self.settings["accounts"][user]["replies"] = False
             dataIO.save_json(self.settings_file, self.settings)
             await self.bot.say("I will stop posting replies for {} now!".format(account))
+
+    @_autotweet.command(pass_context=True, name="error")
+    @checks.is_owner()
+    async def _error(self, ctx, channel:discord.Channel=None):
+        """Sets the error channel for tweet stream errors"""
+        if not channel:
+            channel = ctx.message.channel
+
+        self.settings["error_channel"] = channel.id
+        dataIO.save_json(self.settings_file, self.settings)
+        await self.bot.send_message(ctx.message.channel, "Sending error messages to {}".format(channel.mention))
+
 
     @_autotweet.command(pass_context=True, name="add")
     async def _add(self, ctx, account, channel:discord.Channel=None):

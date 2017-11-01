@@ -93,17 +93,16 @@ class ServerEmojiReact():
 
     async def on_message(self, message):
         channel = message.channel
+        server = message.server
         if channel.is_private:
             return
-        if message.server.id not in self.settings:
-            return
-        if not self.settings[message.server.id]:
+        if server.id not in self.settings:
             return
         emoji_list = []
         for word in re.split(r"[<> ]+", message.content):
-            if word.startswith(":"):
+            if word.startswith(":") and self.settings[server.id]["server"]:
                 emoji_list.append(word)
-            if word in UNICODE_EMOJI:
+            if word in UNICODE_EMOJI and self.settings[server.id]["unicode"]:
                 emoji_list.append(word)
         if emoji_list == []:
             return

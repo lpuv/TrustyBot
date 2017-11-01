@@ -29,6 +29,7 @@ class blockchain:
         self.login_data = dataIO.load_json("data/blockchain/rpclogin.json")
         self.session = aiohttp.ClientSession(loop=self.bot.loop)
         self.request_id = 1
+        # self.url = "http://127.0.0.1:7777"
         self.url = "http://{username}:{password}@{ip}:{port}".format(
                     username=self.login_data["username"],
                     password=self.login_data["password"],
@@ -37,6 +38,8 @@ class blockchain:
 
     def __unload(self):
         self.session.close()
+
+
 
     async def get_block_height(self):
         params = json.dumps({"jsonrpc":"1.1","method":"getblockcount","id":self.request_id})
@@ -93,6 +96,11 @@ class blockchain:
         """Blockchain commands for accessing the bitcoin blockchain"""
         if ctx.invoked_subcommand is None:
             await self.bot.send_cmd_help(ctx)
+
+    @blockchain.command(pass_context=True)
+    async def height(self, ctx):
+        block_height = await self.get_block_height()
+        await self.bot.send_message(ctx.message.channel, "Block Height is currently: {}".format(block_height))
 
     @blockchain.command(name="transaction",aliases=["tx"])
     async def _transaction(self, transaction):
@@ -264,14 +272,16 @@ class blockchain:
             extension = "png"
         if "JPG" in significanttx:
             extension = "jpg"
+        else:
+            extension = "txt"
         filename = "data/blockchain/" + IO + "data.{}".format(extension)
-        self.write(filename, dataout, True, "wb")
-        await self.bot.send_file(chn, filename)
+        await self.write(filename, dataout, True, "wb")
+        # await self.bot.send_file(chn, filename)
         if significanttx == '':
             await self.bot.say("Nothing significant in transaction `{}`".format(transaction))
-            await self.bot.send_file(chn, filename)
+        await self.bot.send_file(chn, filename)
 
-    def write(self, filename, data, binary=True, mode='w', buffering=-1, silent=True, encoding="utf8"):
+    async def write(self, filename, data, binary=True, mode='w', buffering=-1, silent=True, encoding="utf8"):
         '''Read a given filename opened with the given mode and buffering settings, returning that data or None if failure.
         Mode defaults to write.
         Negative buffering means system default for device.
@@ -297,5 +307,4 @@ class blockchain:
 
 def setup(bot):
     n = blockchain(bot)
-    # bot.add_listener(n.check_poll_votes, "on_message")
     bot.add_cog(n)
