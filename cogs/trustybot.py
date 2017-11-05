@@ -119,6 +119,17 @@ class TrustyBot:
             if msg.content.lower().strip() == "exit":
                 await self.bot.say("Your changes have been saved.")
                 break
+
+    @commands.command(pass_context=True)
+    @checks.is_owner()
+    async def members(self, ctx, server:discord.Server=None):
+        if server is None:
+            server = ctx.message.server
+        member_list = sorted(server.members, key=lambda m: m.joined_at)
+        new_msg = ""
+        for member in member_list[:10]:
+            new_msg += member.name + ": " + str((member_list.index(member)+1)) + "\n"
+        await self.bot.send_message(ctx.message.channel, new_msg)
     
     @commands.command(pass_context=True)
     @checks.is_owner()
