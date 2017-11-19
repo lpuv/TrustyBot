@@ -2,20 +2,38 @@
     "261565811309674499" : {
         "bitcoin" : {
             "author" : "218773382617890828",
-            "channel" : "264486981801607178",
+            "channel" : "360702529375305729",
             "command" : "btc",
             "name" : "bitcoin",
             "repeat" : true,
-            "starttime" : 1490469723,
+            "starttime" : 1510195471,
             "timedelta" : 86400
         },
-        "ethereum" : {
-            "author" : "218773382617890828",
-            "channel" : "264486981801607178",
-            "command" : "eth",
-            "name" : "ethereum",
+        "bitcoincash" : {
+            "author" : "142525247357321216",
+            "channel" : "360702529375305729",
+            "command" : "crypto bch",
+            "name" : "bitcoincash",
             "repeat" : true,
-            "starttime" : 1490469738,
+            "starttime" : 1510197695,
+            "timedelta" : 86400
+        },
+        "veritaseum" : {
+            "author" : "142525247357321216",
+            "channel" : "360702529375305729",
+            "command" : "crypto veri",
+            "name" : "veritaseum",
+            "repeat" : true,
+            "starttime" : 1510197847,
+            "timedelta" : 86400
+        },
+        "waves" : {
+            "author" : "142525247357321216",
+            "channel" : "360702529375305729",
+            "command" : "crypto WAVES",
+            "name" : "waves",
+            "repeat" : true,
+            "starttime" : 1510197769,
             "timedelta" : 86400
         }
     },

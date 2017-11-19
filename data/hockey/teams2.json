@@ -1,0 +1,188 @@
+{
+    "Anaheim Ducks" : {
+        "away" : "#F95602",
+        "home" : "#B6985A",
+        "id" : 24,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281720124/256x256/cut.png"
+    },
+    "Arizona Coyotes" : {
+        "away" : "#E2D6B5",
+        "home" : "#8C2633",
+        "id" : 53,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281720888/256x256/cut.png"
+    },
+    "Boston Bruins" : {
+        "away" : "#000000",
+        "home" : "#FCB514",
+        "id" : 6,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281719378/256x256/cut.png"
+    },
+    "Buffalo Sabres" : {
+        "away" : "#FDB930",
+        "home" : "#002D62",
+        "id" : 7,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281723274/256x256/cut.png"
+    },
+    "Calgary Flames" : {
+        "away" : "#FDBF12",
+        "home" : "#C8102E",
+        "id" : 20,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281720898/256x256/cut.png"
+    },
+    "Carolina Hurricanes" : {
+        "away" : "#8D9093",
+        "home" : "#C8102E",
+        "id" : 12,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281726500/256x256/cut.png"
+    },
+    "Chicago Blackhawks" : {
+        "away" : "#000000",
+        "home" : "#C60C30",
+        "id" : 16,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281726514/256x256/cut.png"
+    },
+    "Colorado Avalanche" : {
+        "away" : "#165788",
+        "home" : "#822433",
+        "id" : 21,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281721016/256x256/cut.png"
+    },
+    "Columbus Blue Jackets" : {
+        "away" : "#C8102E",
+        "home" : "#041E42",
+        "id" : 29,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281726518/256x256/cut.png"
+    },
+    "Dallas Stars" : {
+        "away" : "#A7A8AC",
+        "home" : "#016F4A",
+        "id" : 25,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281726660/256x256/cut.png"
+    },
+    "Detroit Red Wings" : {
+        "away" : "#FFFFFF",
+        "home" : "#E51837",
+        "id" : 17,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281723286/256x256/cut.png"
+    },
+    "Edmonton Oilers" : {
+        "away" : "#013E7F",
+        "home" : "#EB6E1E",
+        "id" : 22,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281721030/256x256/cut.png"
+    },
+    "Florida Panthers" : {
+        "away" : "#F1B310",
+        "home" : "#C51230",
+        "id" : 13,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281723310/256x256/cut.png"
+    },
+    "Los Angeles Kings" : {
+        "away" : "#B2B7BB",
+        "home" : "#000000",
+        "id" : 26,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281721042/256x256/cut.png"
+    },
+    "Minnesota Wild" : {
+        "away" : "#EEE3C7",
+        "home" : "#004F30",
+        "id" : 30,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281721058/256x256/cut.png"
+    },
+    "Montr\u00e9al Canadiens" : {
+        "away" : "#083A81",
+        "home" : "#C51230",
+        "id" : 8,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281723300/256x256/cut.png"
+    },
+    "Nashville Predators" : {
+        "away" : "#002D62",
+        "home" : "#FDBB30",
+        "id" : 18,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281721070/256x256/cut.png"
+    },
+    "New Jersey Devils" : {
+        "away" : "#000000",
+        "home" : "#E03A3E",
+        "id" : 1,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281726626/256x256/cut.png"
+    },
+    "New York Islanders" : {
+        "away" : "#F57D31",
+        "home" : "#00529B",
+        "id" : 2,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281726632/256x256/cut.png"
+    },
+    "New York Rangers" : {
+        "away" : "#C8102E",
+        "home" : "#0033A0",
+        "id" : 3,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281718864/256x256/cut.png"
+    },
+    "Ottawa Senators" : {
+        "away" : "#D4A00F",
+        "home" : "#E51837",
+        "id" : 9,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281723314/256x256/cut.png"
+    },
+    "Philadelphia Flyers" : {
+        "away" : "#000000",
+        "home" : "#F74902",
+        "id" : 4,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281726640/256x256/cut.png"
+    },
+    "Pittsburgh Penguins" : {
+        "away" : "#CFC493",
+        "home" : "#FFB81C",
+        "id" : 5,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281726648/256x256/cut.png"
+    },
+    "San Jose Sharks" : {
+        "away" : "#F4901E",
+        "home" : "#007889",
+        "id" : 28,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281721090/256x256/cut.png"
+    },
+    "St. Louis Blues" : {
+        "away" : "#FDB930",
+        "home" : "#00529C",
+        "id" : 19,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281752302/256x256/cut.png"
+    },
+    "Tampa Bay Lightning" : {
+        "away" : "#FFFFFF",
+        "home" : "#003D7C",
+        "id" : 14,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281723320/256x256/cut.png"
+    },
+    "Toronto Maple Leafs" : {
+        "away" : "#FFFFFF",
+        "home" : "#013E7F",
+        "id" : 10,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281723324/256x256/cut.png"
+    },
+    "Vancouver Canucks" : {
+        "away" : "#008852",
+        "home" : "#003E7E",
+        "id" : 23,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281721212/256x256/cut.png"
+    },
+    "Vegas Golden Knights" : {
+        "away" : "#333F48",
+        "home" : "#89734C",
+        "id" : 54,
+        "logo" : "https://nhl.bamcontent.com/images/photos/284409696/256x256/cut.png"
+    },
+    "Washington Capitals" : {
+        "away" : "#C60C30",
+        "home" : "#002147",
+        "id" : 15,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281726654/256x256/cut.png"
+    },
+    "Winnipeg Jets" : {
+        "away" : "#006EC8",
+        "home" : "#002D62",
+        "id" : 52,
+        "logo" : "https://nhl.bamcontent.com/images/photos/281723512/256x256/cut.png"
+    }
+}
