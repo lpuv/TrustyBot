@@ -66,16 +66,33 @@ class Tweets():
             self.access_token = self.settings["api"]['access_token']
         if 'access_secret' in list(self.settings["api"].keys()):
             self.access_secret = self.settings["api"]['access_secret']
-        auth = tw.OAuthHandler(self.consumer_key, self.consumer_secret)
-        auth.set_access_token(self.access_token, self.access_secret)
-        api = tw.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, retry_count=10, retry_delay=5, retry_errors=5)
-        tweet_list = list(self.settings["accounts"])
-        stream_start = TweetListener(api, self.bot)
-        self.mystream = tw.Stream(api.auth, stream_start)
-        self.mystream.filter(follow=tweet_list, async=True)
+        self.mystream = None
+        self.loop = bot.loop.create_task(self.start_stream())
+
+        
         
     def __unload(self):
         self.mystream.disconnect()
+
+    async def start_stream(self):
+        await self.bot.wait_until_ready()
+        while self is self.bot.get_cog("Tweets"):
+            auth = tw.OAuthHandler(self.consumer_key, self.consumer_secret)
+            auth.set_access_token(self.access_token, self.access_secret)
+            api = tw.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, retry_count=10, retry_delay=5, retry_errors=5)
+            tweet_list = list(self.settings["accounts"])
+            stream_start = TweetListener(api, self.bot)
+            if self.mystream is None:
+                self.mystream = tw.Stream(api.auth, stream_start, chunk_size=1024, timeout=900.0)
+                self.start_stream_loop(tweet_list)
+            if not self.mystream.running:
+                self.mystream = tw.Stream(api.auth, stream_start, chunk_size=1024, timeout=900.0)
+                self.start_stream_loop(tweet_list)
+            await asyncio.sleep(300)
+
+
+    def start_stream_loop(self, tweet_list):
+            self.mystream.filter(follow=tweet_list, async=True)
         
 
     async def authenticate(self):
@@ -228,7 +245,7 @@ class Tweets():
     async def on_tweet_error(self, error):
         """Posts error messages to a specified channel by the owner"""
         if self.settings["error_channel"] is not None:
-            channel = await self.bot.get_channel(self.settings["error_channel"])
+            channel = self.bot.get_channel(self.settings["error_channel"])
             await self.bot.send_message(channel, error)
         return
 

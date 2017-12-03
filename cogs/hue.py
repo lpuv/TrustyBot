@@ -6,6 +6,7 @@ from .utils.dataIO import dataIO
 from .utils import checks
 import random
 import os
+import asyncio
 
 try:
     from phue import Bridge
@@ -22,6 +23,32 @@ class Hue():
         if self.settings["ip"] is not None:
             self.bridge = Bridge(self.settings["ip"])
             self.lights = self.bridge.lights 
+
+    # @commands.command(pass_context=True)
+    async def oilersgoal(self):
+        old_lights = {}
+        for light in self.lights:
+            old_lights[light.name] = [light.on, light.colortemp]
+        for i in range(10):
+            await self.oilers_hex_set(1.0, 1.0)
+            await asyncio.sleep(0.5)
+            await self.oilers_hex_set(0, 0)
+            await asyncio.sleep(0.5)
+        for light in self.lights:
+            light.on = old_lights[light.name][0]
+            light.colortemp = old_lights[light.name][1]
+
+
+    async def oilers_hex_set(self, x:float, y:float, *, name=None):
+        """Sets the colour for Oilers Goals"""
+        if x > 1.0 or x < 0.0:
+            x = 1.0
+        if y > 1.0 or y < 0.0:
+            y = 1.0
+        for light in self.lights:
+            if not light.on:
+                light.on = True
+            light.xy = [x, y]
 
     @commands.group(pass_context=True, name="hue")
     @checks.is_owner()

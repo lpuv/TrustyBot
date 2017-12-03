@@ -4,6 +4,7 @@ import datetime
 import aiohttp
 import asyncio
 import json
+import re
 
 
 class Conversions:
@@ -63,7 +64,7 @@ class Conversions:
         await self.bot.send_message(ctx.message.channel, embed=embed)
     
     async def checkcoins(self, base):
-        link = "https://api.coinmarketcap.com/v1/ticker/"
+        link = "https://api.coinmarketcap.com/v1/ticker/?limit=1328"
         async with self.session.get(link) as resp:
             data = await resp.json()
         for coin in data:
@@ -81,7 +82,7 @@ class Conversions:
             for i in range(25):
                 coin_list.append(data[i])
         else:
-            coins = coins.split(";")
+            coins = re.split("\W+", coins)
             for coin in coins:
                 coin_list.append(await self.checkcoins(coin))
         embed = discord.Embed(title="Crypto coin comparison")

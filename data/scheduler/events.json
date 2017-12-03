@@ -18,22 +18,22 @@
             "starttime" : 1510197695,
             "timedelta" : 86400
         },
-        "veritaseum" : {
-            "author" : "142525247357321216",
+        "ethereum" : {
+            "author" : "218773382617890828",
             "channel" : "360702529375305729",
-            "command" : "crypto veri",
-            "name" : "veritaseum",
+            "command" : "crypto eth",
+            "name" : "ethereum",
             "repeat" : true,
-            "starttime" : 1510197847,
+            "starttime" : 1511663523,
             "timedelta" : 86400
         },
-        "waves" : {
-            "author" : "142525247357321216",
+        "litecoin" : {
+            "author" : "218773382617890828",
             "channel" : "360702529375305729",
-            "command" : "crypto WAVES",
-            "name" : "waves",
+            "command" : "crypto ltc",
+            "name" : "litecoin",
             "repeat" : true,
-            "starttime" : 1510197769,
+            "starttime" : 1511663491,
             "timedelta" : 86400
         }
     },

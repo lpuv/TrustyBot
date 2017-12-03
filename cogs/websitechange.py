@@ -96,7 +96,7 @@ class WebsiteChangeChecker:
                                 await self.bot.send_message(self.bot.get_channel(channel), "{} has changed!".format(key))
                                 self.settings[key]["hash"] = datahash
                                 dataIO.save_json(self.settings_file, self.settings)
-                await asyncio.sleep(120)
+            await asyncio.sleep(120)
 
         
 

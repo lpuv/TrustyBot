@@ -39,8 +39,6 @@ class blockchain:
     def __unload(self):
         self.session.close()
 
-
-
     async def get_block_height(self):
         params = json.dumps({"jsonrpc":"1.1","method":"getblockcount","id":self.request_id})
         async with self.session.post(self.url, data=params) as resp:
@@ -278,7 +276,7 @@ class blockchain:
         await self.write(filename, dataout, True, "wb")
         # await self.bot.send_file(chn, filename)
         if significanttx == '':
-            await self.bot.say("Nothing significant in transaction `{}`".format(transaction))
+            await self.bot.send_message(chn, "Nothing significant in transaction `{}`".format(transaction))
         await self.bot.send_file(chn, filename)
 
     async def write(self, filename, data, binary=True, mode='w', buffering=-1, silent=True, encoding="utf8"):

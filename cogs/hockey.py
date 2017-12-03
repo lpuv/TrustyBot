@@ -7,6 +7,7 @@ from datetime import datetime
 from discord.ext import commands
 from .utils.dataIO import dataIO
 from .utils import checks
+from .hue import Hue
 
 numbs = {
     "next": "➡",
@@ -26,6 +27,11 @@ class Hockey:
 
     def __unload(self):
         self.loop.cancel()
+
+    @commands.command(pass_context=True)
+    async def testgoallights(self, ctx):
+        hue = Hue(self.bot)
+        await hue.oilersgoal()
 
     async def team_playing(self, games):
         """Check if team is playing and returns game link and team name"""
@@ -48,19 +54,13 @@ class Hockey:
                 data = await resp.json()
             is_playing, games = await self.team_playing(data["dates"][0]["games"])
             num_goals = 0
-            # print(games)
-            while is_playing:
+            print(games)
+            while is_playing and games != {}:
                 for team, link in games.items():
-                    print(team)
+                    # print(team)
                     async with self.session.get(self.url + link) as resp:
                         data = await resp.json()
                     # print(data)
-                    if data["gameData"]["status"]["abstractGameState"] == "Final":
-                        # print("Final")
-                        self.settings[team]["goal_id"] = []
-                        dataIO.save_json("data/hockey/settings.json", self.settings)
-                        del games[team]
-                        continue
                     event = data["liveData"]["plays"]["allPlays"]
                     home_team = data["liveData"]["linescore"]["teams"]["home"]["team"]["name"]
                     home_shots = data["liveData"]["linescore"]["teams"]["home"]["shotsOnGoal"]
@@ -78,11 +78,24 @@ class Hockey:
                             msg = await self.post_team_goal(goal, team, score_msg)
                             self.settings[team]["goal_id"].append(goal["about"]["eventId"])
                             dataIO.save_json("data/hockey/settings.json", self.settings)
-                if games == []:
+                if data["gameData"]["status"]["abstractGameState"] == "Final":
+                    # print("Final")
+                    self.settings[team]["goal_id"] = []
+                    dataIO.save_json("data/hockey/settings.json", self.settings)
+                    del games[team]
+                if games == {}:
                     is_playing = False
-                print(is_playing)
+                    break
                 await asyncio.sleep(60)
+            print(is_playing)
             await asyncio.sleep(300)
+
+    # @commands.command(pass_context=True)
+    async def postserver(self, ctx):
+        server = self.bot.get_server(id="381567805495181344")
+        for team in self.teams:
+            colour = discord.Colour(value=int(self.teams[team]["home"].replace("#", ""), 16))
+            await self.bot.create_role(server, name=team + " GOAL", colour=colour)
 
     async def post_team_goal(self, goal, team, score_msg):
         """Creates embed and sends message if a team has scored a goal"""
@@ -92,17 +105,31 @@ class Hockey:
         scoring_team = self.teams[goal["team"]["name"]]
         period = goal["about"]["ordinalNum"]
         period_time_left = goal["about"]["periodTimeRemaining"]
-        em.set_author(name=goal["team"]["name"] + " GOAL", 
+        em.set_author(name="🚨 " + goal["team"]["name"] + " GOAL 🚨", 
                       url=self.teams[goal["team"]["name"]]["team_url"],
                       icon_url=self.teams[goal["team"]["name"]]["logo"])
         em.add_field(name=score_msg["Home"], value=score_msg["Home Score"])
         em.add_field(name=score_msg["Away"], value=score_msg["Away Score"])
+        em.add_field(name="Shots " + score_msg["Home"], value=score_msg["Home Shots"])
+        em.add_field(name="Shots " + score_msg["Away"], value=score_msg["Away Shots"])
         em.set_thumbnail(url=scorer)
         em.set_footer(text="{} left in the {} period".format(period_time_left, period))
         em.timestamp = datetime.strptime(goal["about"]["dateTime"], "%Y-%m-%dT%H:%M:%SZ")
+        if "oilers" in goal["team"]["name"].lower():
+            hue = Hue(self.bot)
+            await hue.oilersgoal()
+        role = None
         for channels in self.settings[team]["channel"]:
+            server = self.bot.get_server(id="381567805495181344")
+            for roles in server.roles:
+                # role_name = roles.name + " GOAL"
+                if roles.name == team + " GOAL":
+                    role = roles
             channel = self.bot.get_channel(id=channels)
-            return await self.bot.send_message(channel, embed=em)
+            if role is not None:
+                return await self.bot.send_message(channel, role.mention, embed=em)
+            else:  
+                return await self.bot.send_message(channel, embed=em)
 
     @commands.group(pass_context=True, name="hockey", aliases=["nhl"])
     async def hockey_commands(self, ctx):
@@ -159,6 +186,28 @@ class Hockey:
         role = [role for role in server.roles if role.name == team][0]
         await self.bot.add_roles(ctx.message.author, role)
         await self.bot.send_message(ctx.message.channel, "Role applied.")
+
+    @hockey_commands.command(pass_context=True, name="goals")
+    async def team_goals(self, ctx, *, team=None):
+        """Set your role to a team role"""
+        server = ctx.message.server
+        member = ctx.message.author
+        if team is None:
+            team = [role.name for role in member.roles if role.name in self.teams]
+            for t in team:
+                role = [role for role in server.roles if role.name == t + " GOAL"]
+                for roles in role:
+                    await self.bot.add_roles(ctx.message.author, roles)
+                await self.bot.send_message(ctx.message.channel, "Role applied.")
+        else:
+            try:
+                team = [team_name for team_name in self.teams if team.lower() in team_name.lower()][0]
+            except IndexError:
+                await self.bot.say("{} is not an available team!".format(team))
+                return
+            role = [role for role in server.roles if role.name == team][0]
+            await self.bot.add_roles(ctx.message.author, role)
+            await self.bot.send_message(ctx.message.channel, "Role applied.")
 
     async def game_menu(self, ctx, post_list: list,
                          team_set=None,
