@@ -7,7 +7,10 @@ from datetime import datetime
 from discord.ext import commands
 from .utils.dataIO import dataIO
 from .utils import checks
-from .hue import Hue
+try:
+    from .oilers import Oilers
+except ImportError:
+    pass
 
 numbs = {
     "next": "➡",
@@ -30,8 +33,8 @@ class Hockey:
 
     @commands.command(pass_context=True)
     async def testgoallights(self, ctx):
-        hue = Hue(self.bot)
-        await hue.oilersgoal()
+        hue = Oilers(self.bot)
+        await hue.oilersgoal2()
 
     async def team_playing(self, games):
         """Check if team is playing and returns game link and team name"""
@@ -90,12 +93,16 @@ class Hockey:
             print(is_playing)
             await asyncio.sleep(300)
 
-    # @commands.command(pass_context=True)
-    async def postserver(self, ctx):
+    @commands.command(pass_context=True)
+    @checks.is_owner()
+    async def hockeytwitter(self, ctx):
         server = self.bot.get_server(id="381567805495181344")
         for team in self.teams:
-            colour = discord.Colour(value=int(self.teams[team]["home"].replace("#", ""), 16))
-            await self.bot.create_role(server, name=team + " GOAL", colour=colour)
+            team = team.replace(".", "")
+            team = team.replace(" ", "-")
+            if team.startswith("Montr"):
+                team = "montreal-canadiens"
+            await self.bot.create_channel(server, name=team.lower() + "-twitter")
 
     async def post_team_goal(self, goal, team, score_msg):
         """Creates embed and sends message if a team has scored a goal"""
@@ -116,8 +123,11 @@ class Hockey:
         em.set_footer(text="{} left in the {} period".format(period_time_left, period))
         em.timestamp = datetime.strptime(goal["about"]["dateTime"], "%Y-%m-%dT%H:%M:%SZ")
         if "oilers" in goal["team"]["name"].lower():
-            hue = Hue(self.bot)
-            await hue.oilersgoal()
+            try:
+                hue = Oilers(self.bot)
+                await hue.oilersgoal2()
+            except:
+                pass
         role = None
         for channels in self.settings[team]["channel"]:
             server = self.bot.get_server(id="381567805495181344")
