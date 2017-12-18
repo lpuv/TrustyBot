@@ -12,7 +12,7 @@ from random import choice as rand_choice
 default_greeting = "Welcome {0.name} to {1.name}!"
 default_settings = {"GREETING": [default_greeting], "ON": False,
                     "CHANNEL": None, "WHISPER": False,
-                    "BOTS_MSG": None, "BOTS_ROLE": None}
+                    "BOTS_MSG": None, "BOTS_ROLE": None, "EMBED":False}
 settings_path = "data/welcome/settings.json"
 
 
@@ -41,6 +41,7 @@ class Welcome:
             msg += "WHISPER: {}\n".format(self.settings[server.id]["WHISPER"])
             msg += "BOTS_MSG: {}\n".format(self.settings[server.id]["BOTS_MSG"])
             msg += "BOTS_ROLE: {}\n".format(self.settings[server.id]["BOTS_ROLE"])
+            msg += "EMBED: {}\n".format(self.settings[server.id]["EMBED"])
             msg += "```"
             await self.bot.say(msg)
 
@@ -206,6 +207,19 @@ class Welcome:
                                         "as a DM".format(channel))
         await self.send_testing_msg(ctx)
 
+    @welcomeset.command(pass_context=True)
+    async def embed(self, ctx):
+        """Turns on/off embed messages"""
+        server = ctx.message.server
+        self.settings[server.id]["EMBED"] = not self.settings[server.id]["EMBED"]
+        if self.settings[server.id]["EMBED"]:
+            await self.bot.say("I will now welcome new users to the server in embeds.")
+            await self.send_testing_msg(ctx)
+        else:
+            await self.bot.say("I will test without embedds.")
+            await self.send_testing_msg(ctx)
+        dataIO.save_json(settings_path, self.settings)
+
     async def member_join(self, member):
         server = member.server
         if server.id not in self.settings:
@@ -224,6 +238,7 @@ class Welcome:
         bot_welcome = member.bot and self.settings[server.id]["BOTS_MSG"]
         bot_role = member.bot and self.settings[server.id]["BOTS_ROLE"]
         msg = bot_welcome or rand_choice(self.settings[server.id]["GREETING"])
+        is_embed = self.settings[server.id]["EMBED"]
 
         # whisper the user if needed
         if not member.bot and self.settings[server.id]["WHISPER"]:
@@ -260,7 +275,13 @@ class Welcome:
                 print('welcome.py: added {} role to '
                       'bot, {}'.format(role, member))
         # finally, welcome them
-        await self.bot.send_message(channel, msg.format(member, server))
+        if is_embed:
+            em = discord.Embed(description=msg.format(member, server),timestamp=member.joined_at)
+            em.set_author(name=member.name+"#"+member.discriminator, icon_url=member.avatar_url)
+            em.set_thumbnail(url=member.avatar_url)
+            await self.bot.send_message(channel, embed=em)
+        else:
+            await self.bot.send_message(channel, msg.format(member, server))
 
     def get_welcome_channel(self, server):
         try:
@@ -279,6 +300,8 @@ class Welcome:
         server = ctx.message.server
         channel = self.get_welcome_channel(server)
         rand_msg = msg or rand_choice(self.settings[server.id]["GREETING"])
+        is_embed = self.settings[server.id]["EMBED"]
+        member = ctx.message.author
         if channel is None:
             await self.bot.send_message(ctx.message.channel,
                                         "I can't find the specified channel. "
@@ -290,11 +313,21 @@ class Welcome:
         if self.speak_permissions(server):
             msg = self.settings[server.id]["BOTS_MSG"] if bot else rand_msg
             if not bot and self.settings[server.id]["WHISPER"]:
-                await self.bot.send_message(ctx.message.author,
-                        msg.format(ctx.message.author,server))
+                if is_embed:
+                    em = discord.Embed(description=msg.format(member, server),timestamp=member.joined_at)
+                    em.set_author(name=member.name+"#"+member.discriminator, icon_url=member.avatar_url)
+                    em.set_thumbnail(url=member.avatar_url)
+                    await self.bot.send_message(channel, embed=em)
+                else:
+                    await self.bot.send_message(channel, msg.format(member, server))
             if bot or self.settings[server.id]["WHISPER"] is not True:
-                await self.bot.send_message(channel,
-                        msg.format(ctx.message.author, server))
+                if is_embed:
+                    em = discord.Embed(description=msg.format(member, server),timestamp=member.joined_at)
+                    em.set_author(name=member.name+"#"+member.discriminator, icon_url=member.avatar_url)
+                    em.set_thumbnail(url=member.avatar_url)
+                    await self.bot.send_message(channel, embed=em)
+                else:
+                    await self.bot.send_message(channel, msg.format(member, server))
         else:
             await self.bot.send_message(ctx.message.channel,
                                         "I do not have permissions "
