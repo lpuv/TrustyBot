@@ -1,2 +1,0 @@
-Can you modify content in the blockchain?`No`no
-What hash type is used for Bitcoin?`256`sha256
