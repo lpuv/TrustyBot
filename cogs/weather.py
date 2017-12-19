@@ -54,7 +54,7 @@ class weather:
         if units in self.unit:
             self.settings["user"][author.id] = units
             dataIO.save_json("data/weather/settings.json", self.settings)
-            await self.bot.send_message(ctx.message.channel, "Default units set to {} in {}.".format(units, server.name))
+            await self.bot.send_message(ctx.message.channel, "Default units set to {} in {}.".format(units, author.name))
 
     async def getweather(self, ctx, location):
         server = ctx.message.server
