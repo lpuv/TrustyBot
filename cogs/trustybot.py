@@ -30,6 +30,10 @@ class TrustyBot:
                 return p
         return None
 
+    @commands.command(pass_context=True)
+    async def getavatar(self, ctx, member:discord.Member):
+        await self.bot.send_message(ctx.message.channel, member.avatar_url)
+
     def part_of_existing_command(self, alias, server):
         '''Command or alias'''
         for command in self.bot.commands:
