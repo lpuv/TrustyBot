@@ -112,8 +112,7 @@ class Tweets():
         post_url =\
             "https://twitter.com/{}/status/{}".format(s.user.screen_name, s.id)
         desc = "Created at: {}".format(created_at)
-        em = discord.Embed(description=s.text,
-                           colour=discord.Colour(value=self.random_colour()),
+        em = discord.Embed(colour=discord.Colour(value=self.random_colour()),
                            url=post_url,
                            timestamp=s.created_at)
         try:                                
@@ -123,7 +122,8 @@ class Tweets():
         # em.add_field(name="Text", value=s.text)
         em.set_footer(text="Retweet count: " + str(s.retweet_count))
         if hasattr(s, "extended_entities"):
-            em.set_image(url=s.extended_entities["media"][0]["media_url"] + ":thumb")
+            em.set_image(url=s.extended_entities["media"][0]["media_url"])
+        em.description = s.full_text.replace("&amp;", "\n\n")
         if not message:
             message =\
                 await self.bot.send_message(ctx.message.channel, embed=em)
@@ -226,7 +226,7 @@ class Tweets():
             api = await self.authenticate()
             try:
                 for status in\
-                        tw.Cursor(api.user_timeline, id=username).items(cnt):
+                        tw.Cursor(api.user_timeline, id=username, tweet_mode="extended").items(cnt):
                     if status.in_reply_to_screen_name is not None and not replies_on:
                         continue
                     msg_list.append(status)
@@ -261,8 +261,7 @@ class Tweets():
             if status.in_reply_to_screen_name is not None and not self.settings["accounts"][user_id]["replies"]:
                 return
             post_url = "https://twitter.com/{}/status/{}".format(status.user.screen_name, status.id)
-            em = discord.Embed(description=status.text,
-                            colour=discord.Colour(value=self.random_colour()),
+            em = discord.Embed(colour=discord.Colour(value=self.random_colour()),
                             url=post_url,
                             timestamp=status.created_at)
             try:                                
@@ -271,8 +270,16 @@ class Tweets():
                 print(status.user.name + " could not get profile image!")
             if hasattr(status, "extended_entities"):
                 em.set_image(url=status.extended_entities["media"][0]["media_url"])
+            if hasattr(status, "extended_tweet"):
+                text = status.extended_tweet["full_text"]
+                # print(status.extended_tweet)
+                if  "media" in status.extended_tweet["entities"]:
+                    em.set_image(url=status.extended_tweet["entities"]["media"][0]["media_url"])
+            else:
+                text = status.text
+            em.description = text.replace("&amp;", "\n\n")
 
-            if status.text.startswith("RELEASE:") and username == "wikileaks":
+            if text.startswith("RELEASE:") and username == "wikileaks":
                 await self.bot.send_message(self.bot.get_channel("365376327278395393"), embed=em)
             for channel in list(self.settings["accounts"][user_id]["channel"]):
                 await self.bot.send_message(self.bot.get_channel(channel), embed=em)
