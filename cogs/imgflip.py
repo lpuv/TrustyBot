@@ -17,18 +17,18 @@ class Imgflip:
         self.search = "https://api.imgflip.com/get_memes?username={0}&password={1}"
         self.username = self.settings["IMGFLIP_USERNAME"]
         self.password = self.settings["IMGFLIP_PASSWORD"]
+        self.session = aiohttp.ClientSession(loop=self.bot.loop)
 
-    async def get_meme_id(self, meme):
+    async def get_meme_id(self, ctx, meme):
         url = self.search.format(self.username, self.password)
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(self.search) as r:
-                    results = await r.json()
-                for memes in results["data"]["memes"]:
-                    if meme.lower() in memes["name"].lower():
-                        return memes["id"]
+            async with self.session.get(self.search) as r:
+                results = await r.json()
+            for memes in results["data"]["memes"]:
+                if meme.lower() in memes["name"].lower():
+                    return memes["id"]
         except:
-            await self.get_memes()
+            await self.bot.send_message(ctx.message.channel, "That meme is not available!")
 
     @commands.command(pass_context=True, alias=["listmemes"])
     async def getmemes(self, ctx):
@@ -38,17 +38,16 @@ class Imgflip:
     async def get_memes(self, ctx):
         url = self.search.format(self.username, self.password)
         prefix = self.get_prefix(ctx.message.server, ctx.message.content)
-        memelist = "```{}meme or id;text1;text2\n\n".format(prefix)
-        async with aiohttp.ClientSession() as session:
-            async with session.get(self.search) as r:
-                results = await r.json()
-            for memes in results["data"]["memes"]:
-                memelist += memes["name"] + ", "
-                if len(memelist) > 1500:
-                    await self.bot.say(memelist + "```")
-                    memelist = "```"
-            await self.bot.say(memelist[:len(memelist)-2] + 
-                               "``` Find a meme https://imgflip.com/memetemplates click blank template and get the Template ID for more!")
+        memelist = "```{}meme meme or id;text1;text2\n\n".format(prefix)
+        async with self.session.get(self.search) as r:
+            results = await r.json()
+        for memes in results["data"]["memes"]:
+            memelist += memes["name"] + ", "
+            if len(memelist) > 1500:
+                await self.bot.say(memelist + "```")
+                memelist = "```"
+        await self.bot.say(memelist[:len(memelist)-2] + 
+                           "``` Find a meme https://imgflip.com/memetemplates click blank template and get the Template ID for more!")
 
     @commands.command(pass_context=True)
     async def meme(self, ctx, *, memeText: str):
@@ -56,29 +55,28 @@ class Imgflip:
         msg = memeText.split(";")
         prefix = self.get_prefix(ctx.message.server, ctx.message.content)
         await self.bot.send_typing(ctx.message.channel)
+        if len(msg) == 1:
+            meme, text1, text2 = msg[0], " ", " "
+        if len(msg) == 2:
+            meme, text1, text2 = msg[0], msg[1], " "
         if len(msg) == 3:
-            if len(msg[0]) > 1 and len([msg[1]]) < 20 and len([msg[2]]) < 20:
-                username = self.settings["IMGFLIP_USERNAME"]
-                password = self.settings["IMGFLIP_PASSWORD"]
-                meme = msg[0]
-                text1 = msg[1]
-                text2 = msg[2]
-                if not meme.isdigit():
-                    meme = await self.get_meme_id(meme)
-                url = self.url.format(meme, username, password, text1, text2)
-                try:
-                    async with aiohttp.get(url) as r:
-                        result = await r.json()
-                    if result["data"] != []:
-                        url = result["data"]["url"]
-                        await self.bot.say(url)
-                except:
-                    await self.get_memes(ctx)
-            else:
-                await self.get_memes(ctx)
-        else:
-            await self.get_memes(ctx)
-
+            meme, text1, text2 = msg[0], msg[1], msg[2]
+        text1 = text1[:20] if len(text1) > 20 else text1
+        text2 = text1[:20] if len(text2) > 20 else text2
+        username = self.settings["IMGFLIP_USERNAME"]
+        password = self.settings["IMGFLIP_PASSWORD"]
+        if not meme.isdigit():
+            meme = await self.get_meme_id(ctx, meme)
+        url = self.url.format(meme, username, password, text1, text2)
+        try:
+            async with self.session.get(url) as r:
+                result = await r.json()
+            if result["data"] != []:
+                url = result["data"]["url"]
+                await self.bot.say(url)
+        except:
+            await self.bot.send_message(ctx.message.channel, "That meme wasn't found!")
+ 
     def get_prefix(self, server, msg):
         prefixes = self.bot.settings.get_prefixes(server)
         for p in prefixes:
