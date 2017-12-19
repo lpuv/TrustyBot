@@ -32,7 +32,7 @@ class Oilers:
             old_lights[light.name] = [light.on, light.colortemp]
         for light in self.lights2:
             old_lights2[light.name] = [light.on, light.colortemp]
-        for i in range(10):
+        for i in range(5):
             await self.oilers_hex_set(1.0, 1.0)
             await asyncio.sleep(0.5)
             await self.oilers_hex_set(0, 0)

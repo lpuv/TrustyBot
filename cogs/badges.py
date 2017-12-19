@@ -26,18 +26,50 @@ class Badges:
     def __init__(self, bot):
         self.bot = bot
         self.files = "data/badges/"
-        self.blank_template = {"cia":"data/badges/cia-template.png", 
-                               "cicada":"data/badges/cicada-template.png", 
-                               "ioi":"data/badges/IOI-template.png",
-                               "fbi":"data/badges/fbi-template.png",
-                               "nsa":"data/badges/nsa-template.png",
-                               "gab":"data/badges/gab-template.png",
-                               "dop":"data/badges/dop-template.png",
-                               "shit":"data/badges/shit-template.png",
-                               "bunker":"data/badges/bunker-template.png",
-                               "nk":"data/badges/nk-template.png",
-                               "kek": "data/badges/kek-template.png",
-                               "unsc": "data/badges/unsc-template.png"}
+        self.blank_template = {"cia":{"code":"CIA", "loc":"data/badges/cia-template.png"}, 
+                               "cicada":{"code":"CICADA", "loc":"data/badges/cicada-template.png"},
+                               "ioi":{"code":"IOI", "loc":"data/badges/IOI-template.png"},
+                               "fbi":{"code":"FBI", "loc":"data/badges/fbi-template.png"},
+                               "nsa":{"code":"NSA", "loc":"data/badges/nsa-template.png"},
+                               "gab":{"code":"GAB", "loc":"data/badges/gab-template.png"},
+                               "dop":{"code":"DOP", "loc":"data/badges/dop-template.png"},
+                               "shit":{"code":"SHIT", "loc":"data/badges/shit-template.png"},
+                               "bunker":{"code":"BUNKER", "loc":"data/badges/bunker-template.png"},
+                               "nk":{"code":"NK", "loc":"data/badges/nk-template.png"},
+                               "kek":{"code":"KEK", "loc": "data/badges/kek-template.png"},
+                               "unsc":{"code":"UNSC", "loc": "data/badges/unsc-template.png"},
+                               'Anaheim Ducks':{"code":"ANA", "loc": 'data/badges/Anaheim Ducks-template.png'},
+                               'Arizona Coyotes':{"code":"ARI", "loc": 'data/badges/Arizona Coyotes-template.png'},
+                               'Boston Bruins':{"code":"BOS", "loc": 'data/badges/Boston Bruins-template.png'},
+                               'Buffalo Sabres':{"code":"BUF", "loc": 'data/badges/Buffalo Sabres-template.png'},
+                               'Calgary Flames':{"code":"CGY", "loc": 'data/badges/Calgary Flames-template.png'},
+                               'Carolina Hurricanes':{"code":"CAR", "loc": 'data/badges/Carolina Hurricanes-template.png'},
+                               'Chicago Blackhawks':{"code":"CHI", "loc": 'data/badges/Chicago Blackhawks-template.png'},
+                               'Colorado Avalanche':{"code":"COL", "loc": 'data/badges/Colorado Avalanche-template.png'},
+                               'Columbus Blue Jackets':{"code":"CBJ", "loc": 'data/badges/Columbus Blue Jackets-template.png'},
+                               'Dallas Stars':{"code":"DAL", "loc": 'data/badges/Dallas Stars-template.png'},
+                               'Detroit Red Wings':{"code":"DET", "loc":'data/badges/Detroit Red Wings-template.png'},
+                               'Edmonton Oilers':{"code":"EDM", "loc":'data/badges/Edmonton Oilers-template.png'},
+                               'Florida Panthers':{"code":"FLA", "loc": 'data/badges/Florida Panthers-template.png'},
+                               'Los Angeles Kings':{"code":"LAK", "loc": 'data/badges/Los Angeles Kings-template.png'},
+                               'Minnesota Wild':{"code":"MIN", "loc": 'data/badges/Minnesota Wild-template.png'},
+                               'Montréal Canadiens':{"code":"MTL", "loc": 'data/badges/Montréal Canadiens-template.png'},
+                               'Nashville Predators':{"code":"NSH", "loc": 'data/badges/Nashville Predators-template.png'},
+                               'New Jersey Devils':{"code":"NJD", "loc": 'data/badges/New Jersey Devils-template.png'},
+                               'New York Islanders':{"code":"NYI", "loc": 'data/badges/New York Islanders-template.png'},
+                               'New York Rangers':{"code":"NYR", "loc": 'data/badges/New York Rangers-template.png'},
+                               'Ottawa Senators':{"code":"OTT", "loc": 'data/badges/Ottawa Senators-template.png'},
+                               'Philadelphia Flyers':{"code":"PHI", "loc": 'data/badges/Philadelphia Flyers-template.png'},
+                               'Pittsburgh Penguins':{"code":"PIT", "loc": 'data/badges/Pittsburgh Penguins-template.png'},
+                               'San Jose Sharks':{"code":"SJS", "loc": 'data/badges/San Jose Sharks-template.png'},
+                               'St. Louis Blues':{"code":"STL", "loc": 'data/badges/St. Louis Blues-template.png'},
+                               'Tampa Bay Lightning':{"code":"TBL", "loc": 'data/badges/Tampa Bay Lightning-template.png'},
+                               'Toronto Maple Leafs':{"code":"TOR", "loc": 'data/badges/Toronto Maple Leafs-template.png'},
+                               'Vancouver Canucks':{"code":"VAN", "loc": 'data/badges/Vancouver Canucks-template.png'},
+                               'Vegas Golden Knights':{"code":"VGK", "loc": 'data/badges/Vegas Golden Knights-template.png'},
+                               'Washington Capitals':{"code":"WSH", "loc":'data/badges/Washington Capitals-template.png'},
+                               'Winnipeg Jets':{"code":"WPG", "loc": 'data/badges/Winnipeg Jets-template.png'}}
+
         
 
     async def dl_image(self, url, ext="png"):
@@ -85,7 +117,7 @@ class Badges:
                                 writer=ImageWriter(), 
                                 output="data/badges/temp/bar_code_temp")
         await self.remove_white_barcode()
-        template = Image.open(self.blank_template[badge])
+        template = Image.open(self.blank_template[badge]["loc"])
         template = template.convert("RGBA")
         avatar = Image.open(self.files + "temp/temp." + ext)
         barcode = Image.open(self.files + "temp/bar_code_temp.png")
@@ -100,7 +132,7 @@ class Badges:
         # adds username
         draw.text((225, 330), str(username), fill=(0, 0, 0), font=font1)
         # adds ID Class
-        draw.text((225, 400), badge.upper() + "-" + str(user).split("#")[1], fill=(0, 0, 0), font=font1)
+        draw.text((225, 400), self.blank_template[badge]["code"] + "-" + str(user).split("#")[1], fill=(0, 0, 0), font=font1)
         # adds user id
         draw.text((250, 115), str(userid), fill=(0, 0, 0), font=font2)
         # adds user status
@@ -137,21 +169,38 @@ class Badges:
             template.paste(watermark, (845,45, 945,145), watermark)
             template.paste(id_image, (60,95, 225, 260))
             template.save("data/badges/temp/tempbadge.png")
+
+    @commands.command(pass_context=True)
+    async def listbadges(self, ctx):
+        await self.list_badges(ctx)
+
+    async def list_badges(self, ctx):
+        msg = ""
+        for template in self.blank_template:
+            msg += template + ", "
+        await self.bot.send_message(ctx.message.channel, msg[:-2])
     
-    @commands.command(hidden=True, pass_context=True)
-    async def badges(self, ctx, badge, user:discord.Member=None):
-        """Creates a badge for [cia, nsa, fbi, dop, ioi]"""
-        if badge.lower() not in self.blank_template:
-            await self.bot.say("That badge doesn't exist yet!")
+    @commands.command(pass_context=True)
+    async def badges(self, ctx, *, badge):
+        """Creates a variety of badges use [p]listbadges to see what is available"""
+        if badge.lower() == "list":
+            await self.list_badges(ctx)
             return
-        if user is None:
-            user = ctx.message.author
+        is_badge = False
+        for template in self.blank_template:
+            if badge.lower() in template.lower():
+                badge = template
+                is_badge = True
+        if not is_badge:
+            await self.bot.send_message(ctx.message.channel, "{} is not an available badge!".format(badge))
+            return
+        user = ctx.message.author
         avatar = user.avatar_url if user.avatar_url != "" else user.default_avatar_url
         ext = "png"
         if "gif" in avatar:
             ext = "gif"
         await self.bot.send_typing(ctx.message.channel)
-        await self.create_badge(user, badge.lower())
+        await self.create_badge(user, badge)
         await self.bot.send_file(ctx.message.channel, "data/badges/temp/tempbadge." + ext)
 
 def check_folder():
