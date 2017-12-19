@@ -224,8 +224,9 @@ class General:
         name = " ~ ".join((name, user.nick)) if user.nick else name
 
         if user.avatar_url:
-            data.set_author(name=name, url=user.avatar_url)
+            data.set_author(name=name, url=user.avatar_url, icon_url=user.avatar_url)
             data.set_thumbnail(url=user.avatar_url)
+            # data.set_image(url=user.avatar_url)
         else:
             data.set_author(name=name)
 
