@@ -1,4 +1,4 @@
-![intro](http://i.imgur.com/RgGlNpQ.jpg)
+Invite link for TrustyBot: https://discordapp.com/oauth2/authorize?client_id=268562382173765643&scope=bot
 
 # Red - A fully customizable Discord bot
 #### *Music, admin, trivia, fun commands and much more!*
