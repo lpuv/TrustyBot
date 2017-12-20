@@ -45,7 +45,7 @@ Which team was the last to win Game 7 of the Stanley Cup Final on the road?`Bost
 Since 1970, which team is the only one to make the Stanley Cup Final in five consecutive years?`New York Islanders`Islanders
 Which team has scored the fewest goals in a Stanley Cup Final series since the best-of-7 format was adopted in 1939?`Montréal Canadiens`Montréal`Canadiens`Montreal Canadiens`Montreal
 Which team captured the Cup by getting all four of its wins in overtime?`Toronto Maple Leafs`Toronto`Maple Leafs`Leafs
-How many teams have won the Cup by winning all four of their home games in the Final?`Detroit Red Wings`Detroit`Red Wings`Wings
+How many teams have won the Cup by winning all four of their home games in the Final?`3`three
 Which team holds the record for power-play goals in one Stanley Cup Final?`New York Islanders`Islanders
 Which is the only team to score three goals in less than one minute in the Final?`Montréal Canadiens`Montréal`Canadiens`Montreal Canadiens`Montreal
 The individual record for appearances in the Final is 12. How many players have made a dozen trips to the Final?`4`four
@@ -66,3 +66,15 @@ The Montreal Canadiens have won the Stanley Cup a record 24 times (23 as an NHL 
 Which team is the only one to average five goals in a four-game sweep?`Boston Bruins`Boston`Bruins
 Which teams played the longest game in the history of the Final?`Oilers Bruins
 Which team holds the record for most consecutive games won in the Final?`Montréal Canadiens`Montréal`Canadiens`Montreal Canadiens`Montreal
+“The Legion of Doom”, one of the league's most potent and feared lines, was a forward line for the Philadelphia Flyers who played together between 1995 and 1997 comprising Eric Lindros, John LeClair and...`Mikael Renberg`Renberg
+Which goaltender holds the record for most points (including playoffs) as of the 2013-2014 NHL season?`Grant Fuhr`Fuhr
+In the history of the NHL only three players has scored over 80 goals in a season. They are: Wayne Gretzky, Mario Lemieux and...`Brett Hull`Hull
+Gordie Howe is the only player who have played in the NHL at the age of 50. Who is the second oldest player of all time played in the NHL?`Chris Chelios`Chelios
+Scott Stevens formed a legendary defensive pairing in New Jersey Devils with...`Scott Niedermayer`Niedermayer
+Who of the following shared his house in Pittsburgh with Sidney Crosby for four years before Crosby purchased his own house?`Mario Lemieux`Lemieux
+Alex Ovechkin is climbing fast on the Russian point scorer top list. But who is the all-time regular season Russian point leader in the NHL?`Sergei Fedorov`Fedorov
+Craig MacTavish ended an era in the NHL. He was the last player in the league to play without a helmet. In what year did this happen?`1997
+In which city Mark Messier became “the Messiah”?`New York
+Who is the legendary #20 in this picture?http://timoh6.github.io/nhlquiz/img/20.jpg`Luc Robitaille`Robitaille
+Who was the first European named All-Star Game MVP in the NHL?`Teemu Selanne`Selanne
+Who was the last Canadian franchise to win the Stanley Cup?`Montréal Canadiens`Montréal`Canadiens`Montreal Canadiens`Montreal

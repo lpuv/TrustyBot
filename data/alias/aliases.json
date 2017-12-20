@@ -1,4 +1,7 @@
 {
+    "236287490540044288" : {
+        "nextgame" : "nhl games wild"
+    },
     "239232811662311425" : {
         "(((them)))" : "maga",
         "ectweet" : "tweets gettweets embassycat 10",
@@ -52,10 +55,14 @@
         "dlr" : "say De La Rose is truly the best number one center in the league",
         "fuckmariotremblay" : "say FUCK MARIO TREMBLAY",
         "fuckmessier" : "say FUCK MESSIER!!!11",
-        "habs" : "badges canadiens"
+        "habs" : "badges canadiens",
+        "nextgame" : "nhl games canadiens"
     },
     "304436539482701825" : {
         "labor" : "addrole \"Labor Camp Prisoner\""
+    },
+    "326454371921690644" : {
+        "nextgame" : "nhl games knights"
     },
     "338501530975993866" : {
         "givemecredits" : "payday"
@@ -64,5 +71,8 @@
         "bacon" : "gifr bacon",
         "coffee" : "gifr coffee",
         "hedgehog" : "gifr headgehog"
+    },
+    "381567805495181344" : {
+        "nextgame" : "nhl games oilers"
     }
 }
