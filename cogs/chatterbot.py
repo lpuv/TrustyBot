@@ -90,12 +90,15 @@ class Chatterbot():
             self.log[server.id][channel.id]["message"] = message.content
             dataIO.save_json("data/chatterbot/log.json", self.log)
         if author.id != last_author and author.id != self.bot.user.id:
-            self.log[server.id][channel.id]["message"] = message.content
-            self.log[server.id][channel.id]["author"] = author.id
-            dataIO.save_json("data/chatterbot/log.json", self.log)
-            conversation.append(message.content)
-            conversation.append(last_message)
-            self.chatbot.train(conversation)
+            try:
+                self.log[server.id][channel.id]["message"] = message.content
+                self.log[server.id][channel.id]["author"] = author.id
+                dataIO.save_json("data/chatterbot/log.json", self.log)
+                conversation.append(message.content)
+                conversation.append(last_message)
+                self.chatbot.train(conversation)
+            except:
+                pass
         if server.id not in self.settings:
             self.settings[server.id] = {"TOGGLE" :True, "channel":""}
             dataIO.save_json("data/chatterbot/settings.json", self.settings)
