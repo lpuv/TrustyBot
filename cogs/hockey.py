@@ -75,10 +75,10 @@ class Hockey:
                 data = await resp.json()
             is_playing, games = await self.team_playing(data["dates"][0]["games"])
             num_goals = 0
-            print(games)
+            # print(games)
             while is_playing and games != {}:
                 for team, link in games.items():
-                    # print(team)
+                    print(team)
                     async with self.session.get(self.url + link) as resp:
                         data = await resp.json()
                     # print(data)
@@ -97,15 +97,23 @@ class Hockey:
                         continue
                     for goal in goals:
                         goal_id = goal["about"]["eventId"]
+                        # print(goal_id)
+                        if goal_id in self.settings[team]["goal_id"]:
+                            # Checks if the goal data has changed and edits all previous posts with new data
+                            # print("It's failing here for some reason")
+                            if goal != self.settings[team]["goal_id"][goal_id]["goal"]:
+                                print("attempting to edit")
+                                self.settings[team]["goal_id"][goal_id]["goal"] = goal
+                                dataIO.save_json("data/hockey/settings.json", self.settings)
+                                await self.edit_team_goal(goal, team, score_msg, self.settings[team]["goal_id"][goal_id]["messages"])
                         if goal_id not in self.settings[team]["goal_id"]:
                             # Posts goal information and saves data for verification later
                             msg_list = await self.post_team_goal(goal, team, score_msg)
+                            # print("this works")
                             self.settings[team]["goal_id"][goal_id] = {"goal":goal,"messages":msg_list}
+                            # print("this too")
                             dataIO.save_json("data/hockey/settings.json", self.settings)
-                        if goal_id in self.settings[team]["goal_id"]:
-                            # Checks if the goal data has changed and edits all previous posts with new data
-                            if goal != self.settings[team]["goal_id"][goal_id]["goal"]:
-                                await self.edit_team_goal(goal, team, score_msg, self.settings[team]["goal_id"][goal_id]["messages"])
+
                 if data["gameData"]["status"]["abstractGameState"] == "Final":
                     # print("Final")
                     # Clears the game data from the settings file
@@ -130,8 +138,10 @@ class Hockey:
                 team = "montreal-canadiens"
             await self.bot.create_channel(server, name=team.lower() + "-twitter")
 
+
     async def edit_team_goal(self, goal, team, score_msg, og_msg):
         """Creates embed and sends message if a team has scored a goal"""
+        print("Attempting to edit a goal")
         em = discord.Embed(description=goal["result"]["description"],
                            colour=int(self.teams[goal["team"]["name"]]["home"].replace("#", ""), 16))
         scorer = self.headshots.format(goal["players"][0]["player"]["id"])
@@ -148,14 +158,17 @@ class Hockey:
         em.set_thumbnail(url=scorer)
         em.set_footer(text="{} left in the {} period".format(period_time_left, period))
         em.timestamp = datetime.strptime(goal["about"]["dateTime"], "%Y-%m-%dT%H:%M:%SZ")
-        role = None
-        for message in og_msg:
-            if server.id == "381567805495181344":
-                for roles in server.roles:
-                    if roles.name == goal["team"]["name"] + " GOAL":
-                        role = roles
-            else:
-                role = None
+        # print(og_msg)
+        for channel_id, message_id in og_msg.items():
+            role = None
+            channel = self.bot.get_channel(id=channel_id)
+            # print("channel {} ID {}".format(channel, message_id))
+            message = await self.bot.get_message(channel, message_id)
+            # print("I can get the message")
+            server = message.server
+            for roles in server.roles:
+                if roles.name == goal["team"]["name"] + " GOAL":
+                    role = roles
             if role is None:
                 await self.bot.edit_message(message, embed=em)
             else:  
@@ -180,7 +193,7 @@ class Hockey:
         em.set_thumbnail(url=scorer)
         em.set_footer(text="{} left in the {} period".format(period_time_left, period))
         em.timestamp = datetime.strptime(goal["about"]["dateTime"], "%Y-%m-%dT%H:%M:%SZ")
-        msg_list = []
+        msg_list = {}
         if "oilers" in goal["team"]["name"].lower():
             try:
                 hue = Oilers(self.bot)
@@ -196,12 +209,15 @@ class Hockey:
                     role = roles
             try:
                 if role is None:
-                    msg_list.append(await self.bot.send_message(channel, embed=em))
+                    msg = await self.bot.send_message(channel, embed=em)
+                    msg_list[channel.id] = msg.id
                 else:  
-                    msg_list.append(await self.bot.send_message(channel, role.mention, embed=em))
+                    msg = await self.bot.send_message(channel, role.mention, embed=em)
+                    msg_list[channel.id] = msg.id
             except:
                 print("Could not post goal in {}".format(channels))
                 pass
+        print(msg_list)
         return msg_list
 
     @commands.group(pass_context=True, name="hockey", aliases=["nhl"])
@@ -215,6 +231,7 @@ class Hockey:
         for team in self.settings:
             self.settings[team]["goal_id"] = {}
         dataIO.save_json("data/hockey/settings.json", self.settings)
+        print("done")
 
 
     @hockey_commands.command(pass_context=True, name="add", aliases=["add_goals"])
