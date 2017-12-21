@@ -260,16 +260,13 @@ class TrustyBot:
     async def donate(self, ctx):
         """Donate some bitcoin!"""
         gabcoin = "1471VCzShn9kBSrZrSX1Y3KwjrHeEyQtup"
-        DONATION = "1DVEaW5CFX8Sd4iHr1cruaBsmKzTj7mP3t"
         msg = "Feel free to send bitcoin donations to `{}` :smile:"
         gabimg = "data/trustybot/img/gabbtc.jpg"
-        img = "data/trustybot/img/btc.png"
         if ctx.message.server.id == "261565811309674499":
             await self.bot.upload(gabimg)
             await self.bot.say(msg.format(gabcoin))
         else:
-            await self.bot.upload(img)
-            await self.bot.say(msg.format(DONATION))
+            await self.bot.say("Help support me  and development of TrustyBot by buying my album or donating bitcoin on my website :smile: https://trustyjaid.com/")
 
     # Text Commands #
     @commands.command(hidden=False)
