@@ -53,16 +53,18 @@ class Imgflip:
     async def meme(self, ctx, *, memeText: str):
         """ Pulls a custom meme from imgflip"""
         msg = memeText.split(";")
+        print(msg)
         prefix = self.get_prefix(ctx.message.server, ctx.message.content)
         await self.bot.send_typing(ctx.message.channel)
         if len(msg) == 1:
             meme, text1, text2 = msg[0], " ", " "
-        if len(msg) == 2:
+        elif len(msg) == 2:
             meme, text1, text2 = msg[0], msg[1], " "
-        if len(msg) == 3:
+        elif len(msg) == 3:
             meme, text1, text2 = msg[0], msg[1], msg[2]
-        text1 = text1[:20] if len(text1) > 20 else text1
-        text2 = text1[:20] if len(text2) > 20 else text2
+        # text1 = text1[:20] if len(text1) > 40 else text1
+        # text2 = text2[:20] if len(text2) > 40 else text2
+        print(text1+text2)
         username = self.settings["IMGFLIP_USERNAME"]
         password = self.settings["IMGFLIP_PASSWORD"]
         if not meme.isdigit():
