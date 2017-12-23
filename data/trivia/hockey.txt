@@ -40,7 +40,7 @@ Only one team has won the Stanley Cup three times since 2000. Which team is it?`
 Which team was the first to win the Stanley Cup three years in a row?`Toronto Maple Leafs`Toronto`Maple Leafs`Leafs
 How many times has Game 7 of the Final gone to overtime?`2`two
 Who is the only non-goalie from a losing team to win the Conn Smythe Trophy as playoff MVP?`Reggie Leach`Leach
-Five players have won the Conn Smythe Trophy more than once. Who is the only player to win it more than twice?Patrick Roy`Roy
+Five players have won the Conn Smythe Trophy more than once. Who is the only player to win it more than twice?`Patrick Roy`Roy
 Which team was the last to win Game 7 of the Stanley Cup Final on the road?`Boston Bruins`Bruins`Boston
 Since 1970, which team is the only one to make the Stanley Cup Final in five consecutive years?`New York Islanders`Islanders
 Which team has scored the fewest goals in a Stanley Cup Final series since the best-of-7 format was adopted in 1939?`Montréal Canadiens`Montréal`Canadiens`Montreal Canadiens`Montreal

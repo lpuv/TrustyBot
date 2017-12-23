@@ -75,7 +75,7 @@ class Hockey:
                 data = await resp.json()
             is_playing, games = await self.team_playing(data["dates"][0]["games"])
             num_goals = 0
-            # print(games)
+            print(games)
             while is_playing and games != {}:
                 for team, link in games.items():
                     print(team)
@@ -93,6 +93,7 @@ class Hockey:
                     score_msg = {"Home":home_team, "Home Score":home_score, "Home Shots":home_shots,
                                  "Away": away_team, "Away Score":away_score, "Away Shots":away_shots}
                     goals = [goal for goal in event if goal["result"]["eventTypeId"] == "GOAL"]
+                    goal_ids = [goal_id["about"]["eventId"] for goal_id in goals]
                     if len(goals) == 0:
                         continue
                     for goal in goals:
@@ -113,6 +114,20 @@ class Hockey:
                             self.settings[team]["goal_id"][goal_id] = {"goal":goal,"messages":msg_list}
                             # print("this too")
                             dataIO.save_json("data/hockey/settings.json", self.settings)
+
+                    for old_goals in self.settings[team]["goal_id"]:
+                        if old_goals not in goal_ids:
+                            for channel_id, message_id in old_goal["messages"].items():
+                                channel = self.bot.get_channel(id=channel_id)
+                                message = await self.bot.get_message(channel, message_id)
+                                try:
+                                    await self.bot.delete_message(message)
+                                except:
+                                    print("I can't delete messages in {}".format(channel.server.name))
+                                    pass
+                            del self.settings[team]["goal_id"][old_goals]
+                            dataIO.save_json("data/hockey.settings.json", self.settings)
+
 
                 if data["gameData"]["status"]["abstractGameState"] == "Final":
                     # print("Final")
@@ -142,17 +157,22 @@ class Hockey:
     async def edit_team_goal(self, goal, team, score_msg, og_msg):
         """Creates embed and sends message if a team has scored a goal"""
         print("Attempting to edit a goal")
-        em = discord.Embed(description=goal["result"]["description"],
-                           colour=int(self.teams[goal["team"]["name"]]["home"].replace("#", ""), 16))
         scorer = self.headshots.format(goal["players"][0]["player"]["id"])
         scoring_team = self.teams[goal["team"]["name"]]
         period = goal["about"]["ordinalNum"]
+        home = goal["about"]["goals"]["home"]
+        away = goal["about"]["goals"]["away"]
         period_time_left = goal["about"]["periodTimeRemaining"]
-        em.set_author(name="🚨 " + goal["team"]["name"] + " GOAL 🚨", 
+        strength = goal["result"]["strength"]["name"]
+        if goal["result"]["emptyNet"]:
+            strength = "Empty Net"
+        em = discord.Embed(description=strength + " Goal by " + goal["result"]["description"],
+                           colour=int(self.teams[goal["team"]["name"]]["home"].replace("#", ""), 16))
+        em.set_author(name="🚨 " + goal["team"]["name"] + " " + strength + " GOAL 🚨", 
                       url=self.teams[goal["team"]["name"]]["team_url"],
                       icon_url=self.teams[goal["team"]["name"]]["logo"])
-        em.add_field(name=score_msg["Home"], value=score_msg["Home Score"])
-        em.add_field(name=score_msg["Away"], value=score_msg["Away Score"])
+        em.add_field(name=score_msg["Home"], value=str(home))
+        em.add_field(name=score_msg["Away"], value=str(away))
         em.add_field(name="Shots " + score_msg["Home"], value=score_msg["Home Shots"])
         em.add_field(name="Shots " + score_msg["Away"], value=score_msg["Away Shots"])
         em.set_thumbnail(url=scorer)
@@ -177,17 +197,23 @@ class Hockey:
 
     async def post_team_goal(self, goal, team, score_msg):
         """Creates embed and sends message if a team has scored a goal"""
-        em = discord.Embed(description=goal["result"]["description"],
-                           colour=int(self.teams[goal["team"]["name"]]["home"].replace("#", ""), 16))
+        
         scorer = self.headshots.format(goal["players"][0]["player"]["id"])
         scoring_team = self.teams[goal["team"]["name"]]
         period = goal["about"]["ordinalNum"]
+        home = goal["about"]["goals"]["home"]
+        away = goal["about"]["goals"]["away"]
         period_time_left = goal["about"]["periodTimeRemaining"]
-        em.set_author(name="🚨 " + goal["team"]["name"] + " GOAL 🚨", 
+        strength = goal["result"]["strength"]["name"]
+        if goal["result"]["emptyNet"]:
+            strength = "Empty Net"
+        em = discord.Embed(description=strength + " Goal by " + goal["result"]["description"],
+                           colour=int(self.teams[goal["team"]["name"]]["home"].replace("#", ""), 16))
+        em.set_author(name="🚨 " + goal["team"]["name"] + " " + strength + " GOAL 🚨", 
                       url=self.teams[goal["team"]["name"]]["team_url"],
                       icon_url=self.teams[goal["team"]["name"]]["logo"])
-        em.add_field(name=score_msg["Home"], value=score_msg["Home Score"])
-        em.add_field(name=score_msg["Away"], value=score_msg["Away Score"])
+        em.add_field(name=score_msg["Home"], value=str(home))
+        em.add_field(name=score_msg["Away"], value=str(away))
         em.add_field(name="Shots " + score_msg["Home"], value=score_msg["Home Shots"])
         em.add_field(name="Shots " + score_msg["Away"], value=score_msg["Away Shots"])
         em.set_thumbnail(url=scorer)
