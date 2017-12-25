@@ -241,8 +241,8 @@ class blockchain:
         if self.search_words(indata):
             significanttx += " ASCII letters found input"
         # self.write("data/blockchain/" + IO + "data.txt", dataout, True, "wb")
+        extension = "txt"
         if significanttx != '':
-            extension = "txt"
             await self.bot.say(significanttx)
             for words in self.list_words:
                 if words in significanttx and "input" in significanttx:
@@ -260,19 +260,17 @@ class blockchain:
                             await self.bot.say("```" + i.decode('utf8') + "```")
         if "GIF" in significanttx:
             extension = "gif"
-        if "7z" in significanttx:
+        elif "7z" in significanttx:
             extension = "7z"
-        if "GZ" in significanttx:
+        elif "GZ" in significanttx:
             extension = "gz"
-        if "PDF" in significanttx:
+        elif "PDF" in significanttx:
             extension = "pdf"
-        if "PNG" in significanttx:
+        elif "PNG" in significanttx:
             extension = "png"
-        if "JPG" in significanttx:
+        elif "JPG" in significanttx:
             extension = "jpg"
-        else:
-            extension = "txt"
-        filename = "data/blockchain/" + IO + "data.{}".format(extension)
+        filename = "data/blockchain/{}data.{}".format(IO, extension)
         await self.write(filename, dataout, True, "wb")
         # await self.bot.send_file(chn, filename)
         if significanttx == '':
