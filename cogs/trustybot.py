@@ -162,6 +162,15 @@ class TrustyBot:
                 await self.bot.say(server.id)
 
     @commands.command(pass_context=True)
+    @checks.is_owner()
+    async def getroles(self, ctx):
+        server = ctx.message.server
+        msg = ""
+        for role in server.roles:
+            msg += (role.name + ",")
+        await self.bot.say(msg)
+
+    @commands.command(pass_context=True)
     async def serveremojis(self, ctx, *, servername=None):
         msg = ""
         server = None

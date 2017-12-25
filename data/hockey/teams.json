@@ -1,7 +1,7 @@
 {
     "Anaheim Ducks" : {
         "away" : "#F95602",
-        "emoji" : "AnaheimDucks:381568942453424129",
+        "emoji" : "AnaheimDucks:381568940108939265",
         "home" : "#B6985A",
         "id" : 24,
         "logo" : "https://nhl.bamcontent.com/images/photos/281720124/256x256/cut.png",
@@ -106,6 +106,7 @@
     "Los Angeles Kings" : {
         "away" : "#B2B7BB",
         "home" : "#000000",
+        "emoji": "LosAngelesKings:381568942105296898",
         "id" : 26,
         "logo" : "https://nhl.bamcontent.com/images/photos/281721042/256x256/cut.png",
         "team_url" : "http://www.lakings.com"
@@ -137,6 +138,7 @@
     "New Jersey Devils" : {
         "away" : "#000000",
         "home" : "#E03A3E",
+        "emoji": "NewJerseyDevils:381568942537179138",
         "id" : 1,
         "logo" : "https://nhl.bamcontent.com/images/photos/281726626/256x256/cut.png",
         "team_url" : "http://www.truesince82.com"
@@ -144,6 +146,7 @@
     "New York Islanders" : {
         "away" : "#F57D31",
         "home" : "#00529B",
+        "emoji": "NewYorkIslanders:381568942948352011",
         "id" : 2,
         "logo" : "https://nhl.bamcontent.com/images/photos/281726632/256x256/cut.png",
         "team_url" : "http://www.newyorkislanders.com"
@@ -151,6 +154,7 @@
     "New York Rangers" : {
         "away" : "#C8102E",
         "home" : "#0033A0",
+        "emoji": "NewYorkRangers:381568942898151435",
         "id" : 3,
         "logo" : "https://nhl.bamcontent.com/images/photos/281718864/256x256/cut.png",
         "team_url" : "http://www.newyorkrangers.com"
@@ -182,6 +186,7 @@
     "San Jose Sharks" : {
         "away" : "#F4901E",
         "home" : "#007889",
+        "emoji": "SanJoseSharks:381568942864334848",
         "id" : 28,
         "logo" : "https://nhl.bamcontent.com/images/photos/281721090/256x256/cut.png",
         "team_url" : "http://www.sjsharks.com"
@@ -189,6 +194,7 @@
     "St. Louis Blues" : {
         "away" : "#FDB930",
         "home" : "#00529C",
+        "emoji": "StLouisBlues:381568942474526724",
         "id" : 19,
         "logo" : "https://nhl.bamcontent.com/images/photos/281752302/256x256/cut.png",
         "team_url" : "http://www.stlouisblues.com"

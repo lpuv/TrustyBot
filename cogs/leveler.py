@@ -1680,14 +1680,14 @@ class Leveler:
         await self.bot.say(embed = em)
 
     @commands.group(pass_context=True)
-    async def role(self, ctx):
+    async def level_role(self, ctx):
         """Admin Background Configuration"""
         if ctx.invoked_subcommand is None:
             await send_cmd_help(ctx)
             return
 
     @checks.mod_or_permissions(manage_roles=True)
-    @role.command(name = 'link', no_pm=True, pass_context=True)
+    @level_role.command(name = 'link', no_pm=True, pass_context=True)
     async def linkrole(self, ctx, role_name:str, level:int, remove_role = None):
         """Associate a role with a level. Removes previous role if given."""
         server = ctx.message.server
@@ -1727,7 +1727,7 @@ class Leveler:
                     role_name, level, remove_role))
 
     @checks.mod_or_permissions(manage_roles=True)
-    @role.command(name = 'unlink', no_pm=True, pass_context=True)
+    @level_role.command(name = 'unlink', no_pm=True, pass_context=True)
     async def unlinkrole(self, ctx, role_name:str):
         """Delete a role/level association."""
         server = ctx.message.server
@@ -1743,7 +1743,7 @@ class Leveler:
             await self.bot.say("**The `{}` role is not linked to any levels!**".format(role_name))
 
     @checks.mod_or_permissions(manage_roles=True)
-    @role.command(name = 'listlinks', no_pm=True, pass_context=True)
+    @level_role.command(name = 'listlinks', no_pm=True, pass_context=True)
     async def listrole(self, ctx):
         """List level/role associations."""
         server = ctx.message.server
