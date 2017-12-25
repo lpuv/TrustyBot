@@ -26,7 +26,7 @@ class Hockey:
         self.url = "https://statsapi.web.nhl.com"
         self.teams = dataIO.load_json("data/hockey/teams.json")
         self.headshots = "https://nhl.bamcontent.com/images/headshots/current/168x168/{}.jpg"
-        self.loop = bot.loop.create_task(self.check_team_goals())
+        self.loop = bot.loop.create_task(self.get_team_goals())
 
     def __unload(self):
         self.loop.cancel()
@@ -67,7 +67,7 @@ class Hockey:
                 links[game["teams"]["home"]["team"]["name"]] = game["link"]
         return is_playing, links
 
-    async def check_team_goals(self):
+    async def get_team_goals(self):
         """Loop to check what teams are playing and see if a goal was scored"""
         await self.bot.wait_until_ready()
         while self is self.bot.get_cog("Hockey"):
@@ -75,7 +75,7 @@ class Hockey:
                 data = await resp.json()
             is_playing, games = await self.team_playing(data["dates"][0]["games"])
             num_goals = 0
-            print(games)
+            # print(games)
             while is_playing and games != {}:
                 for team, link in games.items():
                     print(team)
@@ -83,52 +83,20 @@ class Hockey:
                         data = await resp.json()
                     # print(data)
                     event = data["liveData"]["plays"]["allPlays"]
-                    home_team = data["liveData"]["linescore"]["teams"]["home"]["team"]["name"]
+                    home_team = data["gameData"]["teams"]["home"]["name"]
                     home_shots = data["liveData"]["linescore"]["teams"]["home"]["shotsOnGoal"]
                     home_score = data["liveData"]["linescore"]["teams"]["home"]["goals"]
-                    home_tricode = data["liveData"]["linescore"]["teams"]["home"]["team"]["triCode"]
-                    away_team = data["liveData"]["linescore"]["teams"]["away"]["team"]["name"]
+                    home_abr = data["gameData"]["teams"]["home"]["abbreviation"]
+                    away_team = data["gameData"]["teams"]["away"]["name"]
                     away_shots = data["liveData"]["linescore"]["teams"]["away"]["shotsOnGoal"]
                     away_score = data["liveData"]["linescore"]["teams"]["away"]["goals"]
+                    away_abr = data["gameData"]["teams"]["away"]["abbreviation"]
                     score_msg = {"Home":home_team, "Home Score":home_score, "Home Shots":home_shots,
                                  "Away": away_team, "Away Score":away_score, "Away Shots":away_shots}
                     goals = [goal for goal in event if goal["result"]["eventTypeId"] == "GOAL"]
-                    goal_ids = [goal_id["about"]["eventId"] for goal_id in goals]
                     if len(goals) == 0:
                         continue
-                    for goal in goals:
-                        goal_id = goal["about"]["eventId"]
-                        # print(goal_id)
-                        if goal_id in self.settings[team]["goal_id"]:
-                            # Checks if the goal data has changed and edits all previous posts with new data
-                            # print("It's failing here for some reason")
-                            if goal != self.settings[team]["goal_id"][goal_id]["goal"]:
-                                print("attempting to edit")
-                                self.settings[team]["goal_id"][goal_id]["goal"] = goal
-                                dataIO.save_json("data/hockey/settings.json", self.settings)
-                                await self.edit_team_goal(goal, team, score_msg, self.settings[team]["goal_id"][goal_id]["messages"])
-                        if goal_id not in self.settings[team]["goal_id"]:
-                            # Posts goal information and saves data for verification later
-                            msg_list = await self.post_team_goal(goal, team, score_msg)
-                            # print("this works")
-                            self.settings[team]["goal_id"][goal_id] = {"goal":goal,"messages":msg_list}
-                            # print("this too")
-                            dataIO.save_json("data/hockey/settings.json", self.settings)
-
-                    for old_goals in self.settings[team]["goal_id"]:
-                        if old_goals not in goal_ids:
-                            for channel_id, message_id in old_goal["messages"].items():
-                                channel = self.bot.get_channel(id=channel_id)
-                                message = await self.bot.get_message(channel, message_id)
-                                try:
-                                    await self.bot.delete_message(message)
-                                except:
-                                    print("I can't delete messages in {}".format(channel.server.name))
-                                    pass
-                            del self.settings[team]["goal_id"][old_goals]
-                            dataIO.save_json("data/hockey.settings.json", self.settings)
-
-
+                    await self.check_team_goals(goals, team, score_msg)
                 if data["gameData"]["status"]["abstractGameState"] == "Final":
                     # print("Final")
                     # Clears the game data from the settings file
@@ -142,60 +110,41 @@ class Hockey:
             print(is_playing)
             await asyncio.sleep(300)
 
-    @commands.command(pass_context=True)
-    @checks.is_owner()
-    async def hockeytwitter(self, ctx):
-        server = self.bot.get_server(id="381567805495181344")
-        for team in self.teams:
-            team = team.replace(".", "")
-            team = team.replace(" ", "-")
-            if team.startswith("Montr"):
-                team = "montreal-canadiens"
-            await self.bot.create_channel(server, name=team.lower() + "-twitter")
+    async def check_team_goals(self, goals, team, score_msg):
+        goal_ids = [str(goal_id["about"]["eventId"]) for goal_id in goals]
+        goal_list = list(self.settings[team]["goal_id"])
+        for goal in goals:
+            goal_id = str(goal["about"]["eventId"])
+            if goal_id not in goal_list:
+                # Posts goal information and saves data for verification later
+                msg_list = await self.post_team_goal(goal, team, score_msg)
+                self.settings[team]["goal_id"][goal_id] = {"goal":goal,"messages":msg_list}
+                dataIO.save_json("data/hockey/settings.json", self.settings)
+            if goal_id in goal_list:
+                # Checks if the goal data has changed and edits all previous posts with new data
+                old_goal = self.settings[team]["goal_id"][goal_id]["goal"]
+                if goal != old_goal:
+                    print("attempting to edit")
+                    old_msgs = self.settings[team]["goal_id"][goal_id]["messages"]
+                    self.settings[team]["goal_id"][goal_id]["goal"] = goal
+                    dataIO.save_json("data/hockey/settings.json", self.settings)
+                    await self.post_team_goal(goal, team, score_msg, old_msgs)
 
+        for old_goal in goal_list:
+            if old_goal not in goal_ids:
+                old_msgs = self.settings[team]["goal_id"][old_goal]["messages"].items()
+                for channel_id, message_id in old_msgs:
+                    channel = self.bot.get_channel(id=channel_id)
+                    message = await self.bot.get_message(channel, message_id)
+                    try:
+                        await self.bot.delete_message(message)
+                    except:
+                        print("I can't delete messages in {}".format(channel.server.name))
+                        pass
+                del self.settings[team]["goal_id"][old_goal]
+                dataIO.save_json("data/hockey.settings.json", self.settings)
 
-    async def edit_team_goal(self, goal, team, score_msg, og_msg):
-        """Creates embed and sends message if a team has scored a goal"""
-        print("Attempting to edit a goal")
-        scorer = self.headshots.format(goal["players"][0]["player"]["id"])
-        scoring_team = self.teams[goal["team"]["name"]]
-        period = goal["about"]["ordinalNum"]
-        home = goal["about"]["goals"]["home"]
-        away = goal["about"]["goals"]["away"]
-        period_time_left = goal["about"]["periodTimeRemaining"]
-        strength = goal["result"]["strength"]["name"]
-        if goal["result"]["emptyNet"]:
-            strength = "Empty Net"
-        em = discord.Embed(description=strength + " Goal by " + goal["result"]["description"],
-                           colour=int(self.teams[goal["team"]["name"]]["home"].replace("#", ""), 16))
-        em.set_author(name="🚨 " + goal["team"]["name"] + " " + strength + " GOAL 🚨", 
-                      url=self.teams[goal["team"]["name"]]["team_url"],
-                      icon_url=self.teams[goal["team"]["name"]]["logo"])
-        em.add_field(name=score_msg["Home"], value=str(home))
-        em.add_field(name=score_msg["Away"], value=str(away))
-        em.add_field(name="Shots " + score_msg["Home"], value=score_msg["Home Shots"])
-        em.add_field(name="Shots " + score_msg["Away"], value=score_msg["Away Shots"])
-        em.set_thumbnail(url=scorer)
-        em.set_footer(text="{} left in the {} period".format(period_time_left, period))
-        em.timestamp = datetime.strptime(goal["about"]["dateTime"], "%Y-%m-%dT%H:%M:%SZ")
-        # print(og_msg)
-        for channel_id, message_id in og_msg.items():
-            role = None
-            channel = self.bot.get_channel(id=channel_id)
-            # print("channel {} ID {}".format(channel, message_id))
-            message = await self.bot.get_message(channel, message_id)
-            # print("I can get the message")
-            server = message.server
-            for roles in server.roles:
-                if roles.name == goal["team"]["name"] + " GOAL":
-                    role = roles
-            if role is None:
-                await self.bot.edit_message(message, embed=em)
-            else:  
-                await self.bot.edit_message(message, role.mention, embed=em)
-        return
-
-    async def post_team_goal(self, goal, team, score_msg):
+    async def post_team_goal(self, goal, team, score_msg, og_msg=None):
         """Creates embed and sends message if a team has scored a goal"""
         
         scorer = self.headshots.format(goal["players"][0]["player"]["id"])
@@ -205,6 +154,8 @@ class Hockey:
         away = goal["about"]["goals"]["away"]
         period_time_left = goal["about"]["periodTimeRemaining"]
         strength = goal["result"]["strength"]["name"]
+        if strength == "Even":
+            strength = "Even Strength"
         if goal["result"]["emptyNet"]:
             strength = "Empty Net"
         em = discord.Embed(description=strength + " Goal by " + goal["result"]["description"],
@@ -220,37 +171,65 @@ class Hockey:
         em.set_footer(text="{} left in the {} period".format(period_time_left, period))
         em.timestamp = datetime.strptime(goal["about"]["dateTime"], "%Y-%m-%dT%H:%M:%SZ")
         msg_list = {}
-        if "oilers" in goal["team"]["name"].lower():
-            try:
-                hue = Oilers(self.bot)
-                await hue.oilersgoal2()
-            except:
-                pass
-        for channels in self.settings[team]["channel"]:
-            role = None
-            channel = self.bot.get_channel(id=channels)
-            server = channel.server
-            for roles in server.roles:
-                if roles.name == goal["team"]["name"] + " GOAL":
-                    role = roles
-            try:
+        if og_msg is None:
+            if "oilers" in goal["team"]["name"].lower():
+                try:
+                    hue = Oilers(self.bot)
+                    await hue.oilersgoal2()
+                except:
+                    pass
+            for channels in self.settings[team]["channel"]:
+                role = None
+                channel = self.bot.get_channel(id=channels)
+                server = channel.server
+                for roles in server.roles:
+                    if roles.name == goal["team"]["name"] + " GOAL":
+                        role = roles
+                try:
+                    if role is None:
+                        msg = await self.bot.send_message(channel, embed=em)
+                        msg_list[channel.id] = msg.id
+                    else:  
+                        msg = await self.bot.send_message(channel, role.mention, embed=em)
+                        msg_list[channel.id] = msg.id
+                except:
+                    print("Could not post goal in {}".format(channels))
+                    pass
+            # print(msg_list)
+            return msg_list
+        else:
+            for channel_id, message_id in og_msg.items():
+                role = None
+                channel = self.bot.get_channel(id=channel_id)
+                # print("channel {} ID {}".format(channel, message_id))
+                message = await self.bot.get_message(channel, message_id)
+                # print("I can get the message")
+                server = message.server
+                for roles in server.roles:
+                    if roles.name == goal["team"]["name"] + " GOAL":
+                        role = roles
                 if role is None:
-                    msg = await self.bot.send_message(channel, embed=em)
-                    msg_list[channel.id] = msg.id
+                    await self.bot.edit_message(message, embed=em)
                 else:  
-                    msg = await self.bot.send_message(channel, role.mention, embed=em)
-                    msg_list[channel.id] = msg.id
-            except:
-                print("Could not post goal in {}".format(channels))
-                pass
-        print(msg_list)
-        return msg_list
+                    await self.bot.edit_message(message, role.mention, embed=em)
+            return
 
     @commands.group(pass_context=True, name="hockey", aliases=["nhl"])
     async def hockey_commands(self, ctx):
         """Various Hockey related commands"""
         if ctx.invoked_subcommand is None:
             await self.bot.send_cmd_help(ctx)
+
+    @hockey_commands.command(pass_context=True)
+    @checks.is_owner()
+    async def hockeytwitter(self, ctx):
+        server = self.bot.get_server(id="381567805495181344")
+        for team in self.teams:
+            team = team.replace(".", "")
+            team = team.replace(" ", "-")
+            if team.startswith("Montr"):
+                team = "montreal-canadiens"
+            await self.bot.create_channel(server, name=team.lower() + "-twitter")
 
     @hockey_commands.command(pass_context=True, hidden=True, name="reset")
     async def reset_hockey(self, ctx):

@@ -79,22 +79,22 @@ class Chatterbot():
             return
         if server.id not in self.log:
             self.log[server.id] = {}
-            self.log[server.id][channel.id] = {"author":author.id,"message":message.content[:1023]}
+            self.log[server.id][channel.id] = {"author":author.id,"message":message.content[:512]}
             dataIO.save_json("data/chatterbot/log.json", self.log)
         if channel.id not in self.log[server.id]:
-            self.log[server.id][channel.id] = {"author":author.id,"message":message.content[:1023]}
+            self.log[server.id][channel.id] = {"author":author.id,"message":message.content[:512]}
             dataIO.save_json("data/chatterbot/log.json", self.log)
         last_author = self.log[server.id][channel.id]["author"]
         last_message = self.log[server.id][channel.id]["message"]
-        if author.id == last_author and last_message != message.content[:1023]:
-            self.log[server.id][channel.id]["message"] = message.content[:1023]
+        if author.id == last_author and last_message != message.content[:512]:
+            self.log[server.id][channel.id]["message"] = message.content[:512]
             dataIO.save_json("data/chatterbot/log.json", self.log)
         if author.id != last_author and author.id != self.bot.user.id:
             try:
-                self.log[server.id][channel.id]["message"] = message.content[:1023]
+                self.log[server.id][channel.id]["message"] = message.content[:512]
                 self.log[server.id][channel.id]["author"] = author.id
                 dataIO.save_json("data/chatterbot/log.json", self.log)
-                conversation.append(message.content[:1023])
+                conversation.append(message.content[:512])
                 conversation.append(last_message)
                 self.chatbot.train(conversation)
             except:
