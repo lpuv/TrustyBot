@@ -35,7 +35,7 @@ class TrustyAvatar:
         await self.bot.wait_until_ready()
         while self is self.bot.get_cog("TrustyAvatar"):
             try:
-                async with self.session.get(choice(self.christmas)) as r:
+                async with self.session.get(choice(self.url)) as r:
                     data = await r.read()
                 await self.bot.edit_profile(self.bot.settings.password, avatar=data)
             except Exception as e:

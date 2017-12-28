@@ -78,10 +78,12 @@ class Downloader:
 
         Warning: Adding 3RD Party Repositories is at your own
         Risk."""
+        channel = ctx.message.channel
         if not self.disclaimer_accepted:
             await self.bot.say(DISCLAIMER)
-            answer = await self.bot.wait_for_message(timeout=30,
-                                                     author=ctx.message.author)
+            answer = await self.bot.wait_for_message(timeout=30.0,
+                                                     author=ctx.message.author,
+                                                     channel=channel)
             if answer is None:
                 await self.bot.say('Not adding repo.')
                 return

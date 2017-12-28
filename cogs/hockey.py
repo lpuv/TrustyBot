@@ -125,7 +125,7 @@ class Hockey:
                         print("I can't delete messages in {}".format(channel.server.name))
                         pass
                 del self.settings[team]["goal_id"][old_goal]
-                dataIO.save_json("data/hockey.settings.json", self.settings)
+                dataIO.save_json("data/hockey/settings.json", self.settings)
 
     async def post_team_goal(self, goal, team, score_msg, og_msg=None):
         """Creates embed and sends message if a team has scored a goal"""

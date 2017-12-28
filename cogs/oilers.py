@@ -38,14 +38,24 @@ class Oilers:
             await self.oilers_hex_set(0, 0)
             await asyncio.sleep(0.5)
         for light in self.lights:
-            light.colortemp = old_lights[light.name][1]
+            old_temp = old_lights[light.name][1]
+            if old_temp < 154:
+                old_temp = 154
+            if old_temp > 500:
+                old_temp = 499
+            light.colortemp = old_temp
             light.on = old_lights[light.name][0]
         for light in self.lights2:
-            light.colortemp = old_lights2[light.name][1]
+            old_temp = old_lights2[light.name][1]
+            if old_temp < 154:
+                old_temp = 154
+            if old_temp > 500:
+                old_temp = 499
+            light.colortemp = old_temp
             light.on = old_lights2[light.name][0]
             
 
-    @commands.command(name="oilers")
+    @commands.command(hidden=True, name="oilers_connect")
     async def hue_connect(self):
         """Setup command if bridge cannot connect"""
         self.bridge.connect()

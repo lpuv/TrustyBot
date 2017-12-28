@@ -176,6 +176,17 @@ class Tweets():
         api.update_status(message)
         await self.bot.send_message(ctx.message.channel, "Tweet sent!")
 
+    @_tweets.command(hidden=True, pass_context=True, name="name")
+    @checks.is_owner()
+    async def change_name(self, ctx):
+        api = await self.authenticate()
+        try:
+            api.update_profile(name="TrustyJAID 🔹")
+        except tw.error.TweepError as e:
+            await self.bot.send_message(ctx.message.channel, e)
+            return
+        await self.bot.send_message(ctx.message.channel, "Name set to {}!".format(message))
+
 
     def random_colour(self):
         return int(''.join([randchoice('0123456789ABCDEF')for x in range(6)]), 16)
