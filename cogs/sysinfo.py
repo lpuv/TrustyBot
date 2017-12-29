@@ -1,4 +1,5 @@
 from discord.ext import commands
+import discord
 from cogs.utils import checks
 import asyncio
 import os
@@ -18,9 +19,9 @@ class SysInfo:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='sysinfo')
+    @commands.command(pass_context=True, name='sysinfo')
     @checks.is_owner()
-    async def psutil(self, *args: str):
+    async def psutil(self, ctx, *args: str):
         """Show CPU, Memory, Disk, and Network information
 
          Usage: sysinfo [option]
@@ -34,93 +35,81 @@ class SysInfo:
              sysinfo network   Shows network usage
              sysinfo boot      Shows boot time
          """
-
+        em = discord.Embed()
         # CPU
         cpu_count_p = psutil.cpu_count(logical=False)
         cpu_count_l = psutil.cpu_count()
         if cpu_count_p is None:
             cpu_count_p = "N/A"
-        cpu_cs = ("CPU Count"
-                  "\n\t{0:<9}: {1:>3}".format("Physical", cpu_count_p) +
-                  "\n\t{0:<9}: {1:>3}".format("Logical", cpu_count_l))        
+
+        cpu_cs = ("{0:<9}: {1:>3}".format("Physical", cpu_count_p) +
+                  "\n{0:<9}: {1:>3}".format("Logical", cpu_count_l))
+        em.add_field(name="CPU Count 💻", value= cpu_cs)
         psutil.cpu_percent(interval=None, percpu=True)
         await asyncio.sleep(1)
         cpu_p = psutil.cpu_percent(interval=None, percpu=True)
-        cpu_ps = ("CPU Usage"
-                  "\n\t{0:<8}: {1}".format("Per CPU", cpu_p) +
-                  "\n\t{0:<8}: {1:.1f}%".format("Overall", sum(cpu_p)/len(cpu_p)))
+        cpu_ps = ("{0:<8}: {1}".format("Per CPU", cpu_p) +
+                  "\n{0:<8}: {1:.1f}%".format("Overall", sum(cpu_p)/len(cpu_p)))
+        em.add_field(name="CPU usage 📈", value= cpu_ps)
         cpu_t = psutil.cpu_times()
         width = max([len("{:,}".format(int(n))) for n in [cpu_t.user, cpu_t.system, cpu_t.idle]])
         cpu_ts = ("CPU Times"
-                  "\n\t{0:<7}: {1:>{width},}".format("User", int(cpu_t.user), width=width) +
-                  "\n\t{0:<7}: {1:>{width},}".format("System", int(cpu_t.system), width=width) +
-                  "\n\t{0:<7}: {1:>{width},}".format("Idle", int(cpu_t.idle), width=width))
+                  "{0:<7}: {1:>{width},}".format("User", int(cpu_t.user), width=width) +
+                  "\n{0:<7}: {1:>{width},}".format("System", int(cpu_t.system), width=width) +
+                  "\n{0:<7}: {1:>{width},}".format("Idle", int(cpu_t.idle), width=width))
+        em.add_field(name="CPU times ⏱", value= cpu_ts, inline=True)
 
         # Memory
         mem_v = psutil.virtual_memory()
         width = max([len(self._size(n)) for n in [mem_v.total, mem_v.available, (mem_v.total - mem_v.available)]])
-        mem_vs = ("Virtual Memory"
-                  "\n\t{0:<10}: {1:>{width}}".format("Total", self._size(mem_v.total), width=width) +
-                  "\n\t{0:<10}: {1:>{width}}".format("Available", self._size(mem_v.available), width=width) +
-                  "\n\t{0:<10}: {1:>{width}} {2}%".format("Used", self._size(mem_v.total - mem_v.available),
+        mem_vs = ("{0:<10}: {1:>{width}}".format("Total", self._size(mem_v.total), width=width) +
+                  "\n{0:<10}: {1:>{width}}".format("Available", self._size(mem_v.available), width=width) +
+                  "\n{0:<10}: {1:>{width}} {2}%".format("Used", self._size(mem_v.total - mem_v.available),
                                                           mem_v.percent, width=width))
+        em.add_field(name="Virtual Memory", value=mem_vs, inline=True)
         mem_s = psutil.swap_memory()
         width = max([len(self._size(n)) for n in [mem_s.total, mem_s.free, (mem_s.total - mem_s.free)]])
-        mem_ss = ("Swap Memory"
-                  "\n\t{0:<6}: {1:>{width}}".format("Total", self._size(mem_s.total), width=width) +
-                  "\n\t{0:<6}: {1:>{width}}".format("Free", self._size(mem_s.free), width=width) +
-                  "\n\t{0:<6}: {1:>{width}} {2}%".format("Used", self._size(mem_s.total - mem_s.free),
+        mem_ss = ("{0:<6}: {1:>{width}}".format("Total", self._size(mem_s.total), width=width) +
+                  "\n{0:<6}: {1:>{width}}".format("Free", self._size(mem_s.free), width=width) +
+                  "\n{0:<6}: {1:>{width}} {2}%".format("Used", self._size(mem_s.total - mem_s.free),
                                                          mem_s.percent, width=width))
+        em.add_field(name="Swap Memory", value=mem_ss, inline=True)
 
         # Open files
         open_f = psutil.Process().open_files()
-        open_fs = "Open File Handles\n\t"
+        open_fs = ""
         if open_f:
             if hasattr(open_f[0], "mode"):
-                open_fs += "\n\t".join(["{0} [{1}]".format(f.path, f.mode) for f in open_f])
+                open_fs += "".join(["{0} [{1}]".format(f.path, f.mode) for f in open_f])
             else:
-                open_fs += "\n\t".join(["{0}".format(f.path) for f in open_f])
+                open_fs += "\n".join(["{0}".format(f.path) for f in open_f])
         else:
             open_fs += "None"
+        em.add_field(name="Open File Handles", value=open_fs, inline=True)
 
         # Disk usage
         disk_u = psutil.disk_usage(os.path.sep)
         width = max([len(self._size(n)) for n in [disk_u.total, disk_u.free, disk_u.used]])
-        disk_us = ("Disk Usage"
-                   "\n\t{0:<6}: {1:>{width}}".format("Total", self._size(disk_u.total), width=width) +
-                   "\n\t{0:<6}: {1:>{width}}".format("Free", self._size(disk_u.free), width=width) +
-                   "\n\t{0:<6}: {1:>{width}} {2}%".format("Used", self._size(disk_u.used),
+        disk_us = ("{0:<6}: {1:>{width}}".format("Total", self._size(disk_u.total), width=width) +
+                   "\n{0:<6}: {1:>{width}}".format("Free", self._size(disk_u.free), width=width) +
+                   "\n{0:<6}: {1:>{width}} {2}%".format("Used", self._size(disk_u.used),
                                                           disk_u.percent, width=width))
+        em.add_field(name="Disk Usage", value=disk_us, inline=True)
 
         # Network
         net_io = psutil.net_io_counters()
         width = max([len(self._size(n)) for n in [net_io.bytes_sent, net_io.bytes_recv]])
-        net_ios = ("Network"
-                   "\n\t{0:<11}: {1:>{width}}".format("Bytes sent", self._size(net_io.bytes_sent), width=width) +
-                   "\n\t{0:<11}: {1:>{width}}".format("Bytes recv", self._size(net_io.bytes_recv), width=width))
+        net_ios = ("{0:<11}: {1:>{width}}".format("Bytes sent", self._size(net_io.bytes_sent), width=width) +
+                   "\n{0:<11}: {1:>{width}}".format("Bytes recv", self._size(net_io.bytes_recv), width=width))
+        em.add_field(name="Network", value=net_ios, inline=True)
 
         # Boot time
-        boot_s = ("Boot Time"
-                  "\n\t{0}".format(datetime.fromtimestamp(
-                       psutil.boot_time()).strftime("%Y-%m-%d %H:%M:%S")))
+        boot_s = datetime.fromtimestamp(psutil.boot_time())
+        em.timestamp = boot_s
+        em.set_footer(text="Boot Time")
 
         # Output
-        if not args or args[0].lower() not in self.options:
-            await self.bot.say("```\n" +
-                               "\n\n".join([cpu_cs, cpu_ps, cpu_ts, mem_vs, mem_ss, open_fs, disk_us, net_ios, boot_s]) +
-                               "```")
-        elif args[0].lower() == 'cpu':
-            await self.bot.say("```\n" + "\n\n".join([cpu_cs, cpu_ps, cpu_ts]) + "```")
-        elif args[0].lower() == 'memory':
-            await self.bot.say("```\n" + "\n\n".join([mem_vs, mem_ss]) + "```")
-        elif args[0].lower() == 'file':
-            await self.bot.say("```\n" + open_fs + "```")
-        elif args[0].lower() == 'disk':
-            await self.bot.say("```\n" + disk_us + "```")
-        elif args[0].lower() == 'network':
-            await self.bot.say("```\n" + net_ios + "```")
-        elif args[0].lower() == 'boot':
-            await self.bot.say("```\n" + boot_s + "```")
+        await self.bot.send_message(ctx.message.channel, embed=em)
 
         return
 
