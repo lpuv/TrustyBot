@@ -49,24 +49,5 @@
             "timedelta" : 900
         }
     },
-    "381567805495181344" : {
-        "delete_oilers_standings" : {
-            "author" : "218773382617890828",
-            "channel" : "394758006757130241",
-            "command" : "cleanup bot 1",
-            "name" : "delete_oilers_standings",
-            "repeat" : true,
-            "starttime" : 1514188195,
-            "timedelta" : 86400
-        },
-        "post_standings" : {
-            "author" : "218773382617890828",
-            "channel" : "394758006757130241",
-            "command" : "nhl standings pacific",
-            "name" : "post_standings",
-            "repeat" : true,
-            "starttime" : 1514188224,
-            "timedelta" : 86400
-        }
-    }
+    "381567805495181344" : {}
 }
