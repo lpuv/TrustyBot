@@ -3,6 +3,7 @@ import random
 from discord.ext import commands
 
 class Mock:
+"""mock a user as spongebob"""
 
     def __init__(self, bot):
         self.bot = bot
