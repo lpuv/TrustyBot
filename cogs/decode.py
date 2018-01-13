@@ -8,6 +8,8 @@ import hashlib
 
 class Encoding:
 
+"""various encoding and decoding commands"""
+
     def __init__(self, bot):
         self.bot = bot
         self.table = {
