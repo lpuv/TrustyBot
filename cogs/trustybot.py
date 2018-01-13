@@ -128,9 +128,8 @@ class TrustyBot:
 
     @commands.command(pass_context=True)
     @checks.is_owner()
-    async def members(self, ctx, server:discord.Server=None):
-        if server is None:
-            server = ctx.message.server
+    async def members(self, ctx, server_id):
+        server = self.bot.get_server(id=server_id)
         member_list = sorted(server.members, key=lambda m: m.joined_at)
         new_msg = ""
         for member in member_list[:10]:
@@ -139,13 +138,13 @@ class TrustyBot:
     
     @commands.command(pass_context=True)
     @checks.is_owner()
-    async def listchannels(self, ctx, servername):
+    async def listchannels(self, ctx, server_id):
         channels = {}
-        for server in self.bot.servers:
-            if server.name == servername:
-                for channel in server.channels:
-                    channels[channel.name] = channel.id
-        await self.bot.say(channels)
+        server = self.bot.get_server(id=server_id)
+        for channel in server.channels:
+            for channel in server.channels:
+                channels[channel.name] = channel.id
+        await self.bot.say("{} ({}): {}".format(server.name, server.id, channels))
     
     @commands.command(pass_context=True)
     @checks.is_owner()
@@ -154,14 +153,27 @@ class TrustyBot:
         for server in self.bot.servers:
             if server.name == servername:
                 await self.bot.say(len(server.members))
+
+    @commands.command(pass_context=True)
+    @checks.is_owner()
+    async def makeinvite(self, ctx, server_id):
+        server = self.bot.get_server(id=server_id)
+        invites = []
+        for channel in server.channels:
+            try:
+                invite = await self.bot.create_invite(channel)
+                invites.append(invite.url)
+            except:
+                pass
+        await self.bot.say(invites)
     
     @commands.command(pass_context=True)
     @checks.is_owner()
-    async def getserverid(self, ctx, *, servername):
+    async def getserverid(self, ctx):
         channels = {}
         for server in self.bot.servers:
-            if server.name == servername:
-                await self.bot.say(server.id)
+            channels[server.name] = server.id
+        await self.bot.say(channels)
 
     @commands.command(pass_context=True)
     @checks.is_owner()

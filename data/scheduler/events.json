@@ -37,17 +37,44 @@
             "timedelta" : 86400
         }
     },
-    "261636805370183691" : {},
-    "302859379755974666" : {
-        "pepe" : {
-            "author" : "266874972381642752",
-            "channel" : "337698577440702464",
-            "command" : "pepe",
-            "name" : "pepe",
+    "296712229661835264" : {
+        "delete_standings" : {
+            "author" : "128321342998183936",
+            "channel" : "399348224525074442",
+            "command" : "cleanup messages 1",
+            "name" : "delete_standings",
             "repeat" : true,
-            "starttime" : 1507643788,
-            "timedelta" : 900
+            "starttime" : 1515603991,
+            "timedelta" : 86400
+        },
+        "post_standings" : {
+            "author" : "128321342998183936",
+            "channel" : "399348224525074442",
+            "command" : "hockey standings atlantic",
+            "name" : "post_standings",
+            "repeat" : true,
+            "starttime" : 1515604041,
+            "timedelta" : 86400
         }
     },
-    "381567805495181344" : {}
+    "381567805495181344" : {
+        "post_standings" : {
+            "author" : "218773382617890828",
+            "channel" : "394758006757130241",
+            "command" : "hockey standings pacific",
+            "name" : "post_standings",
+            "repeat" : true,
+            "starttime" : 1515568216,
+            "timedelta" : 86400
+        },
+        "rem_standing" : {
+            "author" : "218773382617890828",
+            "channel" : "394758006757130241",
+            "command" : "cleanup messages 1",
+            "name" : "rem_standing",
+            "repeat" : true,
+            "starttime" : 1515568189,
+            "timedelta" : 86400
+        }
+    }
 }

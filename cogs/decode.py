@@ -64,9 +64,9 @@ class Encoding:
         await self.bot.say(binary)
 
     @_decode.command(pass_context=True, name="binary")
-    async def encode_binary(self, ctx, *, message: str):
+    async def decode_binary(self, ctx, *, message: str):
         message = message.strip(" ")
-        binary = ' '.join(bin(x)[2:].zfill(8) for x in message.encode('UTF-8'))
+        binary = str(' '.join(bin(x)[2:].zfill(8) for x in message.encode('UTF-8')))
         await self.bot.say(binary)
 
 

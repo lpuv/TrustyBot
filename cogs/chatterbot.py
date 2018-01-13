@@ -114,9 +114,12 @@ class Chatterbot():
                 return
             text = text.replace(to_strip, "", 1)
             await self.bot.send_typing(channel)
-            response = self.chatbot.get_response(text)
+            response = await self.get_response_bot(text)
             if response != "":
                 await self.bot.send_message(message.channel, response)
+
+    async def get_respose_bot(self, text):
+        return self.chatbot.get_response(text)
 
 
 

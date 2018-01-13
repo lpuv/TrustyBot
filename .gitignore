@@ -35,3 +35,7 @@ data/blockchain/originaldata.txt
 data/blockchain/sdata.txt
 data/blockchain/sdata.pdf
 data/backup/
+data/qposts/
+data/hockeytest/
+cogs/star_wip.py
+cogs/hockeytest.py

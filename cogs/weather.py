@@ -64,7 +64,7 @@ class weather:
             units = self.settings["server"][server.id]
         if author.id in self.settings["user"]:
             units = self.settings["user"][author.id]
-        elif server.id not in self.settings["server"] and author.id not in self.settings["author"]:
+        elif server.id not in self.settings["server"] and author.id not in self.settings["user"]:
             units = "imperial"
         if units == "kelvin":
             url = "http://api.openweathermap.org/data/2.5/weather?q={0}&appid=88660f6af079866a3ef50f491082c386&units=metric".format(location)

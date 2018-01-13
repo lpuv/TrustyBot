@@ -56,11 +56,15 @@
     },
     "296712229661835264" : {
         "dlr" : "say De La Rose is truly the best number one center in the league",
+        "fuckkreider" : "say FUCK KREIDER!",
         "fuckmariotremblay" : "say FUCK MARIO TREMBLAY",
         "fuckmessier" : "say FUCK MESSIER!!!11",
+        "fuckthebruins" : "say FUCK THE BRUINS!",
         "goals" : "nhl games canadiens",
         "habs" : "badges canadiens",
-        "nextgame" : "nhl games canadiens"
+        "heyheybaby" : "say https://www.youtube.com/watch?v=9YFtlvDOVVE",
+        "nextgame" : "nhl games canadiens",
+        "standings" : "nhl standings atlantic"
     },
     "304436539482701825" : {
         "labor" : "addrole \"Labor Camp Prisoner\""
@@ -78,6 +82,7 @@
         "hedgehog" : "gifr headgehog"
     },
     "381567805495181344" : {
-        "nextgame" : "nhl games oilers"
+        "nextgame" : "nhl games oilers",
+        "standings" : "nhl standings pacific"
     }
 }

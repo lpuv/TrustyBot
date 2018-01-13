@@ -64,7 +64,7 @@ class Conversions:
         await self.bot.send_message(ctx.message.channel, embed=embed)
     
     async def checkcoins(self, base):
-        link = "https://api.coinmarketcap.com/v1/ticker/?limit=1328"
+        link = "https://api.coinmarketcap.com/v1/ticker/?limit=0"
         async with self.session.get(link) as resp:
             data = await resp.json()
         for coin in data:

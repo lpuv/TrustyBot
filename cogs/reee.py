@@ -23,7 +23,7 @@ class Reee:
     async def on_message(self, message):
         if len(message.content) < 2 or message.channel.is_private:
             return
-        if message.server.id == "133049272517001216":
+        if message.server.id in ["133049272517001216", "326454371921690644", "321105104931389440"]:
             return
         if message.author == self.bot.user:
             return
