@@ -85,9 +85,23 @@ class QPosts:
                             self.qposts[board].append(post)
                             dataIO.save_json("data/qposts/qposts.json", self.qposts)
                             await self.postq(post, "/{}/ {}".format(board, "EDIT"))
+            print("checking Q...")
             asyncio.sleep(60)
 
-
+    async def get_quoted_post(self, qpost):
+        html = qpost["com"]
+        soup = BeautifulSoup(html, "html.parser")
+        reference_post = []
+        for a in soup.find_all("a", href=True):
+            print(a)
+            url, post_id = a["href"].split("#")[0].replace("html", "json"), int(a["href"].split("#")[1])
+            async with self.session.get(self.url + url) as resp:
+                data = await resp.json()
+            for post in data["posts"]:
+                if post["no"] == post_id:
+                    reference_post.append(post)
+        return reference_post
+            
     # @commands.command(pass_context=True)
     async def postq(self, qpost, board):
         # qpost = [post for post in self.qposts["thestorm"] if post["no"] == 11689][0]
@@ -95,7 +109,8 @@ class QPosts:
         # print("trying to post")
         em = discord.Embed(colour=discord.Colour.red())
         name = qpost["name"] if "name" in qpost else "Anonymous"
-        em.set_author(name=name + qpost["trip"], url="{}{}/res/{}.html#{}".format(self.url, "/thestorm/", qpost["resto"], qpost["no"]))
+        url = "{}/{}/res/{}.html#{}".format(self.url, board, qpost["resto"], qpost["no"])
+        em.set_author(name=name + qpost["trip"], url=url)
         em.timestamp = datetime.fromtimestamp(qpost["time"])
         html = qpost["com"]
         soup = BeautifulSoup(html, "html.parser")
@@ -106,17 +121,56 @@ class QPosts:
             else:
                 text += p.string + "\n"
         em.description = text[:1800]
+        reference = await self.get_quoted_post(qpost)
+        if reference != []:
+            for post in reference:
+                print(post)
+                ref_html = post["com"]
+                soup_ref = BeautifulSoup(ref_html, "html.parser")
+                ref_text = ""
+                for p in soup_ref.find_all("p"):
+                    if p.string is None:
+                        ref_text += "."
+                    else:
+                        ref_text += p.string + "\n"
+                em.add_field(name=str(post["no"]), value=ref_text)
         em.set_footer(text=board)
         if "tim" in qpost:
             file_id = qpost["tim"]
             file_ext = qpost["ext"]
-            url = "https://media.8ch.net/file_store/{}{}".format(file_id, file_ext)
+            img_url = "https://media.8ch.net/file_store/{}{}".format(file_id, file_ext)
             if file_ext in [".png", ".jpg"]:
-                em.set_image(url=url)
+                em.set_image(url=img_url)
             await self.save_q_files(qpost)
         for channel_id in self.settings:
             channel = self.bot.get_channel(id=channel_id)
-            await self.bot.send_message(channel, embed=em)
+            await self.bot.send_message(channel, "<{}>".format(url), embed=em)
+
+    @commands.command(pass_context=True)
+    @checks.is_owner()
+    async def fixq(self, ctx):
+        async for message in self.bot.logs_from(ctx.message.channel, limit=1000):
+            if message.embeds != []:
+                embed = message.embeds[0]
+                author = embed["author"]["name"]
+                board = embed["footer"]["text"]
+                url = embed["author"]["url"].replace("/thestorm/", board)
+                embed["author"]["url"] = url
+                text = embed["description"]
+                # timestamp = embed["timestamp"] "2018-01-13T22:39:31+00:00"
+                # print(board)
+                post_id = int(url.split("#")[-1])
+                timestamp = [post["time"] for post in self.qposts[board.replace("/", "")] if post["no"] == post_id][0]
+                # print(timestamp)
+                timestamp = datetime.fromtimestamp(timestamp)
+                # print(timestamp)
+                em = discord.Embed(colour=discord.Colour.red(),
+                                   description=text,
+                                   timestamp=timestamp)
+                em.set_author(name=author, url=url)
+                em.set_footer(text="{}".format(board))
+                await self.bot.edit_message(message, embed=em)
+        # print(embed["author"])
 
     async def q_menu(self, ctx, post_list: list, board,
                          message: discord.Message=None,
@@ -127,7 +181,8 @@ class QPosts:
         qpost = post_list[page]
         em = discord.Embed(colour=discord.Colour.red())
         name = qpost["name"] if "name" in qpost else "Anonymous"
-        em.set_author(name=name + qpost["trip"], url="{}{}/res/{}.html#{}".format(self.url, "/thestorm/", qpost["resto"], qpost["no"]))
+        url = "{}/{}/res/{}.html#{}".format(self.url, board, qpost["resto"], qpost["no"])
+        em.set_author(name=name + qpost["trip"], url=url)
         em.timestamp = datetime.fromtimestamp(qpost["time"])
         html = qpost["com"]
         soup = BeautifulSoup(html, "html.parser")
@@ -138,22 +193,34 @@ class QPosts:
             else:
                 text += p.string + "\n"
         em.description = text[:1800]
-        em.description = text
+        reference = await self.get_quoted_post(qpost)
+        if reference != []:
+            for post in reference:
+                print(post)
+                ref_html = post["com"]
+                soup_ref = BeautifulSoup(ref_html, "html.parser")
+                ref_text = ""
+                for p in soup_ref.find_all("p"):
+                    if p.string is None:
+                        ref_text += "."
+                    else:
+                        ref_text += p.string + "\n"
+                em.add_field(name=str(post["no"]), value=ref_text)
         em.set_footer(text="/{}/".format(board))
         if "tim" in qpost:
             file_id = qpost["tim"]
             file_ext = qpost["ext"]
-            url = "https://media.8ch.net/file_store/{}{}".format(file_id, file_ext)
+            img_url = "https://media.8ch.net/file_store/{}{}".format(file_id, file_ext)
             if file_ext in [".png", ".jpg"]:
-                em.set_image(url=url)
+                em.set_image(url=img_url)
         if not message:
             message =\
-                await self.bot.send_message(ctx.message.channel, embed=em)
+                await self.bot.send_message(ctx.message.channel, "<{}>".format(url), embed=em)
             await self.bot.add_reaction(message, "⬅")
             await self.bot.add_reaction(message, "❌")
             await self.bot.add_reaction(message, "➡")
         else:
-            message = await self.bot.edit_message(message, embed=em)
+            message = await self.bot.edit_message(message, "<{}>".format(url), embed=em)
         react = await self.bot.wait_for_reaction(
             message=message, user=ctx.message.author, timeout=timeout,
             emoji=["➡", "⬅", "❌"]
@@ -171,6 +238,10 @@ class QPosts:
                 next_page = 0  # Loop around to the first item
             else:
                 next_page = page + 1
+            try:
+                await self.bot.remove_reaction(message, "➡", ctx.message.author)
+            except:
+                pass
             return await self.q_menu(ctx, post_list, board=board,
                                         message=message,
                                         page=next_page, timeout=timeout)
@@ -180,6 +251,10 @@ class QPosts:
                 next_page = len(post_list) - 1  # Loop around to the last item
             else:
                 next_page = page - 1
+            try:
+                await self.bot.remove_reaction(message, "⬅", ctx.message.author)
+            except:
+                pass
             return await self.q_menu(ctx, post_list, board=board,
                                         message=message,
                                         page=next_page, timeout=timeout)
@@ -187,7 +262,7 @@ class QPosts:
             return await\
                 self.bot.delete_message(message)
 
-    @commands.command(pass_context=True)
+    @commands.command(pass_context=True, aliases=["postq"])
     async def qpost(self, ctx, board="greatawakening"):
         if board not in self.qposts:
             await self.bot.send_message(ctx.message.channel, "{} is not an available board!")

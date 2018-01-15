@@ -1,279 +1,348 @@
 {
     "\ud83c\udde6\ud83c\udde9" : {
         "code" : "ca",
-        "name" : "Andorra"
+        "country" : "Andorra",
+        "name" : "Catalan"
     },
     "\ud83c\udde6\ud83c\uddea" : {
         "code" : "ar",
-        "name" : "United Arab Emirates"
+        "country" : "United Arab Emirates",
+        "name" : "Arabic"
     },
     "\ud83c\udde6\ud83c\uddeb" : {
         "code" : "ps",
-        "name" : "Afghanistan"
+        "country" : "Afghanistan",
+        "name" : "Pashto"
     },
     "\ud83c\udde6\ud83c\uddec" : {
         "code" : "en",
-        "name" : "Antigua and Barbuda"
+        "country" : "Antigua and Barbuda",
+        "name" : "English"
     },
     "\ud83c\udde6\ud83c\uddee" : {
         "code" : "en",
-        "name" : "Anguilla"
+        "country" : "Anguilla",
+        "name" : "English"
     },
     "\ud83c\udde6\ud83c\uddf1" : {
         "code" : "sq",
-        "name" : "Albania"
+        "country" : "Albania",
+        "name" : "Albanian"
     },
     "\ud83c\udde6\ud83c\uddf2" : {
         "code" : "hy",
-        "name" : "Armenia"
+        "country" : "Armenia",
+        "name" : "Armenian"
     },
     "\ud83c\udde6\ud83c\uddf4" : {
         "code" : "pt",
-        "name" : "Angola"
+        "country" : "Angola",
+        "name" : "Portuguese"
     },
     "\ud83c\udde6\ud83c\uddf6" : {
         "code" : "en",
-        "name" : "Antarctica"
+        "country" : "Antarctica",
+        "name" : "English"
     },
     "\ud83c\udde6\ud83c\uddf7" : {
         "code" : "es",
-        "name" : "Argentina"
+        "country" : "Argentina",
+        "name" : "Spanish"
     },
     "\ud83c\udde6\ud83c\uddf8" : {
         "code" : "en",
-        "name" : "American Samoa"
+        "country" : "American Samoa",
+        "name" : "English"
     },
     "\ud83c\udde6\ud83c\uddf9" : {
         "code" : "de",
-        "name" : "Austria"
+        "country" : "Austria",
+        "name" : "German"
     },
     "\ud83c\udde6\ud83c\uddfa" : {
         "code" : "en",
-        "name" : "Australia"
+        "country" : "Australia",
+        "name" : "English"
     },
     "\ud83c\udde6\ud83c\uddfc" : {
         "code" : "nl",
-        "name" : "Aruba"
+        "country" : "Aruba",
+        "name" : "Dutch"
     },
     "\ud83c\udde6\ud83c\uddfd" : {
         "code" : "sv",
-        "name" : "\u00c5land Islands"
+        "country" : "\u00c5land Islands",
+        "name" : "Swedish"
     },
     "\ud83c\udde6\ud83c\uddff" : {
         "code" : "az",
-        "name" : "Azerbaijan"
+        "country" : "Azerbaijan",
+        "name" : "Azerbaijani"
     },
     "\ud83c\udde7\ud83c\udde6" : {
         "code" : "bs",
-        "name" : "Bosnia and Herzegovina"
+        "country" : "Bosnia and Herzegovina",
+        "name" : "Bosnian"
     },
     "\ud83c\udde7\ud83c\udde7" : {
         "code" : "en",
-        "name" : "Barbados"
+        "country" : "Barbados",
+        "name" : "English"
     },
     "\ud83c\udde7\ud83c\udde9" : {
         "code" : "bn",
-        "name" : "Bangladesh"
+        "country" : "Bangladesh",
+        "name" : "Bengali"
     },
     "\ud83c\udde7\ud83c\uddea" : {
         "code" : "nl",
-        "name" : "Belgium"
+        "country" : "Belgium",
+        "name" : "Dutch"
     },
     "\ud83c\udde7\ud83c\uddeb" : {
         "code" : "fr",
-        "name" : "Burkina Faso"
+        "country" : "Burkina Faso",
+        "name" : "French"
     },
     "\ud83c\udde7\ud83c\uddec" : {
         "code" : "bg",
-        "name" : "Bulgaria"
+        "country" : "Bulgaria",
+        "name" : "Bulgarian"
     },
     "\ud83c\udde7\ud83c\udded" : {
         "code" : "ar",
-        "name" : "Bahrain"
+        "country" : "Bahrain",
+        "name" : "Arabic"
     },
     "\ud83c\udde7\ud83c\uddee" : {
         "code" : "fr",
-        "name" : "Burundi"
+        "country" : "Burundi",
+        "name" : "French"
     },
     "\ud83c\udde7\ud83c\uddef" : {
         "code" : "fr",
-        "name" : "Benin"
+        "country" : "Benin",
+        "name" : "French"
     },
     "\ud83c\udde7\ud83c\uddf1" : {
         "code" : "fr",
-        "name" : "Saint Barth\u00e9lemy"
+        "country" : "Saint Barth\u00e9lemy",
+        "name" : "French"
     },
     "\ud83c\udde7\ud83c\uddf2" : {
         "code" : "en",
-        "name" : "Bermuda"
+        "country" : "Bermuda",
+        "name" : "English"
     },
     "\ud83c\udde7\ud83c\uddf3" : {
         "code" : "ms",
-        "name" : "Brunei Darussalam"
+        "country" : "Brunei Darussalam",
+        "name" : "Malay"
     },
     "\ud83c\udde7\ud83c\uddf4" : {
         "code" : "es",
-        "name" : "Bolivia (Plurinational State of)"
+        "country" : "Bolivia (Plurinational State of)",
+        "name" : "Spanish"
     },
     "\ud83c\udde7\ud83c\uddf6" : {
         "code" : "nl",
-        "name" : "Bonaire, Sint Eustatius and Saba"
+        "country" : "Bonaire, Sint Eustatius and Saba",
+        "name" : "Dutch"
     },
     "\ud83c\udde7\ud83c\uddf7" : {
         "code" : "pt",
-        "name" : "Brazil"
+        "country" : "Brazil",
+        "name" : "Portuguese"
     },
     "\ud83c\udde7\ud83c\uddf8" : {
         "code" : "en",
-        "name" : "Bahamas"
+        "country" : "Bahamas",
+        "name" : "English"
     },
     "\ud83c\udde7\ud83c\uddf9" : {
         "code" : "dz",
-        "name" : "Bhutan"
+        "country" : "Bhutan",
+        "name" : "Dzongkha"
     },
     "\ud83c\udde7\ud83c\uddfb" : {
         "code" : "no",
-        "name" : "Bouvet Island"
+        "country" : "Bouvet Island",
+        "name" : "Norwegian"
     },
     "\ud83c\udde7\ud83c\uddfc" : {
         "code" : "en",
-        "name" : "Botswana"
+        "country" : "Botswana",
+        "name" : "English"
     },
     "\ud83c\udde7\ud83c\uddfe" : {
         "code" : "be",
-        "name" : "Belarus"
+        "country" : "Belarus",
+        "name" : "Belarusian"
     },
     "\ud83c\udde7\ud83c\uddff" : {
         "code" : "en",
-        "name" : "Belize"
+        "country" : "Belize",
+        "name" : "English"
     },
     "\ud83c\udde8\ud83c\udde6" : {
         "code" : "en",
-        "name" : "Canada"
+        "country" : "Canada",
+        "name" : "English"
     },
     "\ud83c\udde8\ud83c\udde8" : {
         "code" : "en",
-        "name" : "Cocos (Keeling) Islands"
+        "country" : "Cocos (Keeling) Islands",
+        "name" : "English"
     },
     "\ud83c\udde8\ud83c\udde9" : {
         "code" : "fr",
-        "name" : "Congo (Democratic Republic of the)"
+        "country" : "Congo (Democratic Republic of the)",
+        "name" : "French"
     },
     "\ud83c\udde8\ud83c\uddeb" : {
         "code" : "fr",
-        "name" : "Central African Republic"
+        "country" : "Central African Republic",
+        "name" : "French"
     },
     "\ud83c\udde8\ud83c\uddec" : {
         "code" : "fr",
-        "name" : "Congo"
+        "country" : "Congo",
+        "name" : "French"
     },
     "\ud83c\udde8\ud83c\udded" : {
         "code" : "de",
-        "name" : "Switzerland"
+        "country" : "Switzerland",
+        "name" : "German"
     },
     "\ud83c\udde8\ud83c\uddee" : {
         "code" : "fr",
-        "name" : "C\u00f4te d'Ivoire"
+        "country" : "C\u00f4te d'Ivoire",
+        "name" : "French"
     },
     "\ud83c\udde8\ud83c\uddf0" : {
         "code" : "en",
-        "name" : "Cook Islands"
+        "country" : "Cook Islands",
+        "name" : "English"
     },
     "\ud83c\udde8\ud83c\uddf1" : {
         "code" : "es",
-        "name" : "Chile"
+        "country" : "Chile",
+        "name" : "Spanish"
     },
     "\ud83c\udde8\ud83c\uddf2" : {
         "code" : "en",
-        "name" : "Cameroon"
+        "country" : "Cameroon",
+        "name" : "English"
     },
     "\ud83c\udde8\ud83c\uddf3" : {
         "code" : "zh",
-        "name" : "China"
+        "country" : "China",
+        "name" : "Chinese"
     },
     "\ud83c\udde8\ud83c\uddf4" : {
         "code" : "es",
-        "name" : "Colombia"
+        "country" : "Colombia",
+        "name" : "Spanish"
     },
     "\ud83c\udde8\ud83c\uddf7" : {
         "code" : "es",
-        "name" : "Costa Rica"
+        "country" : "Costa Rica",
+        "name" : "Spanish"
     },
     "\ud83c\udde8\ud83c\uddfa" : {
         "code" : "es",
-        "name" : "Cuba"
+        "country" : "Cuba",
+        "name" : "Spanish"
     },
     "\ud83c\udde8\ud83c\uddfb" : {
         "code" : "pt",
-        "name" : "Cabo Verde"
+        "country" : "Cabo Verde",
+        "name" : "Portuguese"
     },
     "\ud83c\udde8\ud83c\uddfc" : {
         "code" : "nl",
-        "name" : "Cura\u00e7ao"
+        "country" : "Cura\u00e7ao",
+        "name" : "Dutch"
     },
     "\ud83c\udde8\ud83c\uddfd" : {
         "code" : "en",
-        "name" : "Christmas Island"
+        "country" : "Christmas Island",
+        "name" : "English"
     },
     "\ud83c\udde8\ud83c\uddfe" : {
         "code" : "el",
-        "name" : "Cyprus"
+        "country" : "Cyprus",
+        "name" : "Greek (modern)"
     },
     "\ud83c\udde8\ud83c\uddff" : {
         "code" : "cs",
-        "name" : "Czech Republic"
+        "country" : "Czech Republic",
+        "name" : "Czech"
     },
     "\ud83c\udde9\ud83c\uddea" : {
         "code" : "de",
-        "name" : "Germany"
+        "country" : "Germany",
+        "name" : "German"
     },
     "\ud83c\udde9\ud83c\uddef" : {
         "code" : "fr",
-        "name" : "Djibouti"
+        "country" : "Djibouti",
+        "name" : "French"
     },
     "\ud83c\udde9\ud83c\uddf0" : {
         "code" : "da",
-        "name" : "Denmark"
+        "country" : "Denmark",
+        "name" : "Danish"
     },
     "\ud83c\udde9\ud83c\uddf2" : {
         "code" : "en",
-        "name" : "Dominica"
+        "country" : "Dominica",
+        "name" : "English"
     },
     "\ud83c\udde9\ud83c\uddf4" : {
         "code" : "es",
-        "name" : "Dominican Republic"
+        "country" : "Dominican Republic",
+        "name" : "Spanish"
     },
     "\ud83c\udde9\ud83c\uddff" : {
         "code" : "ar",
-        "name" : "Algeria"
+        "country" : "Algeria",
+        "name" : "Arabic"
     },
     "\ud83c\uddea\ud83c\udde8" : {
         "code" : "es",
-        "name" : "Ecuador"
+        "country" : "Ecuador",
+        "name" : "Spanish"
     },
     "\ud83c\uddea\ud83c\uddea" : {
         "code" : "et",
-        "name" : "Estonia"
+        "country" : "Estonia",
+        "name" : "Estonian"
     },
     "\ud83c\uddea\ud83c\uddec" : {
         "code" : "ar",
-        "name" : "Egypt"
+        "country" : "Egypt",
+        "name" : "Arabic"
     },
     "\ud83c\uddea\ud83c\udded" : {
         "code" : "es",
-        "name" : "Western Sahara"
+        "country" : "Western Sahara",
+        "name" : "Spanish"
     },
     "\ud83c\uddea\ud83c\uddf7" : {
         "code" : "ti",
-        "name" : "Eritrea"
+        "country" : "Eritrea",
+        "name" : "Tigrinya"
     },
     "\ud83c\uddea\ud83c\uddf8" : {
         "code" : "es",
-        "name" : "Spain"
+        "country" : "Spain",
+        "name" : "Spanish"
     },
     "\ud83c\uddea\ud83c\uddf9" : {
         "code" : "am",
-        "name" : "Ethiopia"
+        "country" : "Ethiopia",
+        "name" : "Amharic"
     },
     "\ud83c\uddea\ud83c\uddfa" : {
         "code" : "EU",
@@ -282,726 +351,907 @@
         "name" : "European Union",
         "status" : 404,
         "title" : "flag for European Union",
-        "unicode" : "U+1F1EA U+1F1FA"
+        "unicode" : "U+1F1EA U+1F1FA",
+        "country" : "N/A"
     },
     "\ud83c\uddeb\ud83c\uddee" : {
         "code" : "fi",
-        "name" : "Finland"
+        "country" : "Finland",
+        "name" : "Finnish"
     },
     "\ud83c\uddeb\ud83c\uddef" : {
         "code" : "en",
-        "name" : "Fiji"
+        "country" : "Fiji",
+        "name" : "English"
     },
     "\ud83c\uddeb\ud83c\uddf0" : {
         "code" : "en",
-        "name" : "Falkland Islands (Malvinas)"
+        "country" : "Falkland Islands (Malvinas)",
+        "name" : "English"
     },
     "\ud83c\uddeb\ud83c\uddf2" : {
         "code" : "en",
-        "name" : "Micronesia (Federated States of)"
+        "country" : "Micronesia (Federated States of)",
+        "name" : "English"
     },
     "\ud83c\uddeb\ud83c\uddf4" : {
         "code" : "fo",
-        "name" : "Faroe Islands"
+        "country" : "Faroe Islands",
+        "name" : "Faroese"
     },
     "\ud83c\uddeb\ud83c\uddf7" : {
         "code" : "fr",
-        "name" : "France"
+        "country" : "France",
+        "name" : "French"
     },
     "\ud83c\uddec\ud83c\udde6" : {
         "code" : "fr",
-        "name" : "Gabon"
+        "country" : "Gabon",
+        "name" : "French"
     },
     "\ud83c\uddec\ud83c\udde7" : {
         "code" : "en",
-        "name" : "United Kingdom of Great Britain and Northern Ireland"
+        "country" : "United Kingdom of Great Britain and Northern Ireland",
+        "name" : "English"
     },
     "\ud83c\uddec\ud83c\udde9" : {
         "code" : "en",
-        "name" : "Grenada"
+        "country" : "Grenada",
+        "name" : "English"
     },
     "\ud83c\uddec\ud83c\uddea" : {
         "code" : "ka",
-        "name" : "Georgia"
+        "country" : "Georgia",
+        "name" : "Georgian"
     },
     "\ud83c\uddec\ud83c\uddeb" : {
         "code" : "fr",
-        "name" : "French Guiana"
+        "country" : "French Guiana",
+        "name" : "French"
     },
     "\ud83c\uddec\ud83c\uddec" : {
         "code" : "en",
-        "name" : "Guernsey"
+        "country" : "Guernsey",
+        "name" : "English"
     },
     "\ud83c\uddec\ud83c\udded" : {
         "code" : "en",
-        "name" : "Ghana"
+        "country" : "Ghana",
+        "name" : "English"
     },
     "\ud83c\uddec\ud83c\uddee" : {
         "code" : "en",
-        "name" : "Gibraltar"
+        "country" : "Gibraltar",
+        "name" : "English"
     },
     "\ud83c\uddec\ud83c\uddf1" : {
         "code" : "kl",
-        "name" : "Greenland"
+        "country" : "Greenland",
+        "name" : "Kalaallisut"
     },
     "\ud83c\uddec\ud83c\uddf2" : {
         "code" : "en",
-        "name" : "Gambia"
+        "country" : "Gambia",
+        "name" : "English"
     },
     "\ud83c\uddec\ud83c\uddf3" : {
         "code" : "fr",
-        "name" : "Guinea"
+        "country" : "Guinea",
+        "name" : "French"
     },
     "\ud83c\uddec\ud83c\uddf5" : {
         "code" : "fr",
-        "name" : "Guadeloupe"
+        "country" : "Guadeloupe",
+        "name" : "French"
     },
     "\ud83c\uddec\ud83c\uddf6" : {
         "code" : "es",
-        "name" : "Equatorial Guinea"
+        "country" : "Equatorial Guinea",
+        "name" : "Spanish"
     },
     "\ud83c\uddec\ud83c\uddf7" : {
         "code" : "el",
-        "name" : "Greece"
+        "country" : "Greece",
+        "name" : "Greek (modern)"
     },
     "\ud83c\uddec\ud83c\uddf8" : {
         "code" : "en",
-        "name" : "South Georgia and the South Sandwich Islands"
+        "country" : "South Georgia and the South Sandwich Islands",
+        "name" : "English"
     },
     "\ud83c\uddec\ud83c\uddf9" : {
         "code" : "es",
-        "name" : "Guatemala"
+        "country" : "Guatemala",
+        "name" : "Spanish"
     },
     "\ud83c\uddec\ud83c\uddfa" : {
         "code" : "en",
-        "name" : "Guam"
+        "country" : "Guam",
+        "name" : "English"
     },
     "\ud83c\uddec\ud83c\uddfc" : {
         "code" : "pt",
-        "name" : "Guinea-Bissau"
+        "country" : "Guinea-Bissau",
+        "name" : "Portuguese"
     },
     "\ud83c\uddec\ud83c\uddfe" : {
         "code" : "en",
-        "name" : "Guyana"
+        "country" : "Guyana",
+        "name" : "English"
     },
     "\ud83c\udded\ud83c\uddf0" : {
         "code" : "en",
-        "name" : "Hong Kong"
+        "country" : "Hong Kong",
+        "name" : "English"
     },
     "\ud83c\udded\ud83c\uddf2" : {
         "code" : "en",
-        "name" : "Heard Island and McDonald Islands"
+        "country" : "Heard Island and McDonald Islands",
+        "name" : "English"
     },
     "\ud83c\udded\ud83c\uddf3" : {
         "code" : "es",
-        "name" : "Honduras"
+        "country" : "Honduras",
+        "name" : "Spanish"
     },
     "\ud83c\udded\ud83c\uddf7" : {
         "code" : "hr",
-        "name" : "Croatia"
+        "country" : "Croatia",
+        "name" : "Croatian"
     },
     "\ud83c\udded\ud83c\uddf9" : {
         "code" : "fr",
-        "name" : "Haiti"
+        "country" : "Haiti",
+        "name" : "French"
     },
     "\ud83c\udded\ud83c\uddfa" : {
         "code" : "hu",
-        "name" : "Hungary"
+        "country" : "Hungary",
+        "name" : "Hungarian"
     },
     "\ud83c\uddee\ud83c\udde9" : {
         "code" : "id",
-        "name" : "Indonesia"
+        "country" : "Indonesia",
+        "name" : "Indonesian"
     },
     "\ud83c\uddee\ud83c\uddea" : {
         "code" : "ga",
-        "name" : "Ireland"
+        "country" : "Ireland",
+        "name" : "Irish"
     },
     "\ud83c\uddee\ud83c\uddf1" : {
         "code" : "he",
-        "name" : "Israel"
+        "country" : "Israel",
+        "name" : "Hebrew (modern)"
     },
     "\ud83c\uddee\ud83c\uddf2" : {
         "code" : "en",
-        "name" : "Isle of Man"
+        "country" : "Isle of Man",
+        "name" : "English"
     },
     "\ud83c\uddee\ud83c\uddf3" : {
         "code" : "hi",
-        "name" : "India"
+        "country" : "India",
+        "name" : "Hindi"
     },
     "\ud83c\uddee\ud83c\uddf4" : {
         "code" : "en",
-        "name" : "British Indian Ocean Territory"
+        "country" : "British Indian Ocean Territory",
+        "name" : "English"
     },
     "\ud83c\uddee\ud83c\uddf6" : {
         "code" : "ar",
-        "name" : "Iraq"
+        "country" : "Iraq",
+        "name" : "Arabic"
     },
     "\ud83c\uddee\ud83c\uddf7" : {
         "code" : "fa",
-        "name" : "Iran (Islamic Republic of)"
+        "country" : "Iran (Islamic Republic of)",
+        "name" : "Persian (Farsi)"
     },
     "\ud83c\uddee\ud83c\uddf8" : {
         "code" : "is",
-        "name" : "Iceland"
+        "country" : "Iceland",
+        "name" : "Icelandic"
     },
     "\ud83c\uddee\ud83c\uddf9" : {
         "code" : "it",
-        "name" : "Italy"
+        "country" : "Italy",
+        "name" : "Italian"
     },
     "\ud83c\uddef\ud83c\uddea" : {
         "code" : "en",
-        "name" : "Jersey"
+        "country" : "Jersey",
+        "name" : "English"
     },
     "\ud83c\uddef\ud83c\uddf2" : {
         "code" : "en",
-        "name" : "Jamaica"
+        "country" : "Jamaica",
+        "name" : "English"
     },
     "\ud83c\uddef\ud83c\uddf4" : {
         "code" : "ar",
-        "name" : "Jordan"
+        "country" : "Jordan",
+        "name" : "Arabic"
     },
     "\ud83c\uddef\ud83c\uddf5" : {
         "code" : "ja",
-        "name" : "Japan"
+        "country" : "Japan",
+        "name" : "Japanese"
     },
     "\ud83c\uddf0\ud83c\uddea" : {
         "code" : "en",
-        "name" : "Kenya"
+        "country" : "Kenya",
+        "name" : "English"
     },
     "\ud83c\uddf0\ud83c\uddec" : {
         "code" : "ky",
-        "name" : "Kyrgyzstan"
+        "country" : "Kyrgyzstan",
+        "name" : "Kyrgyz"
     },
     "\ud83c\uddf0\ud83c\udded" : {
         "code" : "km",
-        "name" : "Cambodia"
+        "country" : "Cambodia",
+        "name" : "Khmer"
     },
     "\ud83c\uddf0\ud83c\uddee" : {
         "code" : "en",
-        "name" : "Kiribati"
+        "country" : "Kiribati",
+        "name" : "English"
     },
     "\ud83c\uddf0\ud83c\uddf2" : {
         "code" : "ar",
-        "name" : "Comoros"
+        "country" : "Comoros",
+        "name" : "Arabic"
     },
     "\ud83c\uddf0\ud83c\uddf3" : {
         "code" : "en",
-        "name" : "Saint Kitts and Nevis"
+        "country" : "Saint Kitts and Nevis",
+        "name" : "English"
     },
     "\ud83c\uddf0\ud83c\uddf5" : {
         "code" : "ko",
-        "name" : "Korea (Democratic People's Republic of)"
+        "country" : "Korea (Democratic People's Republic of)",
+        "name" : "Korean"
     },
     "\ud83c\uddf0\ud83c\uddf7" : {
         "code" : "ko",
-        "name" : "Korea (Republic of)"
+        "country" : "Korea (Republic of)",
+        "name" : "Korean"
     },
     "\ud83c\uddf0\ud83c\uddfc" : {
         "code" : "ar",
-        "name" : "Kuwait"
+        "country" : "Kuwait",
+        "name" : "Arabic"
     },
     "\ud83c\uddf0\ud83c\uddfe" : {
         "code" : "en",
-        "name" : "Cayman Islands"
+        "country" : "Cayman Islands",
+        "name" : "English"
     },
     "\ud83c\uddf0\ud83c\uddff" : {
         "code" : "kk",
-        "name" : "Kazakhstan"
+        "country" : "Kazakhstan",
+        "name" : "Kazakh"
     },
     "\ud83c\uddf1\ud83c\udde6" : {
         "code" : "lo",
-        "name" : "Lao People's Democratic Republic"
+        "country" : "Lao People's Democratic Republic",
+        "name" : "Lao"
     },
     "\ud83c\uddf1\ud83c\udde7" : {
         "code" : "ar",
-        "name" : "Lebanon"
+        "country" : "Lebanon",
+        "name" : "Arabic"
     },
     "\ud83c\uddf1\ud83c\udde8" : {
         "code" : "en",
-        "name" : "Saint Lucia"
+        "country" : "Saint Lucia",
+        "name" : "English"
     },
     "\ud83c\uddf1\ud83c\uddee" : {
         "code" : "de",
-        "name" : "Liechtenstein"
+        "country" : "Liechtenstein",
+        "name" : "German"
     },
     "\ud83c\uddf1\ud83c\uddf0" : {
         "code" : "si",
-        "name" : "Sri Lanka"
+        "country" : "Sri Lanka",
+        "name" : "Sinhalese"
     },
     "\ud83c\uddf1\ud83c\uddf7" : {
         "code" : "en",
-        "name" : "Liberia"
+        "country" : "Liberia",
+        "name" : "English"
     },
     "\ud83c\uddf1\ud83c\uddf8" : {
         "code" : "en",
-        "name" : "Lesotho"
+        "country" : "Lesotho",
+        "name" : "English"
     },
     "\ud83c\uddf1\ud83c\uddf9" : {
         "code" : "lt",
-        "name" : "Lithuania"
+        "country" : "Lithuania",
+        "name" : "Lithuanian"
     },
     "\ud83c\uddf1\ud83c\uddfa" : {
         "code" : "fr",
-        "name" : "Luxembourg"
+        "country" : "Luxembourg",
+        "name" : "French"
     },
     "\ud83c\uddf1\ud83c\uddfb" : {
         "code" : "lv",
-        "name" : "Latvia"
+        "country" : "Latvia",
+        "name" : "Latvian"
     },
     "\ud83c\uddf1\ud83c\uddfe" : {
         "code" : "ar",
-        "name" : "Libya"
+        "country" : "Libya",
+        "name" : "Arabic"
     },
     "\ud83c\uddf2\ud83c\udde6" : {
         "code" : "ar",
-        "name" : "Morocco"
+        "country" : "Morocco",
+        "name" : "Arabic"
     },
     "\ud83c\uddf2\ud83c\udde8" : {
         "code" : "fr",
-        "name" : "Monaco"
+        "country" : "Monaco",
+        "name" : "French"
     },
     "\ud83c\uddf2\ud83c\udde9" : {
         "code" : "ro",
-        "name" : "Moldova (Republic of)"
+        "country" : "Moldova (Republic of)",
+        "name" : "Romanian"
     },
     "\ud83c\uddf2\ud83c\uddea" : {
         "code" : "sr",
-        "name" : "Montenegro"
+        "country" : "Montenegro",
+        "name" : "Serbian"
     },
     "\ud83c\uddf2\ud83c\uddeb" : {
         "code" : "en",
-        "name" : "Saint Martin (French part)"
+        "country" : "Saint Martin (French part)",
+        "name" : "English"
     },
     "\ud83c\uddf2\ud83c\uddec" : {
         "code" : "fr",
-        "name" : "Madagascar"
+        "country" : "Madagascar",
+        "name" : "French"
     },
     "\ud83c\uddf2\ud83c\udded" : {
         "code" : "en",
-        "name" : "Marshall Islands"
+        "country" : "Marshall Islands",
+        "name" : "English"
     },
     "\ud83c\uddf2\ud83c\uddf0" : {
         "code" : "mk",
-        "name" : "Macedonia (the former Yugoslav Republic of)"
+        "country" : "Macedonia (the former Yugoslav Republic of)",
+        "name" : "Macedonian"
     },
     "\ud83c\uddf2\ud83c\uddf1" : {
         "code" : "fr",
-        "name" : "Mali"
+        "country" : "Mali",
+        "name" : "French"
     },
     "\ud83c\uddf2\ud83c\uddf2" : {
         "code" : "my",
-        "name" : "Myanmar"
+        "country" : "Myanmar",
+        "name" : "Burmese"
     },
     "\ud83c\uddf2\ud83c\uddf3" : {
         "code" : "mn",
-        "name" : "Mongolia"
+        "country" : "Mongolia",
+        "name" : "Mongolian"
     },
     "\ud83c\uddf2\ud83c\uddf4" : {
         "code" : "zh",
-        "name" : "Macao"
+        "country" : "Macao",
+        "name" : "Chinese"
     },
     "\ud83c\uddf2\ud83c\uddf5" : {
         "code" : "en",
-        "name" : "Northern Mariana Islands"
+        "country" : "Northern Mariana Islands",
+        "name" : "English"
     },
     "\ud83c\uddf2\ud83c\uddf6" : {
         "code" : "fr",
-        "name" : "Martinique"
+        "country" : "Martinique",
+        "name" : "French"
     },
     "\ud83c\uddf2\ud83c\uddf7" : {
         "code" : "ar",
-        "name" : "Mauritania"
+        "country" : "Mauritania",
+        "name" : "Arabic"
     },
     "\ud83c\uddf2\ud83c\uddf8" : {
         "code" : "en",
-        "name" : "Montserrat"
+        "country" : "Montserrat",
+        "name" : "English"
     },
     "\ud83c\uddf2\ud83c\uddf9" : {
         "code" : "mt",
-        "name" : "Malta"
+        "country" : "Malta",
+        "name" : "Maltese"
     },
     "\ud83c\uddf2\ud83c\uddfa" : {
         "code" : "en",
-        "name" : "Mauritius"
+        "country" : "Mauritius",
+        "name" : "English"
     },
     "\ud83c\uddf2\ud83c\uddfb" : {
         "code" : "dv",
-        "name" : "Maldives"
+        "country" : "Maldives",
+        "name" : "Divehi"
     },
     "\ud83c\uddf2\ud83c\uddfc" : {
         "code" : "en",
-        "name" : "Malawi"
+        "country" : "Malawi",
+        "name" : "English"
     },
     "\ud83c\uddf2\ud83c\uddfd" : {
         "code" : "es",
-        "name" : "Mexico"
+        "country" : "Mexico",
+        "name" : "Spanish"
     },
     "\ud83c\uddf2\ud83c\uddfe" : {
         "code" : null,
-        "name" : "Malaysia"
+        "country" : "Malaysia",
+        "name" : "Malaysian"
     },
     "\ud83c\uddf2\ud83c\uddff" : {
         "code" : "pt",
-        "name" : "Mozambique"
+        "country" : "Mozambique",
+        "name" : "Portuguese"
     },
     "\ud83c\uddf3\ud83c\udde6" : {
         "code" : "en",
-        "name" : "Namibia"
+        "country" : "Namibia",
+        "name" : "English"
     },
     "\ud83c\uddf3\ud83c\udde8" : {
         "code" : "fr",
-        "name" : "New Caledonia"
+        "country" : "New Caledonia",
+        "name" : "French"
     },
     "\ud83c\uddf3\ud83c\uddea" : {
         "code" : "fr",
-        "name" : "Niger"
+        "country" : "Niger",
+        "name" : "French"
     },
     "\ud83c\uddf3\ud83c\uddeb" : {
         "code" : "en",
-        "name" : "Norfolk Island"
+        "country" : "Norfolk Island",
+        "name" : "English"
     },
     "\ud83c\uddf3\ud83c\uddec" : {
         "code" : "en",
-        "name" : "Nigeria"
+        "country" : "Nigeria",
+        "name" : "English"
     },
     "\ud83c\uddf3\ud83c\uddee" : {
         "code" : "es",
-        "name" : "Nicaragua"
+        "country" : "Nicaragua",
+        "name" : "Spanish"
     },
     "\ud83c\uddf3\ud83c\uddf1" : {
         "code" : "nl",
-        "name" : "Netherlands"
+        "country" : "Netherlands",
+        "name" : "Dutch"
     },
     "\ud83c\uddf3\ud83c\uddf4" : {
         "code" : "no",
-        "name" : "Norway"
+        "country" : "Norway",
+        "name" : "Norwegian"
     },
     "\ud83c\uddf3\ud83c\uddf5" : {
         "code" : "ne",
-        "name" : "Nepal"
+        "country" : "Nepal",
+        "name" : "Nepali"
     },
     "\ud83c\uddf3\ud83c\uddf7" : {
         "code" : "en",
-        "name" : "Nauru"
+        "country" : "Nauru",
+        "name" : "English"
     },
     "\ud83c\uddf3\ud83c\uddfa" : {
         "code" : "en",
-        "name" : "Niue"
+        "country" : "Niue",
+        "name" : "English"
     },
     "\ud83c\uddf3\ud83c\uddff" : {
         "code" : "en",
-        "name" : "New Zealand"
+        "country" : "New Zealand",
+        "name" : "English"
     },
     "\ud83c\uddf4\ud83c\uddf2" : {
         "code" : "ar",
-        "name" : "Oman"
+        "country" : "Oman",
+        "name" : "Arabic"
     },
     "\ud83c\uddf5\ud83c\udde6" : {
         "code" : "es",
-        "name" : "Panama"
+        "country" : "Panama",
+        "name" : "Spanish"
     },
     "\ud83c\uddf5\ud83c\uddea" : {
         "code" : "es",
-        "name" : "Peru"
+        "country" : "Peru",
+        "name" : "Spanish"
     },
     "\ud83c\uddf5\ud83c\uddeb" : {
         "code" : "fr",
-        "name" : "French Polynesia"
+        "country" : "French Polynesia",
+        "name" : "French"
     },
     "\ud83c\uddf5\ud83c\uddec" : {
         "code" : "en",
-        "name" : "Papua New Guinea"
+        "country" : "Papua New Guinea",
+        "name" : "English"
     },
     "\ud83c\uddf5\ud83c\udded" : {
         "code" : "en",
-        "name" : "Philippines"
+        "country" : "Philippines",
+        "name" : "English"
     },
     "\ud83c\uddf5\ud83c\uddf0" : {
         "code" : "en",
-        "name" : "Pakistan"
+        "country" : "Pakistan",
+        "name" : "English"
     },
     "\ud83c\uddf5\ud83c\uddf1" : {
         "code" : "pl",
-        "name" : "Poland"
+        "country" : "Poland",
+        "name" : "Polish"
     },
     "\ud83c\uddf5\ud83c\uddf2" : {
         "code" : "fr",
-        "name" : "Saint Pierre and Miquelon"
+        "country" : "Saint Pierre and Miquelon",
+        "name" : "French"
     },
     "\ud83c\uddf5\ud83c\uddf3" : {
         "code" : "en",
-        "name" : "Pitcairn"
+        "country" : "Pitcairn",
+        "name" : "English"
     },
     "\ud83c\uddf5\ud83c\uddf7" : {
         "code" : "es",
-        "name" : "Puerto Rico"
+        "country" : "Puerto Rico",
+        "name" : "Spanish"
     },
     "\ud83c\uddf5\ud83c\uddf8" : {
         "code" : "ar",
-        "name" : "Palestine, State of"
+        "country" : "Palestine, State of",
+        "name" : "Arabic"
     },
     "\ud83c\uddf5\ud83c\uddf9" : {
         "code" : "pt",
-        "name" : "Portugal"
+        "country" : "Portugal",
+        "name" : "Portuguese"
     },
     "\ud83c\uddf5\ud83c\uddfc" : {
         "code" : "en",
-        "name" : "Palau"
+        "country" : "Palau",
+        "name" : "English"
     },
     "\ud83c\uddf5\ud83c\uddfe" : {
         "code" : "es",
-        "name" : "Paraguay"
+        "country" : "Paraguay",
+        "name" : "Spanish"
     },
     "\ud83c\uddf6\ud83c\udde6" : {
         "code" : "ar",
-        "name" : "Qatar"
+        "country" : "Qatar",
+        "name" : "Arabic"
     },
     "\ud83c\uddf7\ud83c\uddea" : {
         "code" : "fr",
-        "name" : "R\u00e9union"
+        "country" : "R\u00e9union",
+        "name" : "French"
     },
     "\ud83c\uddf7\ud83c\uddf4" : {
         "code" : "ro",
-        "name" : "Romania"
+        "country" : "Romania",
+        "name" : "Romanian"
     },
     "\ud83c\uddf7\ud83c\uddf8" : {
         "code" : "sr",
-        "name" : "Serbia"
+        "country" : "Serbia",
+        "name" : "Serbian"
     },
     "\ud83c\uddf7\ud83c\uddfa" : {
         "code" : "ru",
-        "name" : "Russian Federation"
+        "country" : "Russian Federation",
+        "name" : "Russian"
     },
     "\ud83c\uddf7\ud83c\uddfc" : {
         "code" : "rw",
-        "name" : "Rwanda"
+        "country" : "Rwanda",
+        "name" : "Kinyarwanda"
     },
     "\ud83c\uddf8\ud83c\udde6" : {
         "code" : "ar",
-        "name" : "Saudi Arabia"
+        "country" : "Saudi Arabia",
+        "name" : "Arabic"
     },
     "\ud83c\uddf8\ud83c\udde7" : {
         "code" : "en",
-        "name" : "Solomon Islands"
+        "country" : "Solomon Islands",
+        "name" : "English"
     },
     "\ud83c\uddf8\ud83c\udde8" : {
         "code" : "fr",
-        "name" : "Seychelles"
+        "country" : "Seychelles",
+        "name" : "French"
     },
     "\ud83c\uddf8\ud83c\udde9" : {
         "code" : "ar",
-        "name" : "Sudan"
+        "country" : "Sudan",
+        "name" : "Arabic"
     },
     "\ud83c\uddf8\ud83c\uddea" : {
         "code" : "sv",
-        "name" : "Sweden"
+        "country" : "Sweden",
+        "name" : "Swedish"
     },
     "\ud83c\uddf8\ud83c\uddec" : {
         "code" : "en",
-        "name" : "Singapore"
+        "country" : "Singapore",
+        "name" : "English"
     },
     "\ud83c\uddf8\ud83c\udded" : {
         "code" : "en",
-        "name" : "Saint Helena, Ascension and Tristan da Cunha"
+        "country" : "Saint Helena, Ascension and Tristan da Cunha",
+        "name" : "English"
     },
     "\ud83c\uddf8\ud83c\uddee" : {
         "code" : "sl",
-        "name" : "Slovenia"
+        "country" : "Slovenia",
+        "name" : "Slovene"
     },
     "\ud83c\uddf8\ud83c\uddef" : {
         "code" : "no",
-        "name" : "Svalbard and Jan Mayen"
+        "country" : "Svalbard and Jan Mayen",
+        "name" : "Norwegian"
     },
     "\ud83c\uddf8\ud83c\uddf0" : {
         "code" : "sk",
-        "name" : "Slovakia"
+        "country" : "Slovakia",
+        "name" : "Slovak"
     },
     "\ud83c\uddf8\ud83c\uddf1" : {
         "code" : "en",
-        "name" : "Sierra Leone"
+        "country" : "Sierra Leone",
+        "name" : "English"
     },
     "\ud83c\uddf8\ud83c\uddf2" : {
         "code" : "it",
-        "name" : "San Marino"
+        "country" : "San Marino",
+        "name" : "Italian"
     },
     "\ud83c\uddf8\ud83c\uddf3" : {
         "code" : "fr",
-        "name" : "Senegal"
+        "country" : "Senegal",
+        "name" : "French"
     },
     "\ud83c\uddf8\ud83c\uddf4" : {
         "code" : "so",
-        "name" : "Somalia"
+        "country" : "Somalia",
+        "name" : "Somali"
     },
     "\ud83c\uddf8\ud83c\uddf7" : {
         "code" : "nl",
-        "name" : "Suriname"
+        "country" : "Suriname",
+        "name" : "Dutch"
     },
     "\ud83c\uddf8\ud83c\uddf8" : {
         "code" : "en",
-        "name" : "South Sudan"
+        "country" : "South Sudan",
+        "name" : "English"
     },
     "\ud83c\uddf8\ud83c\uddf9" : {
         "code" : "pt",
-        "name" : "Sao Tome and Principe"
+        "country" : "Sao Tome and Principe",
+        "name" : "Portuguese"
     },
     "\ud83c\uddf8\ud83c\uddfb" : {
         "code" : "es",
-        "name" : "El Salvador"
+        "country" : "El Salvador",
+        "name" : "Spanish"
     },
     "\ud83c\uddf8\ud83c\uddfd" : {
         "code" : "nl",
-        "name" : "Sint Maarten (Dutch part)"
+        "country" : "Sint Maarten (Dutch part)",
+        "name" : "Dutch"
     },
     "\ud83c\uddf8\ud83c\uddfe" : {
         "code" : "ar",
-        "name" : "Syrian Arab Republic"
+        "country" : "Syrian Arab Republic",
+        "name" : "Arabic"
     },
     "\ud83c\uddf8\ud83c\uddff" : {
         "code" : "en",
-        "name" : "Swaziland"
+        "country" : "Swaziland",
+        "name" : "English"
     },
     "\ud83c\uddf9\ud83c\udde8" : {
         "code" : "en",
-        "name" : "Turks and Caicos Islands"
+        "country" : "Turks and Caicos Islands",
+        "name" : "English"
     },
     "\ud83c\uddf9\ud83c\udde9" : {
         "code" : "fr",
-        "name" : "Chad"
+        "country" : "Chad",
+        "name" : "French"
     },
     "\ud83c\uddf9\ud83c\uddeb" : {
         "code" : "fr",
-        "name" : "French Southern Territories"
+        "country" : "French Southern Territories",
+        "name" : "French"
     },
     "\ud83c\uddf9\ud83c\uddec" : {
         "code" : "fr",
-        "name" : "Togo"
+        "country" : "Togo",
+        "name" : "French"
     },
     "\ud83c\uddf9\ud83c\udded" : {
         "code" : "th",
-        "name" : "Thailand"
+        "country" : "Thailand",
+        "name" : "Thai"
     },
     "\ud83c\uddf9\ud83c\uddef" : {
         "code" : "tg",
-        "name" : "Tajikistan"
+        "country" : "Tajikistan",
+        "name" : "Tajik"
     },
     "\ud83c\uddf9\ud83c\uddf0" : {
         "code" : "en",
-        "name" : "Tokelau"
+        "country" : "Tokelau",
+        "name" : "English"
     },
     "\ud83c\uddf9\ud83c\uddf1" : {
         "code" : "pt",
-        "name" : "Timor-Leste"
+        "country" : "Timor-Leste",
+        "name" : "Portuguese"
     },
     "\ud83c\uddf9\ud83c\uddf2" : {
         "code" : "tk",
-        "name" : "Turkmenistan"
+        "country" : "Turkmenistan",
+        "name" : "Turkmen"
     },
     "\ud83c\uddf9\ud83c\uddf3" : {
         "code" : "ar",
-        "name" : "Tunisia"
+        "country" : "Tunisia",
+        "name" : "Arabic"
     },
     "\ud83c\uddf9\ud83c\uddf4" : {
         "code" : "en",
-        "name" : "Tonga"
+        "country" : "Tonga",
+        "name" : "English"
     },
     "\ud83c\uddf9\ud83c\uddf7" : {
         "code" : "tr",
-        "name" : "Turkey"
+        "country" : "Turkey",
+        "name" : "Turkish"
     },
     "\ud83c\uddf9\ud83c\uddf9" : {
         "code" : "en",
-        "name" : "Trinidad and Tobago"
+        "country" : "Trinidad and Tobago",
+        "name" : "English"
     },
     "\ud83c\uddf9\ud83c\uddfb" : {
         "code" : "en",
-        "name" : "Tuvalu"
+        "country" : "Tuvalu",
+        "name" : "English"
     },
     "\ud83c\uddf9\ud83c\uddfc" : {
         "code" : "zh",
-        "name" : "Taiwan"
+        "country" : "Taiwan",
+        "name" : "Chinese"
     },
     "\ud83c\uddf9\ud83c\uddff" : {
         "code" : "sw",
-        "name" : "Tanzania, United Republic of"
+        "country" : "Tanzania, United Republic of",
+        "name" : "Swahili"
     },
     "\ud83c\uddfa\ud83c\udde6" : {
         "code" : "uk",
-        "name" : "Ukraine"
+        "country" : "Ukraine",
+        "name" : "Ukrainian"
     },
     "\ud83c\uddfa\ud83c\uddec" : {
         "code" : "en",
-        "name" : "Uganda"
+        "country" : "Uganda",
+        "name" : "English"
     },
     "\ud83c\uddfa\ud83c\uddf2" : {
         "code" : "en",
-        "name" : "United States Minor Outlying Islands"
+        "country" : "United States Minor Outlying Islands",
+        "name" : "English"
     },
     "\ud83c\uddfa\ud83c\uddf8" : {
         "code" : "en",
-        "name" : "United States of America"
+        "country" : "United States of America",
+        "name" : "English"
     },
     "\ud83c\uddfa\ud83c\uddfe" : {
         "code" : "es",
-        "name" : "Uruguay"
+        "country" : "Uruguay",
+        "name" : "Spanish"
     },
     "\ud83c\uddfa\ud83c\uddff" : {
         "code" : "uz",
-        "name" : "Uzbekistan"
+        "country" : "Uzbekistan",
+        "name" : "Uzbek"
     },
     "\ud83c\uddfb\ud83c\udde6" : {
         "code" : "la",
-        "name" : "Holy See"
+        "country" : "Holy See",
+        "name" : "Latin"
     },
     "\ud83c\uddfb\ud83c\udde8" : {
         "code" : "en",
-        "name" : "Saint Vincent and the Grenadines"
+        "country" : "Saint Vincent and the Grenadines",
+        "name" : "English"
     },
     "\ud83c\uddfb\ud83c\uddea" : {
         "code" : "es",
-        "name" : "Venezuela (Bolivarian Republic of)"
+        "country" : "Venezuela (Bolivarian Republic of)",
+        "name" : "Spanish"
     },
     "\ud83c\uddfb\ud83c\uddec" : {
         "code" : "en",
-        "name" : "Virgin Islands (British)"
+        "country" : "Virgin Islands (British)",
+        "name" : "English"
     },
     "\ud83c\uddfb\ud83c\uddee" : {
         "code" : "en",
-        "name" : "Virgin Islands (U.S.)"
+        "country" : "Virgin Islands (U.S.)",
+        "name" : "English"
     },
     "\ud83c\uddfb\ud83c\uddf3" : {
         "code" : "vi",
-        "name" : "Viet Nam"
+        "country" : "Viet Nam",
+        "name" : "Vietnamese"
     },
     "\ud83c\uddfb\ud83c\uddfa" : {
         "code" : "bi",
-        "name" : "Vanuatu"
+        "country" : "Vanuatu",
+        "name" : "Bislama"
     },
     "\ud83c\uddfc\ud83c\uddeb" : {
         "code" : "fr",
-        "name" : "Wallis and Futuna"
+        "country" : "Wallis and Futuna",
+        "name" : "French"
     },
     "\ud83c\uddfc\ud83c\uddf8" : {
         "code" : "sm",
-        "name" : "Samoa"
+        "country" : "Samoa",
+        "name" : "Samoan"
     },
     "\ud83c\uddfe\ud83c\uddea" : {
         "code" : "ar",
-        "name" : "Yemen"
+        "country" : "Yemen",
+        "name" : "Arabic"
     },
     "\ud83c\uddfe\ud83c\uddf9" : {
         "code" : "fr",
-        "name" : "Mayotte"
+        "country" : "Mayotte",
+        "name" : "French"
     },
     "\ud83c\uddff\ud83c\udde6" : {
         "code" : "af",
-        "name" : "South Africa"
+        "country" : "South Africa",
+        "name" : "Afrikaans"
     },
     "\ud83c\uddff\ud83c\uddf2" : {
         "code" : "en",
-        "name" : "Zambia"
+        "country" : "Zambia",
+        "name" : "English"
     },
     "\ud83c\uddff\ud83c\uddfc" : {
         "code" : "en",
-        "name" : "Zimbabwe"
+        "country" : "Zimbabwe",
+        "name" : "English"
     }
 }
