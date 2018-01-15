@@ -29,6 +29,7 @@ class Hockey:
         self.loop = bot.loop.create_task(self.get_team_goals())
 
     def __unload(self):
+        self.session.close()
         self.loop.cancel()
 
     @commands.command(hidden=True, pass_context=True)

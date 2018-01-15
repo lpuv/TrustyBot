@@ -25,6 +25,7 @@ class WebsiteChangeChecker:
         self.session = aiohttp.ClientSession(loop=self.bot.loop)
 
     def __unload(self):
+        self.session.close()
         self.loop.cancel()
     
     @commands.command(hidden=True, pass_context=True)
