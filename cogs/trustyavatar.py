@@ -40,7 +40,7 @@ class TrustyAvatar:
                 await self.bot.edit_profile(self.bot.settings.password, avatar=data)
             except Exception as e:
                 print(e)
-            await asyncio.sleep(randint(60, 600))
+            await asyncio.sleep(randint(120, 600))
 
 def setup(bot):
     n = TrustyAvatar(bot)
