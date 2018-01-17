@@ -34,6 +34,7 @@ class TrustyAvatar:
     async def change_avatar(self):
         await self.bot.wait_until_ready()
         while self is self.bot.get_cog("TrustyAvatar"):
+            data = None
             try:
                 async with self.session.get(choice(self.url)) as r:
                     data = await r.read()

@@ -35,7 +35,7 @@ class Badges:
                                "dop":{"code":"DOP", "loc":"data/badges/dop-template.png"},
                                "shit":{"code":"SHIT", "loc":"data/badges/shit-template.png"},
                                "bunker":{"code":"BUNKER", "loc":"data/badges/bunker-template.png"},
-                               "nk":{"code":"NK", "loc":"data/badges/nk-template.png"},
+                               "dprk":{"code":"DPRK", "loc":"data/badges/nk-template.png"},
                                "kek":{"code":"KEK", "loc": "data/badges/kek-template.png"},
                                "Q":{"code":"Q !ITPb.qbhqo", "loc":"data/badges/Q-template.png"},
                                "dhs":{"code":"SpaceX", "loc":"data/badges/spacex-template.png"},
@@ -70,7 +70,8 @@ class Badges:
                                'Vancouver Canucks':{"code":"VAN", "loc": 'data/badges/Vancouver Canucks-template.png'},
                                'Vegas Golden Knights':{"code":"VGK", "loc": 'data/badges/Vegas Golden Knights-template.png'},
                                'Washington Capitals':{"code":"WSH", "loc":'data/badges/Washington Capitals-template.png'},
-                               'Winnipeg Jets':{"code":"WPG", "loc": 'data/badges/Winnipeg Jets-template.png'}}
+                               'Winnipeg Jets':{"code":"WPG", "loc": 'data/badges/Winnipeg Jets-template.png'},
+                               'Seattle Thunderbirds': {"code":"STT", "loc": 'data/badges/Seattle Thunderbirds-template.png'}}
 
         
 

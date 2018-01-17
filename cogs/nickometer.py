@@ -192,8 +192,14 @@ class Nickometer:
         # if it's above 99.9%, show as many digits as is interesting
         score_string = re.sub('(99\\.9*\\d|\\.\\d).*', '\\1', repr(percentage))
 
+        lame_names = ["obama", "clinton", "hillary", "hillary clinton", "barack", "barack obama", "obummer",
+                      "baruch", "baruchthescribe"]
+
         if originalNick == "CZΛR" or "TrustyJAID" in originalNick:
             score_string = "0.0"
+
+        elif originalNick.lower() in lame_names:
+            score_string = "100.0"
 
         await self.bot.say('The "lame nick-o-meter" reading for '
                            '"%s" is %s%%.' % (originalNick, score_string))

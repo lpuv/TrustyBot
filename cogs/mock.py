@@ -3,7 +3,7 @@ import random
 from discord.ext import commands
 
 class Mock:
-"""mock a user as spongebob"""
+    """mock a user as spongebob"""
 
     def __init__(self, bot):
         self.bot = bot
@@ -21,14 +21,14 @@ class Mock:
     @commands.command(pass_context=True)
     async def mock(self, ctx, *, msg=""):
         """Use >mock to randomized capitalization on a message or string.
-        Better random comming soon™
-        Usage:
-        >mock a string
-            A sTRiNg
-        >mock
-            laSt SeNT MeSsaGE
-        >mock (message id)
-            THaT mEsSAgE
+            Better random comming soon™
+            Usage:
+            >mock a string
+                A sTRiNg
+            >mock
+                laSt SeNT MeSsaGE
+            >mock (message id)
+                THaT mEsSAgE
         """
         channel = ctx.message.channel
         result = ""
@@ -52,7 +52,7 @@ class Mock:
         embed.set_author(name=author.display_name, icon_url=author.avatar_url)
         embed.set_thumbnail(url="https://i.imgur.com/upItEiG.jpg")
         if hasattr(msg, "attachments") and msg.attachments != []:
-            embed.set_image(url=msg.attachments[0].url)
+            embed.set_image(url=msg.attachments[0]["url"])
         await self.bot.send_message(channel, embed=embed)
         if author != user:
             await self.bot.send_message(channel, "- " + author.mention)

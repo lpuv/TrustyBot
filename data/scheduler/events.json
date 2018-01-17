@@ -41,19 +41,19 @@
         "delete_standings" : {
             "author" : "128321342998183936",
             "channel" : "399348224525074442",
-            "command" : "cleanup messages 1",
+            "command" : "cleanup messages 2",
             "name" : "delete_standings",
             "repeat" : true,
-            "starttime" : 1515603991,
+            "starttime" : 1516143193,
             "timedelta" : 86400
         },
         "post_standings" : {
             "author" : "128321342998183936",
             "channel" : "399348224525074442",
-            "command" : "hockey standings atlantic",
+            "command" : "hockey standings metropolitan",
             "name" : "post_standings",
             "repeat" : true,
-            "starttime" : 1515604041,
+            "starttime" : 1516143234,
             "timedelta" : 86400
         }
     },

@@ -215,11 +215,13 @@ class Gab: # Test commit
         await self.bot.say("Accepting gab tags in {} and applying role {}".format(channel, role_add))
 
     @commands.command(pass_context=True, aliases=["Gab", "GAB"])
-    async def gab(self, ctx, usertag):
+    async def gab(self, ctx, usertag=""):
         """Add your gab tag to receive the role Anonymous"""
         server = ctx.message.server.id
         servername = ctx.message.server.name
         channel = ctx.message.channel.id
+        if server not in self.tags:
+            return
         correct_channel = self.bot.get_channel(id=self.tags[server]["channel"])
         if channel != correct_channel.id:
             await self.bot.say("Please supply the gab tag in {}!".format(correct_channel.mention))

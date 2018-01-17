@@ -13,7 +13,7 @@ class Imgflip:
         self.bot = bot
         self.settings_file = "data/imgflip/settings.json"
         self.settings = dataIO.load_json(self.settings_file)
-        self.url = "https://api.imgflip.com/caption_image?template_id={0}&username={1}&password={2}&text0={3}&text1={4}"
+        self.url = "https://api.imgflip.com/caption_image?template_id={0}&username={1}&password={2}"
         self.search = "https://api.imgflip.com/get_memes?username={0}&password={1}"
         self.username = self.settings["IMGFLIP_USERNAME"]
         self.password = self.settings["IMGFLIP_PASSWORD"]
@@ -30,7 +30,7 @@ class Imgflip:
         except:
             await self.bot.send_message(ctx.message.channel, "That meme is not available!")
 
-    @commands.command(pass_context=True, alias=["listmemes"])
+    @commands.command(pass_context=True, aliases=["listmemes"])
     async def getmemes(self, ctx):
         await self.bot.send_typing(ctx.message.channel)
         await self.get_memes(ctx)
@@ -53,23 +53,20 @@ class Imgflip:
     async def meme(self, ctx, *, memeText: str):
         """ Pulls a custom meme from imgflip"""
         msg = memeText.split(";")
-        print(msg)
+        # print(msg)
         prefix = self.get_prefix(ctx.message.server, ctx.message.content)
         await self.bot.send_typing(ctx.message.channel)
-        if len(msg) == 1:
-            meme, text1, text2 = msg[0], " ", " "
-        elif len(msg) == 2:
-            meme, text1, text2 = msg[0], msg[1], " "
-        elif len(msg) == 3:
-            meme, text1, text2 = msg[0], msg[1], msg[2]
-        # text1 = text1[:20] if len(text1) > 40 else text1
-        # text2 = text2[:20] if len(text2) > 40 else text2
-        print(text1+text2)
-        username = self.settings["IMGFLIP_USERNAME"]
-        password = self.settings["IMGFLIP_PASSWORD"]
+        text_lines = len(msg) - 1
+        meme = msg.pop(0)
         if not meme.isdigit():
             meme = await self.get_meme_id(ctx, meme)
-        url = self.url.format(meme, username, password, text1, text2)
+        username = self.settings["IMGFLIP_USERNAME"]
+        password = self.settings["IMGFLIP_PASSWORD"]
+        url = self.url.format(meme, username, password)
+        for i in range(0, text_lines):
+            url += "&text{}={}".format(i, msg[i])
+        if text_lines == 0:
+            url += "&text0=%20"
         try:
             async with self.session.get(url) as r:
                 result = await r.json()

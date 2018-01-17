@@ -246,7 +246,7 @@ class ModLog:
         if message.author is message.author.bot:
             pass
         channel = db[server.id]["Channel"]
-        time = datetime.datetime.now()
+        time = datetime.datetime.utcnow()
         cleanmsg = message.content
         for i in message.mentions:
             cleanmsg = cleanmsg.replace(i.mention, str(i))
@@ -254,13 +254,11 @@ class ModLog:
         if db[server.id]["embed"] == True:
             name = message.author
             name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
-            delmessage = discord.Embed(description=name, colour=discord.Color.purple())
-            infomessage = "A message by __{}__, was deleted in {}".format(
-                message.author.nick if message.author.nick else message.author.name, message.channel.mention)
-            delmessage.add_field(name="Info:", value=infomessage, inline=False)
+            infomessage = "A message by {}, was deleted in {}".format(message.author.mention, message.channel.mention)
+            delmessage = discord.Embed(description=infomessage, colour=discord.Color.purple(), timestamp=time)
             delmessage.add_field(name="Message:", value=cleanmsg)
-            delmessage.set_footer(text="User ID: {}".format(message.author.id))
-            delmessage.set_author(name=time.strftime(fmt) + " - Deleted Message", url="http://i.imgur.com/fJpAFgN.png")
+            delmessage.set_footer(text="User ID: {}".format(message.author.id), icon_url=message.author.avatar_url)
+            delmessage.set_author(name=name + " - Deleted Message", url="http://i.imgur.com/fJpAFgN.png", icon_url=message.author.avatar_url)
             delmessage.set_thumbnail(url="http://i.imgur.com/fJpAFgN.png")
             try:
                 await self.bot.send_message(server.get_channel(channel), embed=delmessage)
@@ -280,20 +278,18 @@ class ModLog:
         if db[server.id]['togglejoin'] == False:
             return
         channel = db[server.id]["Channel"]
-        time = datetime.datetime.now()
+        time = datetime.datetime.utcnow()
         fmt = '%H:%M:%S'
         users = len([e.name for e in server.members])
         if db[server.id]["embed"] == True:
             name = member
-            name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
-            joinmsg = discord.Embed(description=name, colour=discord.Color.red())
-            infomessage = "__{}__ has joined the server.".format(member.nick if member.nick else member.name)
-            joinmsg.add_field(name="Info:", value=infomessage, inline=False)
-            joinmsg.set_footer(text="User ID: {}".format(member.id))
-            joinmsg.set_author(name=time.strftime(fmt) + " - Joined User",
-                               url="http://www.emoji.co.uk/files/twitter-emojis/objects-twitter/11031-inbox-tray.png")
-            joinmsg.set_thumbnail(
-                url="http://www.emoji.co.uk/files/twitter-emojis/objects-twitter/11031-inbox-tray.png")
+            # name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
+            joinmsg = discord.Embed(description=member.mention, colour=discord.Color.red(), timestamp=member.joined_at)
+            # infomessage = "Total Users: {}".format(users)
+            joinmsg.add_field(name="Total Users:", value=str(users), inline=True)
+            joinmsg.set_footer(text="User ID: {}".format(member.id), icon_url=member.avatar_url)
+            joinmsg.set_author(name=name.display_name + " has joined the server",url=member.avatar_url, icon_url=member.avatar_url)
+            joinmsg.set_thumbnail(url=member.avatar_url)
             try:
                 await self.bot.send_message(server.get_channel(channel), embed=joinmsg)
             except:
@@ -311,21 +307,20 @@ class ModLog:
         if db[server.id]['toggleleave'] == False:
             return
         channel = db[server.id]["Channel"]
-        time = datetime.datetime.now()
+        time = datetime.datetime.utcnow()
         fmt = "%H:%M:%S"
         users = len([e.name for e in server.members])
         if db[server.id]["embed"] == True:
             name = member
-            name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
-            leave = discord.Embed(description=name, colour=discord.Color.red())
-            infomessage = "__{}__ has left the server.".format(member.nick if member.nick else member.name)
-            leave.add_field(name="Info:", value=infomessage, inline=False)
-            leave.set_footer(text="User ID: {}".format(member.id))
-            leave.set_author(name=time.strftime(fmt) + " - Leaving User",
-                             url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
-            leave.set_thumbnail(url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
+            # name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
+            joinmsg = discord.Embed(description=member.mention, colour=discord.Color.red(), timestamp=time)
+            # infomessage = "Total Users: {}".format(users)
+            joinmsg.add_field(name="Total Users:", value=str(users), inline=True)
+            joinmsg.set_footer(text="User ID: {}".format(member.id), icon_url=member.avatar_url)
+            joinmsg.set_author(name=name.display_name + " has left the server",url=member.avatar_url, icon_url=member.avatar_url)
+            joinmsg.set_thumbnail(url=member.avatar_url)
             try:
-                await self.bot.send_message(server.get_channel(channel), embed=leave)
+                await self.bot.send_message(server.get_channel(channel), embed=joinmsg)
             except:
                 pass
         if db[server.id]["embed"] == False:
@@ -341,14 +336,14 @@ class ModLog:
         if db[server.id]['togglechannel'] == False:
             return
         channel = db[server.id]["Channel"]
-        time = datetime.datetime.now()
+        time = datetime.datetime.utcnow()
         fmt = "%H:%M:%S"
         msg = ""
         if before.name != after.name:
             if before.type == discord.ChannelType.voice:
                 if db[server.id]["embed"] == True:
                     fmt = "%H:%M:%S"
-                    voice1 = discord.Embed(colour=discord.Color.blue())
+                    voice1 = discord.Embed(colour=discord.Color.blue(), timestamp=time)
                     infomessage = ":loud_sound: Voice channel name update. Before: **{}** After: **{}**.".format(
                         before.name, after.name)
                     voice1.add_field(name="Info:", value=infomessage, inline=False)
@@ -368,7 +363,7 @@ class ModLog:
             if before.type == discord.ChannelType.text:
                 if db[server.id]["embed"] == True:
                     fmt = "%H:%M:%S"
-                    text1 = discord.Embed(colour=discord.Color.blue())
+                    text1 = discord.Embed(colour=discord.Color.blue(), timestamp=time)
                     infomessage = ":loud_sound: Text channel name update. Before: **{}** After: **{}**.".format(
                         before.name, after.name)
                     text1.add_field(name="Info:", value=infomessage, inline=False)
@@ -385,7 +380,7 @@ class ModLog:
         if before.topic != after.topic:
             if db[server.id]["embed"] == True:
                 fmt = "%H:%M:%S"
-                topic = discord.Embed(colour=discord.Colour.blue())
+                topic = discord.Embed(colour=discord.Colour.blue(), timestamp=time)
                 infomessage = ":page_facing_up: `{}` Channel topic has been updated.\n**Before:** {}\n**After:** {}".format(
                     time.strftime(fmt), before.topic, after.topic)
                 topic.add_field(name="Info:", value=infomessage, inline=False)
@@ -406,7 +401,7 @@ class ModLog:
             if before.type == discord.ChannelType.voice:
                 if db[server.id]["embed"] == True:
                     fmt = "%H:%M:%S"
-                    voice2 = discord.Embed(colour=discord.Colour.blue())
+                    voice2 = discord.Embed(colour=discord.Colour.blue(), timestamp=time)
                     voice2.set_thumbnail(
                         url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
                     voice2.set_author(name=time.strftime(fmt) + " Voice Channel Position Update",
@@ -426,7 +421,7 @@ class ModLog:
             if before.type == discord.ChannelType.text:
                 if db[server.id]["embed"] == True:
                     fmt = "%H:%M:%S"
-                    text2 = discord.Embed(colour=discord.Colour.blue())
+                    text2 = discord.Embed(colour=discord.Colour.blue(), timestamp=time)
                     text2.set_thumbnail(
                         url="https://s-media-cache-ak0.pinimg.com/originals/27/18/77/27187782801d15f756a27156105d1233.png")
                     text2.set_author(name=time.strftime(fmt) + " Text Channel Position Update",
@@ -446,7 +441,7 @@ class ModLog:
         if before.bitrate != after.bitrate:
             if db[server.id]["embed"] == True:
                 fmt = "%H:%M:%S"
-                bitrate = discord.Embed(colour=discord.Colour.blue())
+                bitrate = discord.Embed(colour=discord.Colour.blue(), timestamp=time)
                 bitrate.set_author(name=time.strftime(fmt) + " Voice Channel Bitrate Update",
                                    icon_url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
                 bitrate.set_thumbnail(
@@ -481,19 +476,18 @@ class ModLog:
         for i in after.mentions:
             cleanafter = cleanafter.replace(i.mention, str(i))
         channel = db[server.id]["Channel"]
-        time = datetime.datetime.now()
+        time = datetime.datetime.utcnow()
         fmt = '%H:%M:%S'
         if db[server.id]["embed"] == True:
             name = before.author
             name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
-            delmessage = discord.Embed(description=name, colour=discord.Color.green())
-            infomessage = "A message by __{}__, was edited in {}".format(
-                before.author.nick if before.author.nick else before.author.name, before.channel.mention)
-            delmessage.add_field(name="Info:", value=infomessage, inline=False)
+            
+            infomessage = "A message by {}, was edited in {}".format(before.author.mention, before.channel.mention)
+            delmessage = discord.Embed(description=infomessage, colour=discord.Color.green(), timestamp=after.timestamp)
             delmessage.add_field(name="Before Message:", value=cleanbefore, inline=False)
             delmessage.add_field(name="After Message:", value=cleanafter)
-            delmessage.set_footer(text="User ID: {}".format(before.author.id))
-            delmessage.set_author(name=time.strftime(fmt) + " - Edited Message", url="http://i.imgur.com/Q8SzUdG.png")
+            delmessage.set_footer(text="User ID: {}".format(before.author.id), icon_url=before.author.avatar_url)
+            delmessage.set_author(name=name + " - Edited Message", url="http://i.imgur.com/Q8SzUdG.png", icon_url=before.author.avatar_url)
             delmessage.set_thumbnail(url="http://i.imgur.com/Q8SzUdG.png")
             try:
                 await self.bot.send_message(server.get_channel(channel), embed=delmessage)
@@ -515,7 +509,7 @@ class ModLog:
         if before.bot:
             return
         channel = db[server.id]["Channel"]
-        time = datetime.datetime.now()
+        time = datetime.datetime.utcnow()
         fmt = '%H:%M:%S'
         if before.name != after.name:
             msg = ":globe_with_meridians: `{}` Server name update. Before: **{}** After: **{}**.".format(
@@ -535,12 +529,12 @@ class ModLog:
         if before.bot:
             return
         channel = db[server.id]["Channel"]
-        time = datetime.datetime.now()
+        time = datetime.datetime.utcnow()
         fmt = '%H:%M:%S'
         if db[server.id]["embed"] == True:
             name = before
             name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
-            updmessage = discord.Embed(description=name, colour=discord.Color.blue())
+            updmessage = discord.Embed(description=name, colour=discord.Color.blue(), timestamp=time)
             infomessage = "__{}__'s voice status has changed".format(before.name)
             updmessage.add_field(name="Info:", value=infomessage, inline=False)
             updmessage.add_field(name="Voice Channel Before:", value=before.voice_channel)
@@ -559,29 +553,46 @@ class ModLog:
                                             time.strftime(fmt), after.name, after.voice_channel, after.self_mute,
                                             after.self_deaf, after.mute, after.deaf))
 
+
     async def on_member_update(self, before, after):
         server = before.server
         db = fileIO(self.direct, "load")
         if not server.id in db:
             return
-        if db[server.id]['toggleuser'] and db[server.id]['toggleroles'] == False:
-            return
         channel = db[server.id]["Channel"]
-        time = datetime.datetime.now()
+        time = datetime.datetime.utcnow()
         fmt = '%H:%M:%S'
-        if not before.nick == after.nick:
+        if not before.roles == after.roles and db[server.id]['toggleroles']:
+            if db[server.id]["embed"] == True:
+                name = after
+                name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
+                role = discord.Embed(colour=discord.Color.red(), timestamp=time)
+                role.add_field(name="Roles Before:", value=" ,".join(role.name for role in before.roles))
+                role.add_field(name="Roles After:", value=" ,".join(role.name for role in after.roles))
+                role.set_footer(text="User ID: {}".format(after.id), icon_url=after.avatar_url)
+                role.set_author(name=name + " - Updated Roles", icon_url=after.avatar_url)
+                # role.set_thumbnail(after)
+                try:
+                    await self.bot.send_message(server.get_channel(channel), embed=role)
+                except:
+                    pass
+            if db[server.id]["embed"] == False:
+                msg = ":person_with_pouting_face::skin-tone-3: `{}` **{}'s** roles have changed. Old: `{}` New: `{}`".format(
+                    time.strftime(fmt), before.name, ", ".join([r.name for r in before.roles]),
+                    ", ".join([r.name for r in after.roles]))
+                await self.bot.send_message(server.get_channel(channel),
+                                            msg)
+        if not before.nick == after.nick and db[server.id]['toggleuser']:
             if db[server.id]["embed"] == True:
                 name = before
                 name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
-                updmessage = discord.Embed(description=name, colour=discord.Color.orange())
-                infomessage = "__{}__'s nickname has changed".format(before.name)
-                updmessage.add_field(name="Info:", value=infomessage, inline=False)
+                infomessage = "{}'s nickname has changed".format(before.mention)
+                updmessage = discord.Embed(description=infomessage, colour=discord.Color.orange(), timestamp=time)
                 updmessage.add_field(name="Nickname Before:", value=before.nick)
                 updmessage.add_field(name="Nickname After:", value=after.nick)
-                updmessage.set_footer(text="User ID: {}".format(before.id))
-                updmessage.set_author(name=time.strftime(fmt) + " - Nickname Changed",
-                                      url="http://i.imgur.com/I5q71rj.png")
-                updmessage.set_thumbnail(url="http://i.imgur.com/I5q71rj.png")
+                updmessage.set_footer(text="User ID: {}".format(before.id), icon_url=after.avatar_url)
+                updmessage.set_author(name=name + " - Nickname Changed", icon_url=after.avatar_url)
+                # updmessage.set_thumbnail(url="http://i.imgur.com/I5q71rj.png")
                 try:
                     await self.bot.send_message(server.get_channel(channel), embed=updmessage)
                 except:
@@ -591,40 +602,6 @@ class ModLog:
                                             ":person_with_pouting_face::skin-tone-3: `{}` **{}** changed their nickname from **{}** to **{}**".format(
                                                 time.strftime(fmt), before.name, before.kick, after.nick))
 
-    async def on_member_update(self, before, after):
-        server = before.server
-        db = fileIO(self.direct, "load")
-        if not server.id in db:
-            return
-        if db[server.id]['toggleuser'] and db[server.id]['toggleroles'] == False:
-            return
-        channel = db[server.id]["Channel"]
-        time = datetime.datetime.now()
-        fmt = '%H:%M:%S'
-        if not before.roles == after.roles:
-            if db[server.id]["embed"] == True:
-                name = member
-                name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
-                role = discord.Embed(description=name, colour=discord.Color.red())
-                infomessage = "__{}__ has left the server.".format(member.nick if member.nick else member.name)
-                role.add_field(name="Info:", value=infomessage, inline=False)
-                role.set_footer(text="User ID: {}".format(member.id))
-                role.set_author(name=time.strftime(fmt) + " - Leaving User",
-                                url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
-                role.set_thumbnail(
-                    url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
-                try:
-                    await self.bot.send_message(server.get_channel(channel), embed=leave)
-                except:
-                    await self.bot.send_message(server.get_channel(channel),
-                                                "How is embed going to work when I don't have embed links permissions?")
-            if db[server.id]["embed"] == False:
-                msg = ":person_with_pouting_face::skin-tone-3: `{}` **{}'s** roles have changed. Old: `{}` New: `{}`".format(
-                    time.strftime(fmt), before.name, ", ".join([r.name for r in before.roles]),
-                    ", ".join([r.name for r in after.roles]))
-                await self.bot.send_message(server.get_channel(channel),
-                                            msg)
-
     async def on_member_ban(self, member):
         server = member.server
         db = fileIO(self.direct, "load")
@@ -633,17 +610,18 @@ class ModLog:
         if db[server.id]['toggleban'] == False:
             return
         channel = db[server.id]["Channel"]
-        time = datetime.datetime.now()
+        time = datetime.datetime.utcnow()
         fmt = '%H:%M:%S'
         if db[server.id]["embed"] == True:
             name = member
             name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
-            banmessage = discord.Embed(description=name, colour=discord.Color.red())
-            infomessage = "__{}__ has been banned from the server.".format(member.nick if member.nick else member.name)
+            
+            infomessage = "{} has been banned from the server.".format(member.mention)
+            banmessage = discord.Embed(description=infomessage, colour=discord.Color.red(), timestamp=time)
             banmessage.add_field(name="Info:", value=infomessage, inline=False)
-            banmessage.set_footer(text="User ID: {}".format(member.id))
-            banmessage.set_author(name=time.strftime(fmt) + " - Banned User", url="http://i.imgur.com/Imx0Znm.png")
-            banmessage.set_thumbnail(url="http://i.imgur.com/Imx0Znm.png")
+            banmessage.set_footer(text="User ID: {}".format(member.id), icon_url=member.avatar_url)
+            banmessage.set_author(name=name + " - Banned User", icon_url=member.avatar_url)
+            banmessage.set_thumbnail(url=member.avatar_url)
             try:
                 await self.bot.send_message(server.get_channel(channel), embed=banmessage)
             except:
