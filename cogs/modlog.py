@@ -567,8 +567,8 @@ class ModLog:
                 name = after
                 name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
                 role = discord.Embed(colour=discord.Color.red(), timestamp=time)
-                role.add_field(name="Roles Before:", value=" ,".join(role.name for role in before.roles))
-                role.add_field(name="Roles After:", value=" ,".join(role.name for role in after.roles))
+                role.add_field(name="Roles Before:", value=" ,".join(role.name for role in before.roles), inline=False)
+                role.add_field(name="Roles After:", value=" ,".join(role.name for role in after.roles), inline=False)
                 role.set_footer(text="User ID: {}".format(after.id), icon_url=after.avatar_url)
                 role.set_author(name=name + " - Updated Roles", icon_url=after.avatar_url)
                 # role.set_thumbnail(after)

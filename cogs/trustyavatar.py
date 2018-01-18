@@ -3,6 +3,7 @@ from discord.ext import commands
 from random import choice, randint
 import asyncio
 import aiohttp
+import glob
 
 
 class TrustyAvatar:
@@ -11,6 +12,7 @@ class TrustyAvatar:
     def __init__(self, bot):
         self.bot = bot
         self.session = aiohttp.ClientSession(loop=self.bot.loop)
+        self.images = glob.glob("data/trustyavatar/regular/*.png")
         self.url = ["https://imgur.com/5BzptFg.png", # Sad
                     "https://imgur.com/b4Qpz6V.png", # Angry
                     "https://imgur.com/nJXLjip.png", # Watching
@@ -36,8 +38,12 @@ class TrustyAvatar:
         while self is self.bot.get_cog("TrustyAvatar"):
             data = None
             try:
-                async with self.session.get(choice(self.url)) as r:
-                    data = await r.read()
+                # async with self.session.get(choice(self.url)) as r:
+                    # data = await r.read()
+                new_avatar = choice(self.images)
+                with open(new_avatar, "rb") as image:
+                    data = image.read()
+                print("changing avatar to {}".format(new_avatar.split("/")[-1]))
                 await self.bot.edit_profile(avatar=data)
             except Exception as e:
                 print(e)

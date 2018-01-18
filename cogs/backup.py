@@ -28,6 +28,28 @@ class Backup:
         else:
             return True
 
+    @commands.command(pass_context=True)
+    @checks.admin_or_permissions(manage_messages=True)
+    async def checkmembers(self, ctx, *, server_name=None):
+        if server_name is None:
+            server = ctx.message.server
+        else:
+            for servers in self.bot.servers:
+                if server_name.lower() in servers.name.lower():
+                    server = servers
+        posted_members = dataIO.load_json("data/backup/{}/members.json".format(server_name))
+        watcher_list = []
+        lost_members = 0
+        server_members = [member.id for member in server.members]
+        for member in server.members:
+            if member.id not in posted_members:
+                watcher_list.append({"id":member.id, "name":member.name, "discriminator":member.discriminator})
+        for member_id in posted_members:
+            if member_id not in server_members:
+                lost_members += 1
+        dataIO.save_json("data/backup/{}/not-posted-members.json".format(server_name), watcher_list)
+        await self.bot.say("{} members have not spoken in {} and {} people have posted and left the server.".format(len(watcher_list), server_name, lost_members))
+
     @commands.command(pass_context=True, aliases=["dlimage"])
     @checks.admin_or_permissions(manage_messages=True)
     async def imagedl(self, ctx, *, server_name=None):
@@ -62,12 +84,10 @@ class Backup:
                 await self.bot.send_message(channel, "0 messages saved from {}".format(chn.name))
                 pass
         await self.bot.send_message(channel, "{} messages saved from {}".format(total_msgs, server.name))
-            
 
-
-    @commands.command(pass_context=True, aliases=["backup"])
+    @commands.command(pass_context=True, aliases=["backupall"])
     @checks.admin_or_permissions(manage_messages=True)
-    async def logs(self, ctx, *, server_name=None):
+    async def logsall(self, ctx, *, server_name=None):
         if server_name is None:
             server = ctx.message.server
         else:
@@ -128,6 +148,70 @@ class Backup:
             except discord.errors.Forbidden:
                 await self.bot.send_message(channel, "0 messages saved from {}".format(chn.name))
                 pass
+        await self.bot.send_message(channel, "{} messages saved from {}".format(total_msgs, server.name))
+            
+
+
+    @commands.command(pass_context=True, aliases=["backup"])
+    @checks.admin_or_permissions(manage_messages=True)
+    async def logs(self, ctx, *, server_name=None):
+        if server_name is None:
+            server = ctx.message.server
+        else:
+            for servers in self.bot.servers:
+                if server_name.lower() in servers.name.lower():
+                    server = servers
+        today = datetime.date.today().strftime("%Y-%m-%d")
+        channel = ctx.message.channel
+        is_folder = await self.check_folder(server.name)
+        total_msgs = 0
+        if not is_folder:
+            print("{} folder doesn't exist!".format(server.name))
+            return
+        member_list = []
+        for chn in server.channels:
+            # await self.bot.send_message(channel, "backing up {}".format(chn.name))
+            message_list = []
+            channel_name = chn.name
+            channel_id = chn.id
+            try:
+                async for message in self.bot.logs_from(chn, limit=10000000):
+                    data = {"timestamp":message.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+                            "tts":message.tts,
+                            "author":{"name":message.author.name,
+                                      "display_name":message.author.display_name,
+                                      "discriminator":message.author.discriminator,
+                                      "id":message.author.id,
+                                      "bot":message.author.bot},
+                            "content":message.content,
+                            "nonce":message.nonce,
+                            "embeds":message.embeds,
+                            "channel":{"name":channel_name, "id":channel_id},
+                            "mention_everyone":message.mention_everyone,
+                            "mentions":[{"name":user.name, 
+                                         "display_name":user.display_name,
+                                         "discriminator":user.discriminator,
+                                         "id":user.id,
+                                         "bot":user.bot} for user in message.mentions],
+                            "channel_mentions":[{"name":channel.name, 
+                                                 "id":channel.id} for channel in message.channel_mentions],
+                            "role_mentions":[{"name":role.name, 
+                                              "id":role.id} for role in message.role_mentions],
+                            "id":message.id,
+                            "attachments":message.attachments,
+                            "pinned":message.pinned}
+                    message_list.append(data)
+                    if message.author.id not in member_list:
+                        member_list.append(message.author.id)
+                total_msgs += len(message_list)
+                if len(message_list) == 0:
+                    continue
+                dataIO.save_json("data/backup/{}/{}-{}.json".format(server.name, chn.name, today), message_list)
+                await self.bot.send_message(channel, "{} messages saved from {}".format(len(message_list), chn.name))
+            except discord.errors.Forbidden:
+                await self.bot.send_message(channel, "0 messages saved from {}".format(chn.name))
+                pass
+        dataIO.save_json("data/backup/{}/members.json".format(server.name, today))
         await self.bot.send_message(channel, "{} messages saved from {}".format(total_msgs, server.name))
 
 

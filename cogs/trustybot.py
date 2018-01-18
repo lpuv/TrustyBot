@@ -21,6 +21,7 @@ class TrustyBot:
         self.images = dataIO.load_json("data/trustybot/images.json")
         self.files = dataIO.load_json("data/trustybot/files.json")
         self.donotdo = dataIO.load_json("data/dnd/donotdo.json")
+        self.session = aiohttp.ClientSession(loop=self.bot.loop)
 
     def first_word(self, msg):
         return msg.split(" ")[0]
@@ -51,14 +52,6 @@ class TrustyBot:
         server = message.server
         channel = message.channel
         prefix = self.get_prefix(server, msg)
-
-        if server.id == "356253927085441036":
-            dprk_channel = self.bot.get_channel(id="359546658767372289")
-            await self.bot.send_message(dprk_channel, "{} in {}: ".format(message.author.display_name, message.channel.name) + message.content)
-            if message.attachments != []:
-                await self.bot.send_message(dprk_channel, "{} in {}: ".format(message.author.display_name, message.channel.name) + message.attachements[0].url)
-            if message.embeds != []:
-                await self.bot.send_message(dprk_channel, embed=message.embeds[0])
         if not prefix:
             return
         ignorelist = ["dickbutt", "cookie", "tinfoil", "donate", "dreams", "memes"]
@@ -114,11 +107,10 @@ class TrustyBot:
                 if directory not in self.images.values():
                     self.images[command] = directory
                     dataIO.save_json("data/trustybot/images.json", self.images)
-                    with aiohttp.ClientSession() as session:
-                        async with session.get(msg.attachments[0]["url"]) as resp:
-                            test = await resp.read()
-                            with open(self.images[command], "wb") as f:
-                                f.write(test)
+                    async with self.session.get(msg.attachments[0]["url"]) as resp:
+                        test = await resp.read()
+                        with open(self.images[command], "wb") as f:
+                            f.write(test)
                     await self.bot.send_message(channel, "{} has been added to my files!"
                                                 .format(command))
                     break

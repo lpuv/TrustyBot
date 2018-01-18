@@ -67,6 +67,7 @@ class Imgflip:
             url += "&text{}={}".format(i, msg[i])
         if text_lines == 0:
             url += "&text0=%20"
+        # print(url)
         try:
             async with self.session.get(url) as r:
                 result = await r.json()
