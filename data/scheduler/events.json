@@ -39,21 +39,30 @@
     },
     "296712229661835264" : {
         "delete_standings" : {
-            "author" : "128321342998183936",
+            "author" : "218773382617890828",
             "channel" : "399348224525074442",
             "command" : "cleanup messages 2",
             "name" : "delete_standings",
             "repeat" : true,
-            "starttime" : 1516143193,
+            "starttime" : 1516317909,
             "timedelta" : 86400
         },
-        "post_standings" : {
-            "author" : "128321342998183936",
+        "post_atlantic" : {
+            "author" : "218773382617890828",
+            "channel" : "399348224525074442",
+            "command" : "hockey standings atlantic",
+            "name" : "post_atlantic",
+            "repeat" : true,
+            "starttime" : 1516317956,
+            "timedelta" : 86400
+        },
+        "post_metro" : {
+            "author" : "218773382617890828",
             "channel" : "399348224525074442",
             "command" : "hockey standings metropolitan",
-            "name" : "post_standings",
+            "name" : "post_metro",
             "repeat" : true,
-            "starttime" : 1516143234,
+            "starttime" : 1516317938,
             "timedelta" : 86400
         }
     },

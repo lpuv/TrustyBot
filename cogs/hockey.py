@@ -76,6 +76,7 @@ class Hockey:
                     away_score = data["liveData"]["linescore"]["teams"]["away"]["goals"]
                     away_abr = data["gameData"]["teams"]["away"]["abbreviation"]
                     goals = [goal for goal in event if goal["result"]["eventTypeId"] == "GOAL" or (goal["result"]["eventTypeId"] == "MISSED_SHOT" and goal["about"]["ordinalNum"] == "SO")]
+                    team_goals = [goal for goal in event if (goal["result"]["eventTypeId"] == "GOAL" or (goal["result"]["eventTypeId"] == "MISSED_SHOT" and goal["about"]["ordinalNum"] == "SO") and team in goal["team"]["name"])]
                     home_msg, away_msg = await self.get_shootout_display(goals, home_team, away_team)
                     score_msg = {"Home":home_team, "Home Score":home_score, "Home Shots":home_shots,
                                  "Away": away_team, "Away Score":away_score, "Away Shots":away_shots,
@@ -83,6 +84,7 @@ class Hockey:
                     if len(goals) == 0:
                         continue
                     await self.check_team_goals(goals, team, score_msg)
+                    await self.check_team_goals(team_goals, "all", score_msg)
                 if data["gameData"]["status"]["abstractGameState"] == "Final":
                     # print("Final")
                     # Clears the game data from the settings file
@@ -119,10 +121,10 @@ class Hockey:
 
 
     async def check_team_goals(self, goals, team, score_msg):
-        goal_ids = [str(goal_id["about"]["eventId"]) for goal_id in goals]
+        goal_ids = [str(goal_id["result"]["eventCode"]) for goal_id in goals]
         goal_list = list(self.settings[team]["goal_id"])
         for goal in goals:
-            goal_id = str(goal["about"]["eventId"])
+            goal_id = str(goal["result"]["eventCode"])
             if goal_id not in goal_list:
                 # Posts goal information and saves data for verification later
                 msg_list = await self.post_team_goal(goal, team, score_msg)
@@ -144,11 +146,7 @@ class Hockey:
                 for channel_id, message_id in old_msgs:
                     channel = self.bot.get_channel(id=channel_id)
                     message = await self.bot.get_message(channel, message_id)
-                    try:
-                        await self.bot.delete_message(message)
-                    except:
-                        print("I can't delete messages in {}".format(channel.server.name))
-                        pass
+                    await self.bot.delete_message(message)
                 del self.settings[team]["goal_id"][old_goal]
                 dataIO.save_json("data/hockey/settings.json", self.settings)
 
@@ -261,7 +259,7 @@ class Hockey:
         if ctx.invoked_subcommand is None:
             await self.bot.send_cmd_help(ctx)
 
-    @hockey_commands.command(pass_context=True)
+    @hockey_commands.command(hidden=True, pass_context=True)
     @checks.is_owner()
     async def hockeytwitter(self, ctx):
         server = self.bot.get_server(id="381567805495181344")
@@ -284,11 +282,14 @@ class Hockey:
     @checks.admin_or_permissions(manage_channels=True)
     async def add_goals(self, ctx, team, channel:discord.Channel=None):
         """Adds a hockey team goal updates to a channel"""
-        try:
-            team = [team_name for team_name in self.teams if team.lower() in team_name.lower()][0]
-        except IndexError:
-            await self.bot.say("{} is not an available team!".format(team))
-            return
+        if team.lower() == "all":
+            team = "all"
+        else:
+            try:
+                team = [team_name for team_name in self.teams if team.lower() in team_name.lower()][0]
+            except IndexError:
+                await self.bot.say("{} is not an available team!".format(team))
+                return
         if channel is None:
             channel = ctx.message.channel
         if team not in self.settings:
@@ -300,15 +301,19 @@ class Hockey:
         dataIO.save_json("data/hockey/settings.json", self.settings)
         await self.bot.say("{} goals will be posted in {}".format(team, channel.mention))
 
+
     @hockey_commands.command(pass_context=True, name="del", aliases=["remove", "rem"])
     @checks.admin_or_permissions(manage_channels=True)
     async def remove_goals(self, ctx, team, channel:discord.Channel=None):
         """Removes a teams goal updates from a channel"""
-        try:
-            team = [team_name for team_name in self.teams if team.lower() in team_name.lower()][0]
-        except IndexError:
-            await self.bot.say("{} is not an available team!".format(team))
-            return
+        if team.lower() == "all":
+            team = "all"
+        else:
+            try:
+                team = [team_name for team_name in self.teams if team.lower() in team_name.lower()][0]
+            except IndexError:
+                await self.bot.say("{} is not an available team!".format(team))
+                return
         if channel is None:
             channel = ctx.message.channel
         if team not in self.settings:
