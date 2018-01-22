@@ -98,6 +98,7 @@ class Translate:
 
     async def on_reaction_add(self, reaction, user):
         """Translates the message based off the flag added"""
+        # print(reaction.message.reactions[0].)
         if self.settings["key"] is None:
             return
         if reaction.emoji not in self.languages:
@@ -107,7 +108,10 @@ class Translate:
         if reaction.message.embeds != []:
             to_translate = reaction.message.embeds[0]["description"]
         else:
-            to_translate = reaction.message.clean_content    
+            to_translate = reaction.message.clean_content
+        if reaction.count > 1:
+            return
+
         target = self.languages[reaction.emoji]["code"]
         from_lang = await self.detect_language(to_translate)
         translated_text = await self.translate_text(from_lang[0][0]["language"], target, to_translate)
