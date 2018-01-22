@@ -224,7 +224,7 @@ class Welcome:
         server = member.server
         if server.id not in self.settings:
             self.settings[server.id] = deepcopy(default_settings)
-            self.settings[server.id]["CHANNEL"] = server.default_channel.id
+            self.settings[server.id]["CHANNEL"] = [channel.id for channel in server.channels if channel.position != 0][0]
             dataIO.save_json(settings_path, self.settings)
         if not self.settings[server.id]["ON"]:
             return

@@ -28,14 +28,19 @@ class Chatterbot():
                                           # "chatterbot.logic.MathematicalEvaluation"]
                                           )
         self.chatbot.set_trainer(ListTrainer)
+        self.session = aiohttp.ClientSession(loop=self.bot.loop)
 
     @commands.group(no_pm=True, invoke_without_command=True, pass_context=True)
     async def chatterbot(self, ctx, *, message):
         """Talk with cleverbot"""
         author = ctx.message.author
         channel = ctx.message.channel
-        response = self.chatbot.get_response(message)
-        await self.bot.send_message(channel, response)
+
+        async with self.session.post("http://192.168.0.129:11610", params={"text":message}) as resp:
+            data = await resp.text()
+        print(data)
+        # response = await self.chatbot.get_response(message)
+        # await self.bot.send_message(channel, response)
 
     @chatterbot.command(pass_context=True, name="export")
     async def export_corpus(self, ctx):
