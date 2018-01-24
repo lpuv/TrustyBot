@@ -16,6 +16,7 @@ class Reee:
     def __init__(self, bot):
         self.bot = bot
         self.fn = "data/reee/newreee.png"
+        self.zio = "data/reee/newzio.jpg"
         self.increment = 2
         self.start_size = (1024, 1024)
         self.smallest = (32, 32)
@@ -35,12 +36,24 @@ class Reee:
                     await self.change_size(len(word)-3)
             print("uploads photo {}".format(self.fn))
             await self.bot.send_file(message.channel, self.fn)
+        if "zioo" in msg:
+            for word in msg.split(" "):
+                if "zioo" in word:
+                    await self.change_size_zio(len(word)-3)
+            print("uploads photo {}".format(self.fn))
+            await self.bot.send_file(message.channel, self.zio)
 
     async def change_size(self, size):
         length, width = self.smallest
         im = Image.open("data/reee/reee.png")
         im.thumbnail((length*size, width*size), Image.ANTIALIAS)
         im.save("data/reee/newreee.png")
+
+    async def change_size_zio(self, size):
+        length, width = self.smallest
+        im = Image.open("data/reee/zio.jpg")
+        im.thumbnail((length*size, width*size), Image.ANTIALIAS)
+        im.save("data/reee/newzio.jpg")
 
     @commands.command(pass_context=True)
     @checks.mod_or_permissions(manage_channels=True)

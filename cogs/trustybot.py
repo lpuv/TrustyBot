@@ -41,23 +41,13 @@ class TrustyBot:
     @commands.command(pass_context=True)
     @checks.is_owner()
     async def testcu(self, ctx):
-        channel = ctx.message.channel
-        user = await self.bot.get_user_info("268562382173765643")
-        # print(user)
-        data = {}
-        data['timestamp'] = time.strftime("%Y-%m-%dT%H:%M:%S%z", time.gmtime())
-        data['id'] = randint(10**(17), (10**18) - 1)
-        data['content'] = ";scheduler add 60s say hello"
-        data['channel'] = channel
-        data['author'] = {"id":user}
-        data['nonce'] = randint(-2**32, (2**32) - 1)
-        data['channel_id'] = channel.id
-        data['reactions'] = []
-        fake_message = discord.Message(**data)
-        # print(data)
-        # print(ctx.message)
-        # self.bot.dispatch("scheduler._add_event", "test", "say hello", "321105104931389440", "366758942212358145", "218773382617890828", 60)
-        print("Done")
+        try:
+            channel = self.bot.get_channel(id="381570669609091073")
+            message = await self.bot.get_message(channel, "405191506601705473")
+        except:
+            print("error")
+        print(message)
+        
 
     @commands.command(pass_context=True)
     async def getavatar(self, ctx, member:discord.Member):

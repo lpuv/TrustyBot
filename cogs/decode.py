@@ -8,7 +8,7 @@ import hashlib
 
 class Encoding:
 
-"""various encoding and decoding commands"""
+    """various encoding and decoding commands"""
 
     def __init__(self, bot):
         self.bot = bot
@@ -61,14 +61,16 @@ class Encoding:
 
     @_encode.command(pass_context=True, name="binary")
     async def encode_binary(self, ctx, *, message: str):
+        """Encode a string in binary"""
         message = message.strip(" ")
         binary = ' '.join(bin(x)[2:].zfill(8) for x in message.encode('UTF-8'))
         await self.bot.say(binary)
 
     @_decode.command(pass_context=True, name="binary")
     async def decode_binary(self, ctx, *, message: str):
-        message = message.strip(" ")
-        binary = str(' '.join(bin(x)[2:].zfill(8) for x in message.encode('UTF-8')))
+        """Decode a string in binary"""
+        message = message.replace(" ", "")
+        binary = int("0b"+message, 2).to_bytes((int("0b"+message, 2).bit_length() + 7) // 8, 'big').decode()
         await self.bot.say(binary)
 
 

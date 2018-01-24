@@ -311,7 +311,7 @@ class Tweets():
             await self.bot.say(message)
 
     @_tweets.command(pass_context=True, no_pm=True, name='gettweets')
-    async def get_tweets(self, ctx, username: str, count: int):
+    async def get_tweets(self, ctx, username: str, count: int=1):
         """Gets the specified number of tweets for the specified username"""
         cnt = count
         if count > 25:

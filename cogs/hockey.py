@@ -42,7 +42,7 @@ class Hockey:
     @checks.is_owner()
     async def add_team_data(self, ctx):
         for team in self.settings:
-            self.settings[team]["game_state"] = "Preview"
+            self.settings[team]["game_state"] = "Null"
             self.settings[team]["game_start"] = "2018-01-21T23:00:00Z"
             self.settings[team]["period"] = 1
         dataIO.save_json("data/hockey/settings.json", self.settings)
@@ -74,7 +74,8 @@ class Hockey:
             is_playing, games = await self.team_playing(data["dates"][0]["games"])
             num_goals = 0
             # print(games)
-            while is_playing and games != {}:
+            to_remove = []
+            while is_playing and games != []:
                 for link in games:
                     # print(link)
                     async with self.session.get(self.url + link) as resp:
@@ -87,11 +88,9 @@ class Hockey:
                     home_team = data["gameData"]["teams"]["home"]["name"]
                     home_shots = data["liveData"]["linescore"]["teams"]["home"]["shotsOnGoal"]
                     home_score = data["liveData"]["linescore"]["teams"]["home"]["goals"]
-                    home_abr = data["gameData"]["teams"]["home"]["abbreviation"]
                     away_team = data["gameData"]["teams"]["away"]["name"]
                     away_shots = data["liveData"]["linescore"]["teams"]["away"]["shotsOnGoal"]
                     away_score = data["liveData"]["linescore"]["teams"]["away"]["goals"]
-                    away_abr = data["gameData"]["teams"]["away"]["abbreviation"]
                     goals = [goal for goal in event if goal["result"]["eventTypeId"] == "GOAL" or (goal["result"]["eventTypeId"] == "MISSED_SHOT" and goal["about"]["ordinalNum"] == "SO")]
                     home_goals = [goal for goal in goals if home_team in goal["team"]["name"]]
                     away_goals = [goal for goal in goals if away_team in goal["team"]["name"]]
@@ -100,25 +99,25 @@ class Hockey:
                                  "Away": away_team, "Away Score":away_score, "Away Shots":away_shots,
                                  "shootout":{"home_msg": home_msg, "away_msg":away_msg}}
                     print("{} @ {}".format(home_team, away_team))
+                    
                     if len(goals) != 0:
                         await self.check_team_goals(goals, home_team, score_msg, False)
                         await self.check_team_goals(goals, away_team, score_msg, False)
                         await self.check_team_goals(home_goals, home_team, score_msg, True)
                         await self.check_team_goals(away_goals, away_team, score_msg, True)
-                    
 
-                if game_state == "Final":
-                    # print("Final")
-                    # Clears the game data from the settings file
-                    for goal in self.settings["all"]["goal_id"]:
-                        if self.settings["all"]["goal_id"][goal]["team"]["name"] == team:
-                            del self.settings["all"]["goal_id"][goal]
-                    self.settings[team]["goal_id"] = {}
-                    dataIO.save_json("data/hockey/settings.json", self.settings)
-                    del games[team]
-                if games == {}:
+
+                    if game_state == "Final":
+                        self.settings[home_team]["goal_id"] = {}
+                        self.settings[away_team]["goal_id"] = {}
+                        to_remove.append(link)
+
+                for link in to_remove:
+                    del games[games.index(link)]
+                if games == []:
                     is_playing = False
                     break
+                dataIO.save_json("data/hockey/settings.json", self.settings)
                 await asyncio.sleep(60)
             print(is_playing)
             for team in self.settings:
@@ -130,80 +129,161 @@ class Hockey:
         game_state = data["gameData"]["status"]["abstractGameState"]
         game_start = data["gameData"]["datetime"]["dateTime"]
         home_team = data["gameData"]["teams"]["home"]["name"]
-        home_state = home_team = data["gameData"]["teams"]["home"]["name"]
         away_team = data["gameData"]["teams"]["away"]["name"]
         post_state = ["all", home_team, away_team]
+        away_abr = data["gameData"]["teams"]["away"]["abbreviation"]
+        home_abr = data["gameData"]["teams"]["home"]["abbreviation"]
+        home_logo = self.teams[home_team]["logo"]
+        away_logo = self.teams[away_team]["logo"]
+        team_url = self.teams[home_team]["team_url"]
+        timestamp = datetime.strptime(game_start, "%Y-%m-%dT%H:%M:%SZ")
+        game_state = data["gameData"]["status"]["abstractGameState"]
+        h_emoji = "<:{}>".format(self.teams[home_team]["emoji"])
+        a_emoji = "<:{}>".format(self.teams[away_team]["emoji"])
+        title = "{away} @ {home} {state}".format(away=away_team, home=home_team, state=game_state)
+        colour = int(self.teams[home_team]["home"].replace("#", ""), 16)
+        em = discord.Embed(timestamp=timestamp)       
+        
 
         # Home team checking
 
-        if self.settings[home_team]["game_state"] != game_state and game_state == "Preview":
+        if game_state == "Preview":
             """Checks if the the game state has changes from Final to Preview
                Could be unnecessary since after Game Final it will check for next game
             """
-            self.settings[home_team]["game_state"] = game_state
-            self.settings[home_team]["game_start"] = game_start
-            self.settings[away_team]["game_state"] = game_state
-            self.settings[away_team]["game_start"] = game_start
-            # Create channel and look for game day thread
+            if self.settings[home_team]["game_state"] != game_state:
+                self.settings[home_team]["game_state"] = game_state
+                self.settings[home_team]["game_start"] = game_start
+                self.settings[away_team]["game_state"] = game_state
+                self.settings[away_team]["game_start"] = game_start
+                em.add_field(name="Home Team", value="{} {}".format(h_emoji, home_team))
+                em.add_field(name="Away Team", value="{} {}".format(a_emoji, away_team))
+                for state in post_state:
+                    team = state if state != "all" else home_team
+                    alt_team = [state for state in post_state if state != "all" and state != team][0]
+                    em.colour = int(self.teams[team]["home"].replace("#", ""), 16)
+                    logo = self.teams[team]["logo"]
+                    alt_logo = self.teams[alt_team]["logo"]
+                    em.set_author(name=title, url=team_url, icon_url=logo)
+                    em.set_thumbnail(url=logo)
+                    em.set_footer(text="Game start ", icon_url=alt_logo)
+                    for channels in self.settings[state]["channel"]:
+                        channel = self.bot.get_channel(id=channels)
+                        await self.bot.send_message(channel, embed=em)
+                # Create channel and look for game day thread
 
         if game_state == "Live":
             """Checks what the period is and posts the game is starting in the appropriate channel"""
+            home_shots = data["liveData"]["linescore"]["teams"]["home"]["shotsOnGoal"]
+            home_score = data["liveData"]["linescore"]["teams"]["home"]["goals"]
+            away_team = data["liveData"]["linescore"]["teams"]["away"]["team"]["name"]
+            away_shots = data["liveData"]["linescore"]["teams"]["away"]["shotsOnGoal"]
+            away_score = data["liveData"]["linescore"]["teams"]["away"]["goals"]
+            home_str = "Goals: **{}** \nShots: **{}**".format(home_score, home_shots)
+            away_str = "Goals: **{}** \nShots: **{}**".format(away_score, away_shots)
+            period = data["liveData"]["linescore"]["currentPeriod"]
+            period_ord = data["liveData"]["linescore"]["currentPeriodOrdinal"]
+            em.add_field(name=home_team, value=home_str, inline=True)
+            em.add_field(name=away_team, value=away_str, inline=True)
             if self.settings[home_team]["game_state"] != game_state:
-                msg = "Game starting {} @ {}"
-                print(msg)
+                self.settings[home_team]["game_state"] = game_state
+                msg = "**Game starting {} at {}**"
+                print(msg.format(home_team, away_team))
                 for state in post_state:
+                    team = state if state != "all" else home_team
+                    alt_team = [state for state in post_state if state != "all" and state != team][0]
+                    em.colour = int(self.teams[team]["home"].replace("#", ""), 16)
+                    logo = self.teams[team]["logo"]
+                    alt_logo = self.teams[alt_team]["logo"]
+                    em.set_author(name=title, url=team_url, icon_url=logo)
+                    em.set_thumbnail(url=logo)
+                    em.set_footer(text="Game start ", icon_url=alt_logo)
                     for channels in self.settings[state]["channel"]:
                         channel = self.bot.get_channel(id=channels)
                         server = channel.server
-                        try:
-                            home_role = [role for role in server.roles if role.name == home_team][0]
-                            away_role = [role for role in server.roles if role.name == away_team][0]
-                            await self.bot.send_message(channel, msg.format(home_role.mention, away_role.mention))
-                        except:
-                            await self.bot.send_message(channel, msg.format(home_team, away_team))
-            period = data["liveData"]["linescore"]["currentPeriod"]
-            period_ord = data["liveData"]["linescore"]["currentPeriodOrdinal"]
-            self.settings[home_team]["game_state"] = game_state
+                        home_role, away_role = await self.get_team_role(server, home_team, away_team)
+                        await self.bot.send_message(channel, msg.format(home_role, away_role), embed=em)
+
             if self.settings[home_team]["period"] != period:
                 self.settings[home_team]["period"] = period
                 self.settings[away_team]["period"] = period
-                msg = "{} Period starting {} @ {}"
-                print(msg)
+                self.settings[home_team]["game_state"] = game_state
+                msg = "**{} Period starting {} at {}**"
+                print(msg.format(period_ord, home_team, away_team))
                 for state in post_state:
+                    team = state if state != "all" else home_team
+                    alt_team = [state for state in post_state if state != "all" and state != team][0]
+                    em.colour = int(self.teams[team]["home"].replace("#", ""), 16)
+                    logo = self.teams[team]["logo"]
+                    alt_logo = self.teams[alt_team]["logo"]
+                    em.set_author(name=title, url=team_url, icon_url=logo)
+                    em.set_thumbnail(url=logo)
+                    em.set_footer(text="Game start ", icon_url=alt_logo)
                     for channels in self.settings[state]["channel"]:
                         channel = self.bot.get_channel(id=channels)
                         server = channel.server
-                        try:
-                            home_role = [role for role in server.roles if role.name == home_team][0]
-                            away_role = [role for role in server.roles if role.name == away_team][0]
-                            print(home_role)
-                            await self.bot.send_message(channel, msg.format(period_ord, home_role.mention, away_role.mention))
-                        except:
-                            await self.bot.send_message(channel, msg.format(period_ord, home_team, away_team))
+                        # print(home_role)
+                        home_role, away_role = await self.get_team_role(server, home_team, away_team)
+                        await self.bot.send_message(channel, msg.format(period_ord, home_role, away_role), embed=em)
             # Say game starting in all channels
 
 
-        if self.settings[home_team]["game_state"] != game_state and game_state == "Final":
-            self.settings[home_team]["game_state"] = game_state
-            self.settings[away_team]["game_state"] = game_state
-            self.settings[home_team]["period"] = 1
-            self.settings[away_team]["period"] = 1
-            # Post game final data and check for next game
-            msg = "Game Final {} @ {}"
-            for state in post_state:
-                for channels in self.settings[state]["channel"]:
-                    channel = self.bot.get_channel(id=channels)
-                    server = channel.server
-                    try:
-                        home_role = [role for role in server.roles if role.name == home_team][0]
-                        away_role = [role for role in server.roles if role.name == away_team][0]
-                        await self.bot.send_message(channel, msg.format(home_role.mention, away_role.mention))
-                    except:
-                        await self.bot.send_message(channel, msg.format(home_team, away_team))
+        if game_state == "Final":
+            """Final game state checks"""
 
-        dataIO.save_json("data/hockey/settings.json", self.settings)
+            if self.settings[home_team]["game_state"] != game_state and self.settings[home_team]["game_state"] != "Null":
+                self.settings[home_team]["game_state"] = "Null"
+                self.settings[away_team]["game_state"] = "Null"
+                self.settings[home_team]["period"] = 1
+                self.settings[away_team]["period"] = 1
+                home_shots = data["liveData"]["linescore"]["teams"]["home"]["shotsOnGoal"]
+                home_score = data["liveData"]["linescore"]["teams"]["home"]["goals"]
+                away_team = data["liveData"]["linescore"]["teams"]["away"]["team"]["name"]
+                away_shots = data["liveData"]["linescore"]["teams"]["away"]["shotsOnGoal"]
+                away_score = data["liveData"]["linescore"]["teams"]["away"]["goals"]
+                home_str = "Goals: **{}** \nShots: **{}**".format(home_score, home_shots)
+                away_str = "Goals: **{}** \nShots: **{}**".format(away_score, away_shots)
+                em.add_field(name=home_team, value=home_str, inline=True)
+                em.add_field(name=away_team, value=away_str, inline=True)
+                # Post game final data and check for next game
+                msg = "Game Final {} @ {}"
+                print(msg.format(home_team, away_team))
+                # print("Final")
+                # Clears the game data from the settings file
+                for state in post_state:
+                    team = state if state != "all" else home_team
+                    alt_team = [state for state in post_state if state != "all" and state != team][0]
+                    em.colour = int(self.teams[team]["home"].replace("#", ""), 16)
+                    logo = self.teams[team]["logo"]
+                    alt_logo = self.teams[alt_team]["logo"]
+                    em.set_author(name=title, url=team_url, icon_url=logo)
+                    em.set_thumbnail(url=logo)
+                    em.set_footer(text="Game start ", icon_url=alt_logo)
+                    for channels in self.settings[state]["channel"]:
+                        channel = self.bot.get_channel(id=channels)
+                        server = channel.server
+                        await self.bot.send_message(channel, embed=em)
 
         
+
+        
+    async def get_team_role(self, server, home_team, away_team):
+        home_role = None
+        away_role = None
+        for role in server.roles:
+            if "Canadiens" in home_team and "Canadiens" in role.name:
+                home_role = role.mention
+            elif role.name == home_team:
+                home_role = role.mention
+            if "Canadiens" in away_team and "Canadiens" in role.name:
+                away_role = role.mention
+            elif role.name == away_team:
+                away_role = role.mention
+        if home_role is None:
+            home_role = home_team
+        if away_role is None:
+            away_role = away_team
+        return home_role, away_role
 
 
     async def get_shootout_display(self, goals, home_team, away_team):
@@ -237,7 +317,6 @@ class Hockey:
                     # Posts goal information and saves data for verification later
                     msg_list = await self.post_team_goal(goal, team, score_msg)
                     self.settings[team]["goal_id"][goal_id] = {"goal":goal,"messages":msg_list}
-                    dataIO.save_json("data/hockey/settings.json", self.settings)
                 if goal_id in goal_list:
                     # Checks if the goal data has changed and edits all previous posts with new data
                     old_goal = self.settings[team]["goal_id"][goal_id]["goal"]
@@ -245,21 +324,18 @@ class Hockey:
                         print("attempting to edit")
                         old_msgs = self.settings[team]["goal_id"][goal_id]["messages"]
                         self.settings[team]["goal_id"][goal_id]["goal"] = goal
-                        dataIO.save_json("data/hockey/settings.json", self.settings)
                         await self.post_team_goal(goal, team, score_msg, old_msgs)
             if is_all:
                 # print("all")
                 if goal_id not in all_goal_list:
                     msg_list = await self.post_team_goal(goal, "all", score_msg)
                     self.settings["all"]["goal_id"][goal_id] = {"goal":goal, "messages":msg_list}
-                    dataIO.save_json("data/hockey/settings.json", self.settings)
                 if goal_id in all_goal_list:
                     old_goal = self.settings["all"]["goal_id"][goal_id]["goal"]
                     if goal != old_goal:
                         print("attempting to edit")
                         old_msgs = self.settings["all"]["goal_id"][goal_id]["messages"]
                         self.settings["all"]["goal_id"][goal_id]["goal"] = goal
-                        dataIO.save_json("data/hockey/settings.json", self.settings)
                         await self.post_team_goal(goal, "all", score_msg, old_msgs)
         if not is_all:
             # to_remove = [goal for goal in goal_list if goal not in goal_ids]
@@ -267,39 +343,46 @@ class Hockey:
                 # print(old_goal)
                 if old_goal not in goal_ids:
                     print(old_goal)
-                    old_msgs = self.settings[team]["goal_id"][old_goal]["messages"].items()
+                    try:
+                        old_msgs = self.settings[team]["goal_id"][old_goal]["messages"].items()
+                    except Exception as e:
+                        print(e)
+                        continue
                     for channel_id, message_id in old_msgs:
+                        channel = self.bot.get_channel(id=channel_id)
                         try:
-                            channel = self.bot.get_channel(id=channel_id)
                             message = await self.bot.get_message(channel, message_id)
                             await self.bot.delete_message(message)
-                        except:
+                            
+                        except Exception as e:
+                            print("something wrong with {} {}: {}".format(team, old_goal, e))
                             pass
-                    all_old_msgs = self.settings["all"]["goal_id"][old_goal]["messages"].items()
+                        try:
+                            del self.settings[team]["goal_id"][old_goal]
+                        except Exception as e:
+                            print(e)
+                            pass
+                        print("done")
+                    try:
+                        all_old_msgs = self.settings["all"]["goal_id"][old_goal]["messages"].items()
+                    except Exception as e:
+                        print(e)
+                        continue
+                    
                     for channel_id, message_id in all_old_msgs:
                         try:
                             channel = self.bot.get_channel(id=channel_id)
                             message = await self.bot.get_message(channel, message_id)
                             await self.bot.delete_message(message)
-                        except:
+                        except Exception as e:
+                            print("something wrong with all {}: {}".format(old_goal, e))
                             pass
-                    # print("should reach here")
-                    del self.settings[team]["goal_id"][old_goal]
-                    del self.settings["all"]["goal_id"][old_goal]
+                        try:
+                            del self.settings["all"]["goal_id"][old_goal]
+                        except Exception as e:
+                            print(e)
+                            pass
                     print("should reach here")
-                    dataIO.save_json("data/hockey/settings.json", self.settings)
-        """"
-        if is_all:
-            for old_goal in all_goal_list:
-                if old_goal not in list(self.settings[team]["goal_id"]):
-                    old_msgs = self.settings["all"]["goal_id"][old_goal]["messages"].items()
-                    for channel_id, message_id in old_msgs:
-                        channel = self.bot.get_channel(id=channel_id)
-                        message = await self.bot.get_message(channel, message_id)
-                        await self.bot.delete_message(message)
-                    del self.settings["all"]["goal_id"][old_goal]
-                    dataIO.save_json("data/hockey/settings.json", self.settings)"""
-
 
     async def post_team_goal(self, goal, team, score_msg, og_msg=None):
         """Creates embed and sends message if a team has scored a goal"""
@@ -534,27 +617,31 @@ class Hockey:
         away_team = game_data["liveData"]["linescore"]["teams"]["away"]["team"]["name"]
         away_shots = game_data["liveData"]["linescore"]["teams"]["away"]["shotsOnGoal"]
         away_score = game_data["liveData"]["linescore"]["teams"]["away"]["goals"]
-        logo = self.teams[home_team]["logo"] if team_set is None else self.teams[team_set]["logo"]
+        home_logo = self.teams[home_team]["logo"] if team_set is None else self.teams[team_set]["logo"]
+        away_logo = self.teams[away_team]["logo"] if team_set is None else self.teams[team_set]["logo"]
         team_url = self.teams[home_team]["team_url"] if team_set is None else self.teams[team_set]["team_url"]
         game_time = game["gameDate"]
         timestamp = datetime.strptime(game_time, "%Y-%m-%dT%H:%M:%SZ")
         game_state = game_data["gameData"]["status"]["abstractGameState"]
+        h_emoji = "<:{}>".format(self.teams[home_team]["emoji"])
+        a_emoji = "<:{}>".format(self.teams[away_team]["emoji"])
         title = "{away} @ {home} {state}".format(away=away_team, home=home_team, state=game_state)
         if team_set is None:
             colour = int(self.teams[home_team]["home"].replace("#", ""), 16)
         else:
             colour = int(self.teams[team_set]["home"].replace("#", ""), 16)
         em = discord.Embed(timestamp=timestamp, colour=colour)
-        em.set_author(name=title, url=team_url, icon_url=logo)
-        em.set_thumbnail(url=logo)
+        em.set_author(name=title, url=team_url, icon_url=home_logo)
+        em.set_thumbnail(url=home_logo)
+        em.set_footer(text="Game start ", icon_url=away_logo)
         if game_state == "Preview":
-            em.add_field(name="Home Team", value=home_team)
-            em.add_field(name="Away Team", value=away_team)
+            em.add_field(name="Home Team", value="{} {}".format(h_emoji, home_team))
+            em.add_field(name="Away Team", value="{} {}".format(a_emoji, away_team))
         if game_state != "Preview":
             event = game_data["liveData"]["plays"]["allPlays"]
             goals = [goal for goal in event if goal["result"]["eventTypeId"] == "GOAL"]
-            home_msg = "Goals: **{}** \nShots: **{}**".format(home_score, home_shots)
-            away_msg = "Goals: **{}** \nShots: **{}**".format(away_score, away_shots)
+            home_msg = "{}\nGoals: **{}** \nShots: **{}**".format(h_emoji, home_score, home_shots)
+            away_msg = "{}\nGoals: **{}** \nShots: **{}**".format(a_emoji, away_score, away_shots)
             em.add_field(name=home_team, value=home_msg)
             em.add_field(name=away_team, value=away_msg)
             if goals != []:
@@ -582,7 +669,7 @@ class Hockey:
                     msg = "{} of the {} period".format(period_time_left, period)
                 em.add_field(name="Period", value=msg)
                 
-        em.set_footer(text="Game start ", icon_url=logo)
+        
         if not message:
             message =\
                 await self.bot.send_message(ctx.message.channel, embed=em)

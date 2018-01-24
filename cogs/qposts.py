@@ -8,6 +8,7 @@ from discord.ext import commands
 from .utils.dataIO import dataIO
 from .utils import checks
 from bs4 import BeautifulSoup
+import tweepy as tw
 
 numbs = {
     "next": "➡",
@@ -24,10 +25,34 @@ class QPosts:
         self.url = "https://8ch.net"
         self.boards = ["greatawakening", "qresearch"]
         self.loop = bot.loop.create_task(self.get_q_posts())
+        self.tweets = dataIO.load_json("data/qposts/twitter.json")
+        if 'consumer_key' in list(self.tweets["api"].keys()):
+            self.consumer_key = self.tweets["api"]['consumer_key']
+        if 'consumer_secret' in list(self.tweets["api"].keys()):
+            self.consumer_secret = self.tweets["api"]['consumer_secret']
+        if 'access_token' in list(self.tweets["api"].keys()):
+            self.access_token = self.tweets["api"]['access_token']
+        if 'access_secret' in list(self.tweets["api"].keys()):
+            self.access_secret = self.tweets["api"]['access_secret']
 
     def __unload(self):
         self.session.close()
         self.loop.cancel()
+
+    async def authenticate(self):
+        """Authenticate with Twitter's API"""
+        auth = tw.OAuthHandler(self.consumer_key, self.consumer_secret)
+        auth.set_access_token(self.access_token, self.access_secret)
+        return tw.API(auth)
+
+    async def send_tweet(self, message: str, file=None):
+        """Sends tweets as the bot owners account"""
+        api = await self.authenticate()
+        if file is None:
+            api.update_status(message)
+        else:
+            api.update_with_media(file, status=message)
+
 
     @commands.command()
     async def dlq(self):
@@ -71,6 +96,7 @@ class QPosts:
                     print("error grabbing board catalog {}".format(board))
                     continue
                 Q_posts = []
+                old_posts = [post_no["no"] for post_no in self.qposts[board]]
                 if board not in self.qposts:
                     self.qposts[board] = []
                 for page in data:
@@ -84,9 +110,11 @@ class QPosts:
                             continue
                         for post in posts["posts"]:
                             if "trip" in post:
-                                if post["trip"] in ["!UW.yye1fxo"]:
+                                if post["trip"] in ["!UW.yye1fxo"] and post["no"] not in old_posts:
                                     Q_posts.append(post)
-                old_posts = [post_no["no"] for post_no in self.qposts[board]]
+                                if board == "greatawakening" and post["trip"] not in ["!UW.yye1fxo"] and post["no"] not in old_posts:
+                                    Q_posts.append(post)
+                
 
                 for post in Q_posts:
                     if post["no"] not in old_posts:
@@ -131,7 +159,7 @@ class QPosts:
         # print("trying to post")
         
         name = qpost["name"] if "name" in qpost else "Anonymous"
-        url = "{}{}res/{}.html#{}".format(self.url, board, qpost["resto"], qpost["no"])
+        url = "{}/{}/res/{}.html#{}".format(self.url, board, qpost["resto"], qpost["no"])
         
         html = qpost["com"]
         soup = BeautifulSoup(html, "html.parser")
@@ -172,7 +200,7 @@ class QPosts:
         em.timestamp = datetime.utcfromtimestamp(qpost["time"])
         if text != "":
             if "_" in text or "~" in text or "*" in text:
-                em.description = "```{}```".format(text[:1993])
+                em.description = "```\n{}```".format(text[:1993])
             else:
                 em.description = text[:2000]
         if ref_text != "":
@@ -181,8 +209,24 @@ class QPosts:
             else:
                 em.add_field(name=str(post["no"]), value=ref_text)
         if img_url != "":
-            em.set_image(url=img_url)   
+            em.set_image(url=img_url)
+            try:
+                print("sending tweet")
+                tw_msg = "{}\n{}".format(url, text)
+                await self.send_tweet(tw_msg[:280], "data/qposts/files/{}{}".format(file_id, file_ext))
+            except Exception as e:
+                print(e)
+                pass
+        else:
+            try:
+                print("sending tweet")
+                tw_msg = "{}\n{}".format(url, text)
+                await self.send_tweet(tw_msg[:280])
+            except Exception as e:
+                print(e)
+                pass
         em.set_footer(text=board)
+        
         
         for channel_id in self.settings:
             channel = self.bot.get_channel(id=channel_id)
@@ -197,7 +241,7 @@ class QPosts:
             em = discord.Embed(colour=discord.Colour.red())
             em.set_author(name=name + qpost["trip"], url=url)
             em.timestamp = datetime.utcfromtimestamp(qpost["time"])
-            em.description = "```{}```".format(text[1993:])
+            em.description = "```\n{}```".format(text[1993:])
             reference = await self.get_quoted_post(qpost)
             if ref_text != "":
                 em.add_field(name=str(post["no"]), value="```{}```".format(ref_text))
@@ -256,7 +300,7 @@ class QPosts:
         qpost = post_list[page]
         
         name = qpost["name"] if "name" in qpost else "Anonymous"
-        url = "{}{}res/{}.html#{}".format(self.url, board, qpost["resto"], qpost["no"])
+        url = "{}/{}/res/{}.html#{}".format(self.url, board, qpost["resto"], qpost["no"])
         
         html = qpost["com"]
         soup = BeautifulSoup(html, "html.parser")
@@ -297,16 +341,16 @@ class QPosts:
         em.timestamp = datetime.utcfromtimestamp(qpost["time"])
         if text != "":
             if "_" in text or "~" in text or "*" in text:
-                em.description = "```{}```".format(text[:1993])
+                em.description = "```\n{}```".format(text[:1993])
             else:
                 em.description = text[:2000]
         if ref_text != "":
             if "_" in ref_text or "~" in ref_text or "*" in ref_text:
-                em.add_field(name=str(post["no"]), value="```{}```".format(ref_text))
+                em.add_field(name=str(post["no"]), value="```\n{}```".format(ref_text))
             else:
                 em.add_field(name=str(post["no"]), value=ref_text)
         if img_url != "":
-            em.set_image(url=img_url)   
+            em.set_image(url=img_url)
         em.set_footer(text=board)
 
 
