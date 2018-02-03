@@ -8,7 +8,7 @@ class MassNickChange:
         self.bot = bot
 
     @commands.command(pass_context=True)
-    @checks.admin_or_permissions(manage_roles=True)
+    @checks.admin_or_permissions(manage_nicknames=True)
     async def changeusernicks(self, ctx, nickname=None):
         users = ""
         members = list(ctx.message.server.members)

@@ -27,6 +27,8 @@ class Badges:
         self.bot = bot
         self.files = "data/badges/"
         self.blank_template = {"cia":{"code":"CIA", "loc":"data/badges/cia-template.png"}, 
+                               "discord":{"code":"DISCORD", "loc":"data/badges/discord-template.png"},
+                               "nypd":{"code":"NYPD", "loc":"data/badges/nypd-template.png"},
                                "cicada":{"code":"CICADA", "loc":"data/badges/cicada-template.png"},
                                "ioi":{"code":"IOI", "loc":"data/badges/IOI-template.png"},
                                "fbi":{"code":"FBI", "loc":"data/badges/fbi-template.png"},
@@ -204,7 +206,7 @@ class Badges:
             msg += template + ", "
         await self.bot.send_message(ctx.message.channel, msg[:-2])
     
-    @commands.command(pass_context=True)
+    @commands.command(pass_context=True, aliases=["badge"])
     async def badges(self, ctx, *, badge):
         """Creates a variety of badges use [p]listbadges to see what is available"""
         if badge.lower() == "list":

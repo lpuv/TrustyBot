@@ -3,6 +3,7 @@ from discord.ext import commands
 from .utils.dataIO import dataIO
 import os
 import re
+from random import choice
 try:
     from emoji import UNICODE_EMOJI
 except:
@@ -37,6 +38,12 @@ class ServerEmojiReact():
         if ctx.invoked_subcommand is None:
             await self.bot.send_cmd_help(ctx)
 
+    @emojireact.group(pass_context=True, name="random")
+    async def _random(self, ctx):
+        """Add or remove all emoji reactions"""
+        if ctx.invoked_subcommand is None:
+            await self.bot.send_cmd_help(ctx)
+
     @_all.command(pass_context=True, name="add", aliases=["on"])        
     async def add_all(self,ctx):
         """Adds all emoji reactions to the server"""
@@ -48,6 +55,20 @@ class ServerEmojiReact():
     async def rem_all(self,ctx):
         """Removes all emoji reactions to the server"""
         self.settings[ctx.message.server.id] = {"unicode":False, "server": False}
+        dataIO.save_json(self.settings_file, self.settings)
+        await self.bot.send_message(ctx.message.channel, "Okay, I will not react to messages containing emojis!")
+
+    @_random.command(pass_context=True, name="add", aliases=["on"])        
+    async def add_rand(self,ctx):
+        """Adds all emoji reactions to the server"""
+        self.settings[ctx.message.server.id] = {"unicode":True, "server": True, "random":True}
+        dataIO.save_json(self.settings_file, self.settings)
+        await self.bot.send_message(ctx.message.channel, "Okay, I will react to messages containing emojis!")
+
+    @_random.command(pass_context=True, name="remove", aliases=["off"])        
+    async def rem_rand(self,ctx):
+        """Removes all emoji reactions to the server"""
+        self.settings[ctx.message.server.id] = {"unicode":False, "server": False, "random":False}
         dataIO.save_json(self.settings_file, self.settings)
         await self.bot.send_message(ctx.message.channel, "Okay, I will not react to messages containing emojis!")
 
@@ -104,6 +125,13 @@ class ServerEmojiReact():
                 emoji_list.append(word)
             if word in UNICODE_EMOJI and self.settings[server.id]["unicode"]:
                 emoji_list.append(word)
+        if "random" in self.settings[server.id]:
+            if self.settings[server.id]["random"]:
+                emoji = choice(list(UNICODE_EMOJI))
+                try:
+                    await self.bot.add_reaction(message, emoji)
+                except:
+                    await self.bot.add_reaction(message, "😘")
         if emoji_list == []:
             return
         for emoji in emoji_list:
@@ -111,6 +139,7 @@ class ServerEmojiReact():
                 await self.bot.add_reaction(message, emoji)
             except:
                 pass
+
 
 
 def check_folders():

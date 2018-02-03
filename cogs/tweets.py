@@ -389,7 +389,11 @@ class Tweets():
             if text.startswith("RELEASE:") and username == "wikileaks":
                 await self.bot.send_message(self.bot.get_channel("365376327278395393"), "<{}>".format(post_url), embed=em)
             for channel in list(self.settings["accounts"][user_id]["channel"]):
-                await self.bot.send_message(self.bot.get_channel(channel), "<{}>".format(post_url), embed=em)
+                try:
+                    await self.bot.send_message(self.bot.get_channel(channel), "<{}>".format(post_url), embed=em)
+                except Exception as e:
+                    print("Error posting {} in channel {}: {}".format(username, channel, e))
+                    pass
             self.settings["accounts"][user_id]["lasttweet"] = status.id
             dataIO.save_json(self.settings_file, self.settings)
         except tw.TweepError as e:
@@ -420,6 +424,22 @@ class Tweets():
         stream_start = TweetListener(api, self.bot)
         self.mystream = tw.Stream(api.auth, stream_start)
         self.mystream.filter(follow=tweet_list, async=True)
+
+    @_autotweet.command(pass_context=True)
+    @checks.is_owner()
+    async def cleartweets(self, ctx):
+        """Clears channels that can't be found"""
+        for user in list(self.settings["accounts"]):
+            username = self.settings["accounts"][user]["username"]
+            for channel in self.settings["accounts"][user]["channel"]:
+                chn = self.bot.get_channel(id=channel)
+                if chn is None:
+                    self.settings["accounts"][user]["channel"].remove(channel)
+                    print("{} {}".format(username, channel))
+            if self.settings["accounts"][user]["channel"] == []:
+                del self.settings["accounts"][user]
+        dataIO.save_json("data/tweets/settings.json", self.settings)
+        self.autotweet_restart()
     
     @_autotweet.command(pass_context=True, name="replies")
     async def _replies(self, ctx, account, replies):

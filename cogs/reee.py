@@ -17,6 +17,7 @@ class Reee:
         self.bot = bot
         self.fn = "data/reee/newreee.png"
         self.zio = "data/reee/newzio.jpg"
+        self.tank = "data/reee/newtank.png"
         self.increment = 2
         self.start_size = (1024, 1024)
         self.smallest = (32, 32)
@@ -29,19 +30,29 @@ class Reee:
             return
         if message.author.bot:
             return
+        if message.server.id == "236313384100954113" and message.channel.id not in ["244653444504223755", "367879950466023425"]:
+            return
         msg = message.content.lower()
+
         if "reee" in msg:
             for word in msg.split(" "):
                 if "reee" in word:
                     await self.change_size(len(word)-3)
-            print("uploads photo {}".format(self.fn))
+            # print("uploads photo {}".format(self.fn))
             await self.bot.send_file(message.channel, self.fn)
-        if "zioo" in msg:
-            for word in msg.split(" "):
-                if "zioo" in word:
-                    await self.change_size_zio(len(word)-3)
-            print("uploads photo {}".format(self.fn))
-            await self.bot.send_file(message.channel, self.zio)
+        if message.server.id in ["296712229661835264", "258021643870273538"]:
+            if "zioo" in msg:
+                for word in msg.split(" "):
+                    if "zioo" in word:
+                        await self.change_size_zio(len(word)-3)
+                # print("uploads photo {}".format(self.fn))
+                await self.bot.send_file(message.channel, self.zio)
+            if "taaa" in msg and "nk" in msg:
+                for word in msg.split(" "):
+                    if "taaa" in word:
+                        await self.change_size_tank(len(word)-3)
+                # print("uploads photo {}".format(self.fn))
+                await self.bot.send_file(message.channel, self.tank)
 
     async def change_size(self, size):
         length, width = self.smallest
@@ -54,6 +65,12 @@ class Reee:
         im = Image.open("data/reee/zio.jpg")
         im.thumbnail((length*size, width*size), Image.ANTIALIAS)
         im.save("data/reee/newzio.jpg")
+
+    async def change_size_tank(self, size):
+        length, width = self.smallest
+        im = Image.open("data/reee/tank.png")
+        im.thumbnail((length*size, width*size), Image.ANTIALIAS)
+        im.save("data/reee/newtank.png")
 
     @commands.command(pass_context=True)
     @checks.mod_or_permissions(manage_channels=True)

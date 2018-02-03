@@ -98,7 +98,6 @@ class Translate:
 
     async def on_reaction_add(self, reaction, user):
         """Translates the message based off the flag added"""
-        # print(reaction.message.reactions[0].)
         if self.settings["key"] is None:
             return
         if reaction.emoji not in self.languages:
@@ -108,18 +107,16 @@ class Translate:
         if reaction.message.embeds != []:
             to_translate = reaction.message.embeds[0]["description"]
         else:
-            to_translate = reaction.message.clean_content
-        if reaction.count > 1:
-            return
-
+            to_translate = reaction.message.clean_content    
         target = self.languages[reaction.emoji]["code"]
         from_lang = await self.detect_language(to_translate)
-        translated_text = await self.translate_text(from_lang[0][0]["language"], target, to_translate)
-        author = reaction.message.author
-        em = discord.Embed(colour=author.top_role.colour, description=translated_text)
-        em.set_author(name=author.display_name, icon_url=author.avatar_url)
-        em.set_footer(text="{} to {}".format(from_lang[0][0]["language"].upper(), target.upper()))
-        await self.bot.send_message(reaction.message.channel, embed=em)
+        if target != from_lang[0][0]["language"]:
+            translated_text = await self.translate_text(from_lang[0][0]["language"], target, to_translate)
+            author = reaction.message.author
+            em = discord.Embed(colour=author.top_role.colour, description=translated_text)
+            em.set_author(name=author.display_name, icon_url=author.avatar_url)
+            em.set_footer(text="{} to {}".format(from_lang[0][0]["language"].upper(), target.upper()))
+            await self.bot.send_message(reaction.message.channel, embed=em)
 
     @commands.command(pass_context=True)
     @checks.is_owner()

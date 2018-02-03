@@ -246,5 +246,37 @@
         "id" : 52,
         "logo" : "https://nhl.bamcontent.com/images/photos/281723512/256x256/cut.png",
         "team_url" : "http://winnipegjets.com"
+    },
+    "Team Metropolitan" : {
+        "away" : "#d1cad2",
+        "emoji" : "Metropolitan:406575133113712640",
+        "home" : "#f6e98b",
+        "id" : 88,
+        "logo" : "https://i.imgur.com/l4nxmZx.png",
+        "team_url" : "http://winnipegjets.com"
+    },
+    "Team Atlantic" : {
+        "away" : "#fef5aa",
+        "emoji" : "Atlantic:406575132895739924",
+        "home" : "#032c88",
+        "id" : 87,
+        "logo" : "https://i.imgur.com/I1NWsss.png",
+        "team_url" : "http://winnipegjets.com"
+    },
+    "Team Central" : {
+        "away" : "#111111",
+        "emoji" : "Central:406575132656533516",
+        "home" : "#ff6668",
+        "id" : 89,
+        "logo" : "https://i.imgur.com/Adrh7aD.png",
+        "team_url" : "http://winnipegjets.com"
+    },
+    "Team Pacific" : {
+        "away" : "#FFFFFF",
+        "emoji" : "Pacific:406575133096935437",
+        "home" : "#ff2734",
+        "id" : 90,
+        "logo" : "https://i.imgur.com/e5a4y36.png",
+        "team_url" : "http://nhl.coms.com"
     }
 }

@@ -1437,7 +1437,7 @@ class CardsAgainstHumanity:
             
 
     @commands.command(pass_context=True)
-    async def score(self, ctx):
+    async def cahscore(self, ctx):
         """Display the score of the current game."""
         if not await self.checkPM(ctx.message):
             return

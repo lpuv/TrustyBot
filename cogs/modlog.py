@@ -448,7 +448,7 @@ class ModLog:
                     url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
                 infomsg = ":loud_sound: Voice Channel bitrate update. Before: **{}** After: **{}**.".format(
                     before.bitrate, after.bitrate)
-                bitrate.add_field(name="Info:", value=infosg, inline=False)
+                bitrate.add_field(name="Info:", value=infomsg, inline=False)
                 try:
                     await sef.bot.send_message(server.get_channel(channel), embed=bitrate)
                 except:

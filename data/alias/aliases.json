@@ -67,12 +67,17 @@
         "habs" : "badges canadiens",
         "heyheybaby" : "say https://www.youtube.com/watch?v=9YFtlvDOVVE",
         "nextgame" : "nhl games canadiens",
+        "score" : "hockey games canadiens",
         "standings" : "nhl standings atlantic"
     },
     "304436539482701825" : {
         "labor" : "addrole \"Labor Camp Prisoner\""
     },
-    "321105104931389440" : {},
+    "321105104931389440" : {
+        "bot" : "selfrole Bot Fan",
+        "invite" : "say Invite link for TrustyBot: <https://discordapp.com/oauth2/authorize?client_id=268562382173765643&scope=bot>",
+        "music" : "selfrole Music Fan"
+    },
     "326454371921690644" : {
         "nextgame" : "nhl games knights"
     },
@@ -89,6 +94,8 @@
         "standings" : "nhl standings pacific"
     },
     "390196447657852929" : {
+        "cena" : "play https://www.youtube.com/watch?v=xE-piBUcSug",
+        "chapel" : "selfrole chapel",
         "links" : "say https://discord.gg/SQd4x8r\nhttps://qthestorm.github.io/\nhttps://twitter.com/cbts_updates\nhttps://8ch.net/greatawakening/\nhttps://8ch.net/qresearch/\nhttps://qpendium.org/",
         "trumptwitter" : "twitter gettweets realdonaldtrump 15"
     },

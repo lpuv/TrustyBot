@@ -1200,13 +1200,13 @@ class Leveler:
         fileIO('data/leveler/settings.json', "save", self.settings)
 
     @commands.group(pass_context=True)
-    async def badge(self, ctx):
+    async def lvlbadge(self, ctx):
         """Badge Configuration Options"""
         if ctx.invoked_subcommand is None:
             await send_cmd_help(ctx)
             return
 
-    @badge.command(name="available", pass_context=True, no_pm=True)
+    @lvlbadge.command(name="available", pass_context=True, no_pm=True)
     async def available(self, ctx, global_badge:str = None):
         '''Get a list of available badges for server or 'global'.'''
         user = ctx.message.author
@@ -1255,7 +1255,7 @@ class Leveler:
                 counter += 1
 
 
-    @badge.command(name="list", pass_context=True, no_pm=True)
+    @lvlbadge.command(name="list", pass_context=True, no_pm=True)
     async def listuserbadges(self, ctx, user:discord.Member = None):
         '''Get the badges of a user.'''
         if user == None:
@@ -1296,7 +1296,7 @@ class Leveler:
             await self.bot.say(embed = em)
             counter += 1
 
-    @badge.command(name="buy", pass_context=True, no_pm=True)
+    @lvlbadge.command(name="buy", pass_context=True, no_pm=True)
     async def buy(self, ctx, name:str, global_badge:str = None):
         '''Get a badge from repository. optional = "-global"'''
         user = ctx.message.author
@@ -1354,7 +1354,7 @@ class Leveler:
         else:
             await self.bot.say('**There are no badges to get! (try `{}badge get [name] -global`).**'.format(prefix[0]))
 
-    @badge.command(name="set", pass_context=True, no_pm=True)
+    @lvlbadge.command(name="set", pass_context=True, no_pm=True)
     async def set(self, ctx, name:str, priority_num:int):
         '''Set a badge to profile. -1(invis), 0(not on profile), max: 5000.'''
         user = ctx.message.author
@@ -1387,7 +1387,7 @@ class Leveler:
         return db.users.find_one({'user_id':userinfo['user_id']})
 
     @checks.mod_or_permissions(manage_roles=True)
-    @badge.command(name="add", pass_context = True, no_pm=True)
+    @lvlbadge.command(name="add", pass_context = True, no_pm=True)
     async def addbadge(self, ctx, name:str, bg_img:str, border_color:str, price:int, *, description:str):
         """Add a badge. name = "Use Quotes", Colors = #hex. bg_img = url, price = -1(non-purchasable), 0,..."""
 
@@ -1484,7 +1484,7 @@ class Leveler:
             await self.bot.say("**The `{}` badge has been updated**".format(name))
 
     @checks.is_owner()
-    @badge.command(no_pm=True)
+    @lvlbadge.command(no_pm=True)
     async def type(self, name:str):
         """circles or bars."""
         valid_types = ["circles", "bars"]
@@ -1504,7 +1504,7 @@ class Leveler:
         return re.search(reg_ex, str(color))
 
     @checks.mod_or_permissions(manage_roles=True)
-    @badge.command(name="delete", pass_context=True, no_pm=True)
+    @lvlbadge.command(name="delete", pass_context=True, no_pm=True)
     async def delbadge(self, ctx, *, name:str):
         """Delete a badge and remove from all users."""
         user = ctx.message.author
@@ -1551,7 +1551,7 @@ class Leveler:
             await self.bot.say("**That badge does not exist.**")
 
     @checks.mod_or_permissions(manage_roles=True)
-    @badge.command(pass_context = True, no_pm=True)
+    @lvlbadge.command(pass_context = True, no_pm=True)
     async def give(self, ctx, user : discord.Member, name: str):
         """Give a user a badge with a certain name"""
         org_user = ctx.message.author
@@ -1581,7 +1581,7 @@ class Leveler:
             await self.bot.say("**{} has just given `{}` the `{}` badge!**".format(self._is_mention(org_user), self._is_mention(user), name))
 
     @checks.mod_or_permissions(manage_roles=True)
-    @badge.command(pass_context = True, no_pm=True)
+    @lvlbadge.command(pass_context = True, no_pm=True)
     async def take(self, ctx, user : discord.Member, name: str):
         """Take a user's badge."""
         org_user = ctx.message.author
@@ -1612,7 +1612,7 @@ class Leveler:
                 await self.bot.say("**You can't take away purchasable badges!**")
 
     @checks.mod_or_permissions(manage_roles=True)
-    @badge.command(name = 'link', no_pm=True, pass_context=True)
+    @lvlbadge.command(name = 'link', no_pm=True, pass_context=True)
     async def linkbadge(self, ctx, badge_name:str, level:int):
         """Associate a role with a level."""
         server = ctx.message.server
@@ -1641,7 +1641,7 @@ class Leveler:
             await self.bot.say("**The `{}` badge has been linked to level `{}`**".format(badge_name, level))
 
     @checks.admin_or_permissions(manage_roles=True)
-    @badge.command(name = 'unlink', no_pm=True, pass_context=True)
+    @lvlbadge.command(name = 'unlink', no_pm=True, pass_context=True)
     async def unlinkbadge(self, ctx, badge_name:str):
         """Delete a role/level association."""
         server = ctx.message.server
@@ -1657,7 +1657,7 @@ class Leveler:
             await self.bot.say("**The `{}` badge is not linked to any levels!**".format(badge_name))
 
     @checks.mod_or_permissions(manage_roles=True)
-    @badge.command(name = 'listlinks', no_pm=True, pass_context=True)
+    @lvlbadge.command(name = 'listlinks', no_pm=True, pass_context=True)
     async def listbadge(self, ctx):
         """List level/role associations."""
         server = ctx.message.server

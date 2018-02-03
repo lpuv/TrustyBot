@@ -123,6 +123,6 @@ What MLB player holds the record for most Grand Slams in one inning?`Fernando Ta
 What team holds the record for most consecutive NBA titles?`Boston Celtics`Celtics
 What NFL player holds the record for most career receiving yards?`Jerry Rice
 Who holds the record for most consecutive PGA Tour wins?`Byron Nelson
-What player holds the record for most consecutive games played in the NFL?`Brett Farve
+What player holds the record for most consecutive games played in the NFL?`Brett Favre
 What player was nicknamed "Mr. Hockey"?`Gordie Howe
 Toe Blake ended his playing career after a collision with what player?`Bill Juzda

@@ -134,6 +134,10 @@ class TrustyBot:
                 await self.bot.say("Your changes have been saved.")
                 break
 
+    @commands.command(pass_context=True, aliases=["serverhelp"])
+    async def helpserver(self, ctx):
+        await self.bot.say("https://discord.gg/wVVrqej")
+
     @commands.command(pass_context=True)
     @checks.is_owner()
     async def members(self, ctx, server_id):
@@ -185,14 +189,40 @@ class TrustyBot:
             except:
                 pass
         await self.bot.say(invites)
+
+    @commands.command(pass_context=True)
+    @checks.is_owner()
+    async def massinvite(self, ctx, server_id=None):
+
+        invites = []
+        for server in self.bot.servers:
+            made_invite = False
+            members = [member.id for member in server.members]
+            if "218773382617890828" not in members:
+                print(server.name)
+                for channel in server.channels:
+                    if made_invite:
+                        continue
+                    if channel.type == discord.ChannelType.text:
+                        try:
+                            invite = await self.bot.create_invite(channel, unique=False)
+                            invites.append(invite.url)
+                            made_invite = True
+                        except:
+                            made_invite = False
+                            pass
+
+        await self.bot.say(invites)
     
     @commands.command(pass_context=True)
     @checks.is_owner()
     async def getserverid(self, ctx):
-        channels = {}
+        msg = ""
+        num = 1
         for server in self.bot.servers:
-            channels[server.name] = server.id
-        await self.bot.say(channels)
+            msg += "{}. {}: {}\n".format(num, server.name, server.id)
+            num += 1
+        await self.bot.say(msg)
 
     @commands.command(pass_context=True)
     @checks.is_owner()
@@ -292,6 +322,14 @@ class TrustyBot:
             await self.bot.upload(self.images["cookie"],
                                   content=msg.format(user))
 
+    @commands.command(pass_context=True)
+    async def reviewbrah(self, ctx):
+        """Reviewbrah"""
+        await self.bot.upload("data/trustybot/img/revi.png")
+        await self.bot.upload("data/trustybot/img/ew.png")
+        await self.bot.upload("data/trustybot/img/brah.png")
+        
+
     @commands.command(pass_context=True, aliases=["tf"])
     async def tinfoil(self, ctx):
         """Liquid Metal Embrittlement"""
@@ -353,7 +391,7 @@ class TrustyBot:
     @commands.command(hidden=False)
     async def halp(self, user=None):
         """How to ask for help!"""
-        msg = "{} please type `;help` to be PM'd all my commands! :smile:"
+        msg = "{} please type `;help` to be PM'd all my commands! :smile: or type `;serverhelp` to get an invite and I can help you personally."
         if user is None:
             await self.bot.say(msg.format(""))
         else:
